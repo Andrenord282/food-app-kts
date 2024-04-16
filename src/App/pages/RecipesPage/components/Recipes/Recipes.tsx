@@ -12,7 +12,7 @@ const Recipes: FC = () => {
 
   useEffect(() => {
     if (fetchState === 'loading') {
-      fetchRecipes();
+      // fetchRecipes();
     }
   }, [fetchState]);
 

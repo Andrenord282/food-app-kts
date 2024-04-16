@@ -1,0 +1,1 @@
+export { BaseLogoIcon } from './BaseLogoIcon';

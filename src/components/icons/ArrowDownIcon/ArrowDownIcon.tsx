@@ -2,13 +2,7 @@ import classNames from 'classnames';
 import { FC, memo } from 'react';
 import { IconProps } from '../Icon';
 
-const ArrowDownIcon: FC<IconProps> = ({
-  className = '',
-  color,
-  width = 24,
-  height = 24,
-  ...props
-}) => {
+const ArrowDownIcon: FC<IconProps> = ({ className = '', color, width = 24, height = 24, ...props }) => {
   return (
     <svg
       className={className}
@@ -19,7 +13,7 @@ const ArrowDownIcon: FC<IconProps> = ({
         currentColor: !color,
         '#000000': color === 'primary',
         '#afadb5': color === 'secondary',
-        '#518581': color === 'accent',
+        '#b5460f': color === 'accent',
       })}
       xmlns="http://www.w3.org/2000/svg"
       {...props}

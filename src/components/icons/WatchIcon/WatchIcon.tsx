@@ -18,8 +18,8 @@ const WatchIcon: FC<IconProps> = ({ className, color, width = 24, height = 24, .
         stroke={classNames({
           currentColor: !color,
           '#000000': color === 'primary',
-          '#b5460f': color === 'secondary',
-          '#518581': color === 'accent',
+          '#ffffff': color === 'secondary',
+          '#b5460f': color === 'accent',
         })}
         strokeWidth="1.5"
         strokeLinecap="round"

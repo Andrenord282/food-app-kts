@@ -1,0 +1,21 @@
+.wrapper {
+  background-color: var(--component-primary-bg);
+  padding: var(--space-xl) 0;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0 var(--space-l);
+  text-decoration: none;
+  margin-right: auto;
+}
+
+.favorite {
+  margin-right: var(--space-l);
+}
