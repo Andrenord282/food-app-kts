@@ -24,4 +24,4 @@ const SkeletonCard: FC = () => {
   );
 };
 
-export { SkeletonCard };
+export default SkeletonCard;

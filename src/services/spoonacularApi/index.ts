@@ -1,2 +1,2 @@
-export { spoonacularApi } from './instance';
+export { default } from './instance';
 export * from './models';

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { BaseLayout } from './layouts';
-import { RecipesPage } from './pages';
+import BaseLayout from './layouts/BaseLayout';
+import RecipesPage from './pages/RecipesPage';
 import style from './App.module.scss';
 
 const App = () => {

@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { SPOONACULAR_API_KEY } from 'config/services';
 import { RecipeList } from './models';
-import { spoonacularClient } from 'services/axios/spoonacularClient';
+import spoonacularClient from 'services/axios/spoonacularClient';
 
 class SpoonacularApi {
   getRecipes = async (): Promise<AxiosResponse<RecipeList>> => {
@@ -17,4 +17,4 @@ class SpoonacularApi {
 
 const spoonacularApi = new SpoonacularApi();
 
-export { spoonacularApi };
+export default spoonacularApi;

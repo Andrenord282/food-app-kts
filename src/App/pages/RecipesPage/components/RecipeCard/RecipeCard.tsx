@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { FC, ReactNode, MouseEventHandler } from 'react';
-import { Text, WatchIcon } from 'components/';
+import Text from 'components/Text';
+import WatchIcon from 'components/icons/WatchIcon';
 import style from './RecipeCard.module.scss';
 
 export type RecipeCardProps = {
@@ -54,4 +55,4 @@ const RecipeCard: FC<RecipeCardProps> = ({
   );
 };
 
-export { RecipeCard };
+export default RecipeCard;

@@ -5,4 +5,4 @@ const spoonacularClient: AxiosInstance = axios.create({
   baseURL: BASE_URL_SPOONACULAR_API,
 });
 
-export { spoonacularClient };
+export default spoonacularClient;

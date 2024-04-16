@@ -76,4 +76,4 @@ const Text: FC<TextProps> = ({
   );
 };
 
-export { Text };
+export default Text;

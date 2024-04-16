@@ -1,1 +1,1 @@
-export { WatchIcon } from './WatchIcon';
+export { default } from './WatchIcon';

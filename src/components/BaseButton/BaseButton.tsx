@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { FC, ButtonHTMLAttributes } from 'react';
-import { Text } from 'components/';
+import Text from 'components/Text';
 import style from './BaseButton.module.scss';
 
 type BaseButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -25,4 +25,4 @@ const BaseButton: FC<BaseButtonProps> = ({ disabled, className, text, onClick, .
   );
 };
 
-export { BaseButton };
+export default BaseButton;

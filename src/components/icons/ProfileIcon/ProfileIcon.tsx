@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { IconProps } from '../Icon';
 
 const ProfileIcon: FC<IconProps> = ({ className, color, width = 24, height = 24, ...props }) => {
@@ -28,4 +28,4 @@ const ProfileIcon: FC<IconProps> = ({ className, color, width = 24, height = 24,
   );
 };
 
-export default ProfileIcon;
+export default memo(ProfileIcon);

@@ -1,24 +1,25 @@
 import { FC, useEffect } from 'react';
-import { BaseButton, Text } from 'components/';
-import { RecipeCard } from '../RecipeCard';
-import { SkeletonCard } from '../SkeletonCard';
-import { useFetchRecipes } from './hooks/useFetchRecipes';
+import Text from 'components/Text';
+import BaseButton from 'components/BaseButton';
+import RecipeCard from '../RecipeCard';
+import SkeletonCard from '../SkeletonCard';
+import useFetchRecipeList from './hooks/useFetchRecipeList';
 
-import global from 'styles/global.module.scss';
-import style from './Recipes.module.scss';
+import style_gl from 'styles/global.module.scss';
+import style from './RecipeList.module.scss';
 
-const Recipes: FC = () => {
-  const { fetchState, recipesList, fetchRecipes } = useFetchRecipes();
+const RecipeList: FC = () => {
+  const { fetchState, recipeList, fetchRecipeList } = useFetchRecipeList();
 
   useEffect(() => {
     if (fetchState === 'loading') {
-      // fetchRecipes();
+      // fetchRecipeList();
     }
   }, [fetchState]);
 
   return (
     <div className={style.wrapper}>
-      <div className={global['container--m']}>
+      <div className={style_gl['container--m']}>
         <Text view="p-l" align="center" className={style['description-text']}>
           Find the perfect food and{' '}
           <Text tag="span" decoration="underline">
@@ -36,7 +37,7 @@ const Recipes: FC = () => {
         </Text>
         {fetchState === 'loaded' && (
           <div className={style['recipe-list']}>
-            {recipesList.map((recipe) => {
+            {recipeList.map((recipe) => {
               const { id, image, readyInMinutes, title, nutrition } = recipe;
               const cookingTime = `${readyInMinutes} minutes`;
               const composition = nutrition.ingredients.map(({ name }) => name).join(' + ');
@@ -70,4 +71,4 @@ const Recipes: FC = () => {
   );
 };
 
-export { Recipes };
+export default RecipeList;

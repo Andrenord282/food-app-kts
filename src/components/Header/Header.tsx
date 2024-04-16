@@ -3,7 +3,8 @@ import { ROUTS } from 'config/routs';
 import { Link } from 'react-router-dom';
 import FavoriteIcon from 'components/icons/FavoriteIcon';
 import ProfileIcon from 'components/icons/ProfileIcon';
-import { Text, BaseLogoIcon } from 'components/';
+import BaseLogoIcon from 'components/icons/BaseLogoIcon';
+import Text from 'components/Text';
 
 import style_gl from 'styles/global.module.scss';
 import style from './Header.module.scss';
@@ -31,4 +32,4 @@ const Header: FC = () => {
   );
 };
 
-export { Header };
+export default Header;
