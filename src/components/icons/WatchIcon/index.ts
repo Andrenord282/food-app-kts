@@ -1,0 +1,1 @@
+export { WatchIcon } from './WatchIcon';

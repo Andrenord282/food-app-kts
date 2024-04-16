@@ -23,7 +23,8 @@
       "components": ["components/*"],
       "config": ["config/*"],
       "styles": ["styles/*"],
-      "utils": ["utils/*"]
+      "utils": ["utils/*"],
+      "services": ["services/*"]
     },
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },

@@ -1,1 +1,1 @@
-export { Text } from './view/Text';
+export { Text } from './Text';

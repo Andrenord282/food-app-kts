@@ -6,11 +6,15 @@
   --black-light-shadow: rgba(0, 0, 0, 0.25);
   --white: #ffffff;
   --white-light: rgba(255, 255, 255, 0.5);
+  --albescent-white: #f7e8d7;
   --rust: #b5460f;
   --rust-light: rgba(181, 70, 15, 0.7);
+  --rust-light-extra: rgba(181, 70, 15, 0.33);
   --peru-tan: #872d01;
   --alto: #d9d9d9;
   --spun-pearl: #afadb5;
+  --app-primary-bg: var(--albescent-white);
+
 
   --button-primary-text: var(--white);
   --button-primary-bg: var(--rust);
@@ -40,6 +44,9 @@
 
   --border-radius-m: 10px;
 
+  --space-extra-xxl: 80px;
+  --space-special-xxl: 64px;
+  --space-xxl: 48px;
   --space-xl: 24px;
   --space-l: 20px;
   --space-m: 16px;

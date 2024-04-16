@@ -1,0 +1,16 @@
+.wrapper {
+  padding: var(--space-xl) 0;
+}
+
+.container {
+}
+
+.description-text {
+  margin-bottom: var(--space-xxl);
+}
+
+.recipe-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-special-xxl) var(--space-extra-xxl);
+}
