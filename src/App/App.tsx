@@ -1,7 +1,17 @@
-import "./style/App.scss";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BaseLayout } from './layouts';
+import { RecipesPage } from './pages';
 
-function App() {
-  return <div>App</div>;
-}
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<BaseLayout />}>
+          <Route index element={<RecipesPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
 export default App;
