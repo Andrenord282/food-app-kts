@@ -33,7 +33,7 @@ const RecipeCard: FC<RecipeCardProps> = ({
       <div className={style.body}>
         {cookingTime && (
           <Text className={style['cooking-time']} tag="span" view="p-xxs" color="secondary" weight="500">
-            <WatchIcon width={12} height={12} color="secondary" /> {cookingTime}
+            <WatchIcon width={12} height={12} color="accent" /> {cookingTime}
           </Text>
         )}
         <Text className={style.title} tag="p" view="p-l" maxLines={2} weight="500">
