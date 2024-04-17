@@ -1,8 +1,24 @@
-export type RecipeList = {
+export type ParamRecipeList = {
+  offset?: number;
+  number?: number;
+  query?: string;
+  type?: string;
+  cuisine?: string;
+};
+
+export type ResponseRecipeList = {
   results: Recipe[];
   offset: number;
   number: number;
   totalResults: number;
+};
+
+export type FilterRecipeList = {
+  offset?: number;
+  number?: number;
+  query?: string;
+  type?: string[];
+  cuisine?: string[];
 };
 
 export type Recipe = {

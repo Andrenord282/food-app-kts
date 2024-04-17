@@ -1,14 +1,16 @@
 import classNames from 'classnames';
-import { FC, ButtonHTMLAttributes } from 'react';
-import Text from 'components/Text';
+import { FC, ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import style from './BaseButton.module.scss';
+import LoaderIcon from 'components/icons/LoaderIcon';
 
-type BaseButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  className?: string;
-  text: string;
-};
+type BaseButtonProps = PropsWithChildren<
+  ButtonHTMLAttributes<HTMLButtonElement> & {
+    className?: string;
+    loading?: boolean;
+  }
+>;
 
-const BaseButton: FC<BaseButtonProps> = ({ disabled, className, text, onClick, ...props }) => {
+const BaseButton: FC<BaseButtonProps> = ({ disabled, loading, className, children, onClick, ...props }) => {
   return (
     <button
       disabled={disabled}
@@ -18,9 +20,8 @@ const BaseButton: FC<BaseButtonProps> = ({ disabled, className, text, onClick, .
       })}
       {...props}
     >
-      <Text tag="span" view="button-m">
-        {text}
-      </Text>
+      {loading && <LoaderIcon width={24} height={24} />}
+      {children}
     </button>
   );
 };

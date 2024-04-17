@@ -1,0 +1,17 @@
+@import "styles/global.scss";
+@import "styles/variables.scss";
+
+.filter-list {
+  padding: var(--space-special-xl) 0 var(--space-xxl) 0;
+}
+
+.container {
+  @extend .container--m;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0 var(--space-xl);
+}

@@ -1,12 +1,15 @@
+@import "styles/global.scss";
+@import "styles/variables.scss";
+
 .wrapper {
   padding: 0;
 }
 
-.description-text {
-  margin-bottom: var(--space-xxl);
+.container {
+  @extend .container--m;
 }
 
-.recipe-list {
+.list {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-special-xxl) var(--space-extra-xxl);

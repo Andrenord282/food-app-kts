@@ -1,0 +1,28 @@
+@import "styles/global.scss";
+@import "styles/variables.scss";
+
+.wrapper {
+  padding-top: var(--space-special-xl);
+}
+
+.container {
+  @extend .container--m;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  width: 100%;
+  margin-bottom: var(--space-xxl);
+}
+
+.name-search {
+  width: 100%;
+  max-width: 1154px;
+  flex-grow: 2;
+}

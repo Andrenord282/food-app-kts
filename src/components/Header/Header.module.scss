@@ -1,6 +1,13 @@
+@import "styles/global.scss";
+@import "styles/variables.scss";
+
 .wrapper {
   background-color: var(--component-primary-bg);
   padding: var(--space-s) 0;
+}
+
+.container {
+  @extend .container--m;
 }
 
 .content {

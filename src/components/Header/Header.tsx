@@ -5,14 +5,12 @@ import FavoriteIcon from 'components/icons/FavoriteIcon';
 import ProfileIcon from 'components/icons/ProfileIcon';
 import BaseLogoIcon from 'components/icons/BaseLogoIcon';
 import Text from 'components/Text';
-
-import style_gl from 'styles/global.module.scss';
 import style from './Header.module.scss';
 
 const Header: FC = () => {
   return (
     <div className={style.wrapper}>
-      <div className={style_gl['container--m']}>
+      <div className={style.container}>
         <div className={style.content}>
           <Link to={ROUTS.INDEX} className={style.logo}>
             <BaseLogoIcon width={36} height={36} />
