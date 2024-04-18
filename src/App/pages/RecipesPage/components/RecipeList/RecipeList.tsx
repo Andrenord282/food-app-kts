@@ -1,3 +1,5 @@
+import { useNavigate, generatePath } from 'react-router-dom';
+import { ROUTS } from 'config/routs';
 import { FC } from 'react';
 import useFetchRecipeList from '../../hooks/useFetchRecipeList';
 import { useRecipesContext } from 'context/RecipesContext';
@@ -6,8 +8,6 @@ import Text from 'components/Text';
 import RecipeCard from '../RecipeCard';
 import SkeletonCard from '../SkeletonCard';
 import style from './RecipeList.module.scss';
-import { useNavigate, generatePath } from 'react-router-dom';
-import { ROUTS } from 'config/routs';
 
 const RecipeList: FC = () => {
   const { recipeListState, recipeList, cursorList } = useRecipesContext();
