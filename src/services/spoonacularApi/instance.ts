@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { SPOONACULAR_API_KEY } from 'config/services';
-import { ParamRecipe, ParamRecipeList, Recipe, ResponseRecipeList } from './models';
 import spoonacularClient from 'services/axios/spoonacularClient';
+import { ParamRecipeList, Recipe, ResponseRecipeList } from './models';
 
 class SpoonacularApi {
   getRecipes = async (params: ParamRecipeList | null): Promise<AxiosResponse<ResponseRecipeList>> => {

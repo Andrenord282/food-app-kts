@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { FC, ButtonHTMLAttributes, PropsWithChildren } from 'react';
-import style from './BaseButton.module.scss';
 import LoaderIcon from 'components/icons/LoaderIcon';
+import style from './BaseButton.module.scss';
 
 type BaseButtonProps = PropsWithChildren<
   ButtonHTMLAttributes<HTMLButtonElement> & {

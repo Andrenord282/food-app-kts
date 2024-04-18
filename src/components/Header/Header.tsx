@@ -1,10 +1,11 @@
 import { FC } from 'react';
-import { ROUTS } from 'config/routs';
 import { Link } from 'react-router-dom';
+import Text from 'components/Text';
+import BaseLogoIcon from 'components/icons/BaseLogoIcon';
 import FavoriteIcon from 'components/icons/FavoriteIcon';
 import ProfileIcon from 'components/icons/ProfileIcon';
-import BaseLogoIcon from 'components/icons/BaseLogoIcon';
-import Text from 'components/Text';
+import { ROUTS } from 'config/routs';
+
 import style from './Header.module.scss';
 
 const Header: FC = () => {

@@ -1,10 +1,10 @@
-import { useNavigate, generatePath } from 'react-router-dom';
-import { ROUTS } from 'config/routs';
 import { FC } from 'react';
-import useFetchRecipeList from '../../hooks/useFetchRecipeList';
-import { useRecipesContext } from 'context/RecipesContext';
+import { useNavigate, generatePath } from 'react-router-dom';
 import BaseButton from 'components/BaseButton';
 import Text from 'components/Text';
+import { ROUTS } from 'config/routs';
+import { useRecipesContext } from 'context/RecipesContext';
+import useFetchRecipeList from '../../hooks/useFetchRecipeList';
 import RecipeCard from '../RecipeCard';
 import SkeletonCard from '../SkeletonCard';
 import style from './RecipeList.module.scss';

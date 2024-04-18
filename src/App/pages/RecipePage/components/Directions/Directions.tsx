@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { StepInstruction } from 'services/spoonacularApi';
 import Text from 'components/Text';
+import { StepInstruction } from 'services/spoonacularApi';
 
 import style from './Directions.module.scss';
 

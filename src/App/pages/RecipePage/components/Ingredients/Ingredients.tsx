@@ -1,8 +1,8 @@
 import classNames from 'classnames';
-import { ExtendedIngredient } from 'services/spoonacularApi';
 import { FC } from 'react';
-import IngredientIcon from 'components/icons/IngredientIcon';
 import Text from 'components/Text';
+import IngredientIcon from 'components/icons/IngredientIcon';
+import { ExtendedIngredient } from 'services/spoonacularApi';
 import style from './Ingredients.module.scss';
 
 type IngredientsProps = {

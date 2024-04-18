@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
-import BaseInput from 'components/BaseInput';
-import ArrowDownIcon from 'components/icons/ArrowDownIcon';
-import Text from 'components/Text';
 import BaseButton from 'components/BaseButton';
+import BaseInput from 'components/BaseInput';
+import Text from 'components/Text';
+import ArrowDownIcon from 'components/icons/ArrowDownIcon';
 import style from './MultiDropdown.module.scss';
 
 export type MultiDropdownOption = {

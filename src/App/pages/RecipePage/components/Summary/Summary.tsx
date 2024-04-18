@@ -1,7 +1,7 @@
+import classNames from 'classnames';
 import { FC } from 'react';
 import Text from 'components/Text';
 import style from './Summary.module.scss';
-import classNames from 'classnames';
 
 type SummaryProps = {
   className?: string;

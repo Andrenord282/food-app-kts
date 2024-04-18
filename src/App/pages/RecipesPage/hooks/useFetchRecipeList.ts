@@ -1,6 +1,6 @@
-import spoonacularApi, { CursorRecipeList, FilterRecipeList, ParamRecipeList } from 'services/spoonacularApi';
-import { useRecipesContext } from 'context/RecipesContext';
 import { useEffect } from 'react';
+import { useRecipesContext } from 'context/RecipesContext';
+import spoonacularApi, { CursorRecipeList, FilterRecipeList, ParamRecipeList } from 'services/spoonacularApi';
 
 type UseFetchRecipeListState = {
   fetchRecipeList: () => void;

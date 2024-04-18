@@ -1,13 +1,13 @@
-import { useParams, Link } from 'react-router-dom';
 import { FC, useEffect } from 'react';
-import useFetchRecipe from './hooks/useFetchRecipe';
-import ArrowLeftIcon from 'components/icons/ArrowLeftIcon';
+import { useParams, Link } from 'react-router-dom';
 import Text from 'components/Text';
-import Summary from './components/Summary';
+import ArrowLeftIcon from 'components/icons/ArrowLeftIcon';
 import Description from './components/Description';
 import Directions from './components/Directions';
-import Ingredients from './components/Ingredients';
 import Equipment from './components/Equipment';
+import Ingredients from './components/Ingredients';
+import Summary from './components/Summary';
+import useFetchRecipe from './hooks/useFetchRecipe';
 import style from './RecipePage.module.scss';
 
 const ResipePage: FC = () => {

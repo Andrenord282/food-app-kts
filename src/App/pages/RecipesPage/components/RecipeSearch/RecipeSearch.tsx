@@ -1,10 +1,10 @@
 import { FC, useState, useEffect } from 'react';
-import { useRecipesContext } from 'context/RecipesContext';
-import useDebounce from 'hooks/useDebounce';
-import Text from 'components/Text';
 import BaseButton from 'components/BaseButton';
 import BaseInput from 'components/BaseInput';
+import Text from 'components/Text';
 import SearchIcon from 'components/icons/SearchIcon';
+import { useRecipesContext } from 'context/RecipesContext';
+import useDebounce from 'hooks/useDebounce';
 import style from './RecipeSearch.module.scss';
 
 const RecipeSearch: FC = () => {

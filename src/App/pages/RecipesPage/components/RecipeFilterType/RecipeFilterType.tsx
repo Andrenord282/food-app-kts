@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
-import { useRecipesContext } from 'context/RecipesContext';
 import MultiDropdown, { MultiDropdownOption } from 'components/MultiDropdown';
+import { useRecipesContext } from 'context/RecipesContext';
 import style from './RecipeFilterType.module.scss';
 
 const optionType: MultiDropdownOption[] = [

@@ -1,8 +1,8 @@
 import classNames from 'classnames';
-import { StepInstruction } from 'services/spoonacularApi';
 import { FC, useMemo } from 'react';
-import EquipmentIcon from 'components/icons/EquipmentIcon';
 import Text from 'components/Text';
+import EquipmentIcon from 'components/icons/EquipmentIcon';
+import { StepInstruction } from 'services/spoonacularApi';
 import style from './Equipment.module.scss';
 
 type EquipmentProps = {
@@ -21,7 +21,7 @@ const Equipment: FC<EquipmentProps> = ({ className, equipments }) => {
     });
 
     return [...uniqEquipments];
-  }, [JSON.stringify(equipments)]);
+  }, [equipments]);
 
   return (
     <div className={classNames(className, style.list)}>

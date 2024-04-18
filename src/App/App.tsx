@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import BaseLayout from './layouts/BaseLayout';
-import RecipesPage from './pages/RecipesPage';
 import RecipePage from './pages/RecipePage';
+import RecipesPage from './pages/RecipesPage';
 import style from './App.module.scss';
 
 const App = () => {

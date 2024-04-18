@@ -9,7 +9,7 @@ export type IconProps = SVGAttributes<SVGElement> & {
   height?: number;
 };
 
-const Icon: FC<PropsWithChildren<IconProps>> = ({ name }) => {
+const Icon: FC<PropsWithChildren<IconProps>> = () => {
   return null;
 };
 

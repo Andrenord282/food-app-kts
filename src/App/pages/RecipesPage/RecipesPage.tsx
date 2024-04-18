@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { RecipesProvider } from 'context/RecipesContext';
-import RecipeHero from './components/RecipeHero';
-import RecipeSearch from './components/RecipeSearch';
 import RecipeFilterList from './components/RecipeFilterList';
+import RecipeHero from './components/RecipeHero';
 import RecipeList from './components/RecipeList';
 import RecipePagination from './components/RecipePagination';
+import RecipeSearch from './components/RecipeSearch';
 
 const RecipesPage: FC = () => {
   return (
