@@ -1,4 +1,4 @@
-import spoonacularApi, { FilterRecipeList, ParamRecipeList } from 'services/spoonacularApi';
+import spoonacularApi, { CursorRecipeList, FilterRecipeList, ParamRecipeList } from 'services/spoonacularApi';
 import { useRecipesContext } from 'context/RecipesContext';
 import { useEffect } from 'react';
 
@@ -6,28 +6,39 @@ type UseFetchRecipeListState = {
   fetchRecipeList: () => void;
 };
 
+const LIMIT_OFFSET = 900;
+
 const useFetchRecipeList = (): UseFetchRecipeListState => {
-  const { recipeListState, filterList, handleRecipeListState, handleUpdateRecipeList } = useRecipesContext();
+  const { recipeListState, cursorList, filterList, handleRecipeListState, handleUpdateCursor, handleUpdateRecipeList } =
+    useRecipesContext();
 
   const fetchRecipeList = async () => {
     try {
-      const initParam = ({ type, cuisine, ...filters }: FilterRecipeList) => {
+      const initParam = (cursor: CursorRecipeList, filter: FilterRecipeList) => {
+        const { offset, number } = cursor;
+        const { query, type, cuisine } = filter;
+
         const param: ParamRecipeList = {
-          ...filters,
-          number: 9,
+          offset,
+          number,
+          ...filter,
+          query: query ? query : undefined,
           type: type ? type.join(',') : undefined,
           cuisine: cuisine ? cuisine.join(',') : undefined,
         };
         return param;
       };
 
-      const param = initParam(filterList);
+      const param = initParam(cursorList, filterList);
 
       const { data } = await spoonacularApi.getRecipes(param);
 
-      handleUpdateRecipeList(data.results);
+      const { offset, number, results } = data;
+
+      handleUpdateCursor({ offset, number, totalResults: LIMIT_OFFSET + number });
+
+      handleUpdateRecipeList(results);
       handleRecipeListState('loaded');
-      
     } catch (error) {
       handleRecipeListState('fail');
     }

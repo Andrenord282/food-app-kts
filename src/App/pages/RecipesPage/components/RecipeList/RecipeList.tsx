@@ -8,9 +8,9 @@ import SkeletonCard from '../SkeletonCard';
 import style from './RecipeList.module.scss';
 
 const RecipeList: FC = () => {
-  const { recipeListState, recipeList } = useRecipesContext();
+  const { recipeListState, recipeList, cursorList } = useRecipesContext();
   useFetchRecipeList();
-  
+
   return (
     <div className={style.wrapper}>
       <div className={style.container}>
@@ -39,7 +39,7 @@ const RecipeList: FC = () => {
             })}
           {recipeListState === 'loading' && (
             <div className={style.list}>
-              {Array.from({ length: 10 })
+              {Array.from({ length: cursorList.number })
                 .fill(10)
                 .map((_, index) => {
                   return <SkeletonCard key={index} />;

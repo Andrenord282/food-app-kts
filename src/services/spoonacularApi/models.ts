@@ -14,11 +14,15 @@ export type ResponseRecipeList = {
 };
 
 export type FilterRecipeList = {
-  offset?: number;
-  number?: number;
   query?: string;
   type?: string[];
   cuisine?: string[];
+};
+
+export type CursorRecipeList = {
+  offset: number;
+  number: number;
+  totalResults: number;
 };
 
 export type Recipe = {
