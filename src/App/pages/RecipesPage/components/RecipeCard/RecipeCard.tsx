@@ -11,7 +11,7 @@ export type RecipeCardProps = {
   title: ReactNode;
   composition: ReactNode;
   nutritional: ReactNode;
-  onClick?: MouseEventHandler;
+  handleClickCard?: MouseEventHandler;
   button?: ReactNode;
 };
 
@@ -22,11 +22,11 @@ const RecipeCard: FC<RecipeCardProps> = ({
   title,
   composition,
   nutritional,
-  onClick,
+  handleClickCard,
   button,
 }) => {
   return (
-    <div className={classNames(className, style.card)} onClick={onClick}>
+    <div className={classNames(className, style.card)} onClick={handleClickCard}>
       <div className={style.head}>
         <img src={image} alt="img" className={style['img-item']} />
       </div>

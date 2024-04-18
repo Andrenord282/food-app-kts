@@ -3,7 +3,7 @@ import { FC, PropsWithChildren, CSSProperties, ElementType } from 'react';
 import style from './Text.module.scss';
 
 type TagName = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div' | 'p' | 'span';
-type TextWeight = '400' | '500' | '700';
+type TextWeight = '400' | '500' | '700' | '600';
 type TextColor = 'default' | 'primary' | 'secondary' | 'accent';
 type TextView = 'title-xl' | 'title-l' | 'p-l' | 'p-m' | 'p-xs' | 'p-xxs' | 'button-m';
 type TextDecoration = 'default' | 'underline' | 'line-through';

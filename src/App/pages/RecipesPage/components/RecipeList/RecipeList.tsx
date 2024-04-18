@@ -6,9 +6,12 @@ import Text from 'components/Text';
 import RecipeCard from '../RecipeCard';
 import SkeletonCard from '../SkeletonCard';
 import style from './RecipeList.module.scss';
+import { useNavigate, generatePath } from 'react-router-dom';
+import { ROUTS } from 'config/routs';
 
 const RecipeList: FC = () => {
   const { recipeListState, recipeList, cursorList } = useRecipesContext();
+  const navigate = useNavigate();
   useFetchRecipeList();
 
   return (
@@ -21,6 +24,10 @@ const RecipeList: FC = () => {
               const cookingTime = `${readyInMinutes} minutes`;
               const composition = nutrition.ingredients.map(({ name }) => name).join(' + ');
               const nutritional = `${nutrition.nutrients[0].amount.toFixed()} ${nutrition.nutrients[0].unit}`;
+              const handleClickCard = () => {
+                navigate(generatePath(ROUTS.RECIPE, { id }));
+              };
+
               return (
                 <RecipeCard
                   key={id}
@@ -29,6 +36,7 @@ const RecipeList: FC = () => {
                   title={title}
                   composition={composition}
                   nutritional={nutritional}
+                  handleClickCard={handleClickCard}
                   button={
                     <BaseButton>
                       <Text>Save</Text>

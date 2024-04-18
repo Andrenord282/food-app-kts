@@ -1,0 +1,8 @@
+@import "styles/global.scss";
+@import "styles/variables.scss";
+
+.section {
+  padding: var(--space-special-xl);
+  background-color: var(--rust-light-extra);
+  border-radius: var(--border-radius-m);
+}

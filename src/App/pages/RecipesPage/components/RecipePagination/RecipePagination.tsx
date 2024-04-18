@@ -45,7 +45,6 @@ const RecipePagination: FC = () => {
       totalResults,
     });
     handleRecipeListState('loading');
-    console.log(cursorList);
   };
 
   return (

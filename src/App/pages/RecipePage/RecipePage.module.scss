@@ -1,0 +1,41 @@
+@import "styles/global.scss";
+@import "styles/variables.scss";
+
+.wrapper {
+  padding: var(--space-xxl);
+}
+
+.container {
+  @extend .container--m;
+}
+
+.head {
+  margin-bottom: var(--space-xxl);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-xxl);
+  gap: 0 var(--space-m);
+}
+
+.summary {
+  margin-bottom: var(--space-xxl);
+}
+
+.description {
+  margin-bottom: var(--space-xxl);
+}
+
+.lists {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-xxl);
+  gap: 0 var(--space-xl);
+}
+
+.list-item {
+  width: 45%;
+}

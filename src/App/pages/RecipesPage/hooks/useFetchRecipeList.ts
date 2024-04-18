@@ -36,7 +36,6 @@ const useFetchRecipeList = (): UseFetchRecipeListState => {
       const { offset, number, results } = data;
 
       handleUpdateCursor({ offset, number, totalResults: LIMIT_OFFSET + number });
-
       handleUpdateRecipeList(results);
       handleRecipeListState('loaded');
     } catch (error) {

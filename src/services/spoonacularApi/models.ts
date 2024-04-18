@@ -1,3 +1,7 @@
+export type ParamRecipe = {
+  id: string;
+};
+
 export type ParamRecipeList = {
   offset?: number;
   number?: number;
@@ -30,6 +34,7 @@ export type Recipe = {
   image: string;
   title: string;
   readyInMinutes: number;
+  extendedIngredients: ExtendedIngredient[];
   nutrition: Nutrition;
   vegetarian: boolean;
   vegan: boolean;
@@ -38,62 +43,66 @@ export type Recipe = {
   veryHealthy: boolean;
   cheap: boolean;
   veryPopular: boolean;
-  sustainable: boolean;
-  lowFodmap: boolean;
-  weightWatcherSmartPoints: number;
-  gaps: string;
+  // gaps: string;
   preparationMinutes: number;
-  cookingMinutes: number;
+  // cookingMinutes: number;
   aggregateLikes: number;
-  healthScore: number;
-  creditsText: string;
-  sourceName: string;
-  pricePerServing: number;
   servings: number;
-  sourceUrl: string;
-  imageType: string;
   summary: string;
   cuisines: string[];
   dishTypes: string[];
-  diets: string[];
-  occasions: string[];
-  spoonacularScore: number;
-  spoonacularSourceUrl: string;
-  license?: string;
+  analyzedInstructions: AnalyzedInstruction[];
+};
+
+export type ExtendedIngredient = {
+  id: number;
+  aisle: string;
+  image: string;
+  consistency: string;
+  name: string;
+  nameClean: string;
+  original: string;
+  originalName: string;
+  amount: number;
+  unit: string;
+  meta: string[];
+  measures: Measures;
+};
+
+type AnalyzedInstruction = {
+  name: string;
+  steps: StepInstruction[];
+};
+
+export type StepInstruction = {
+  number: number;
+  step: string;
+  ingredients: Ingredient2[];
+  equipment: Equipment[];
+  length?: Length;
+};
+
+type Ingredient2 = {
+  id: number;
+  name: string;
+  localizedName: string;
+  image: string;
+};
+
+type Equipment = {
+  id: number;
+  name: string;
+  localizedName: string;
+  image: string;
+};
+
+type Length = {
+  number: number;
+  unit: string;
 };
 
 type Nutrition = {
   nutrients: Nutrient[];
-  properties: Property[];
-  flavonoids: Property[];
-  ingredients: Ingredient[];
-  caloricBreakdown: CaloricBreakdown;
-  weightPerServing: WeightPerServing;
-};
-
-type WeightPerServing = {
-  amount: number;
-  unit: string;
-};
-
-type CaloricBreakdown = {
-  percentProtein: number;
-  percentFat: number;
-  percentCarbs: number;
-};
-
-type Ingredient = {
-  id: number;
-  name: string;
-  amount: number;
-  unit: string;
-  nutrients: Nutrient[];
-};
-
-type Property = {
-  name: string;
-  amount: number;
-  unit: string;
 };
 
 type Nutrient = {
@@ -101,4 +110,19 @@ type Nutrient = {
   amount: number;
   unit: string;
   percentOfDailyNeeds: number;
+};
+
+type Measures = {
+  us: Us;
+  metric: Metric;
+};
+type Us = {
+  amount: number;
+  unitShort: string;
+  unitLong: string;
+};
+type Metric = {
+  amount: number;
+  unitShort: string;
+  unitLong: string;
 };
