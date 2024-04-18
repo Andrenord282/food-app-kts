@@ -14,7 +14,6 @@ type RecipesContextType = {
   handleUpdateRecipeList: (list: Recipe[]) => void;
 };
 
-
 const NUMBER_RECIPES = 9;
 
 const RecipesContext = createContext<RecipesContextType | null>(null);
@@ -47,7 +46,7 @@ export const RecipesProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const handleUpdateFilter = (filter: FilterRecipeList) => {
     setFilterList((oldFilter) => ({
       ...oldFilter,
-      filter,
+      ...filter,
     }));
   };
 
