@@ -103,6 +103,15 @@ type Length = {
 
 type Nutrition = {
   nutrients: Nutrient[];
+  ingredients: Ingredient[];
+};
+
+type Ingredient = {
+  id: number;
+  name: string;
+  amount: number;
+  unit: string;
+  nutrients: Nutrient[];
 };
 
 type Nutrient = {
