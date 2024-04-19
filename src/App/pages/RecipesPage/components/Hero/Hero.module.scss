@@ -10,7 +10,7 @@
   background-repeat: no-repeat;
   background-size: cover;
 
-  @include for-mobile-down {
+  @include for-mobile-small-down {
     padding-top: 300px;
   }
 }

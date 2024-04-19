@@ -11,11 +11,6 @@ const RecipeFilters: FC<RecipeFiltersProps> = ({ className }) => {
   return (
     <div className={cn(className, style.section)}>
       <RecipeFilterType className={style.filter} />
-      <RecipeFilterType className={style.filter} />
-      <RecipeFilterType className={style.filter} />
-      <RecipeFilterType className={style.filter} />
-      <RecipeFilterType className={style.filter} />
-      <RecipeFilterType className={style.filter} />
     </div>
   );
 };

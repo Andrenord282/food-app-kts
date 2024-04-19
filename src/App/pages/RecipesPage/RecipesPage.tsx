@@ -14,8 +14,8 @@ const RecipesPage: FC = () => {
         <Hero className={style.hero} />
         <RecipeSearch className={style.search} />
         <RecipeFilters className={style.filters} />
-        <RecipeList />
-        <RecipePagination />
+        <RecipeList className={style.list} />
+        <RecipePagination className={style.pagination} />
       </div>
     </RecipesProvider>
   );

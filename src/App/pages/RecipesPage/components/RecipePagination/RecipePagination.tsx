@@ -2,7 +2,11 @@ import { FC, useMemo, useState } from 'react';
 import Pagination from 'components/Pagination';
 import { useRecipesContext } from 'context/RecipesContext';
 
-const RecipePagination: FC = () => {
+type RecipePagination = {
+  className?: string;
+};
+
+const RecipePagination: FC<RecipePagination> = ({ className }) => {
   const { cursorList, handleUpdateCursor, handleRecipeListState } = useRecipesContext();
   const { number, totalResults } = cursorList;
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -49,6 +53,7 @@ const RecipePagination: FC = () => {
 
   return (
     <Pagination
+      className={className}
       isStartPage={isStartPage}
       isEndPage={isEndPage}
       pageList={pageList}

@@ -1,4 +1,5 @@
 @import "styles/variables.scss";
+@import "styles/mixins.scss";
 
 .card {
   cursor: pointer;
@@ -20,6 +21,10 @@
 .head {
   min-height: 360px;
   margin-bottom: $space-xl;
+
+  @include for-mobile-small-down {
+    min-height: 320px;
+  }
 }
 
 .img-item {

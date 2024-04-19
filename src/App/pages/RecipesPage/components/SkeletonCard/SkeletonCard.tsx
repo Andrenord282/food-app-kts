@@ -1,12 +1,17 @@
+import cn from 'classnames';
 import { FC } from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import style from './SkeletonCard.module.scss';
 
-const SkeletonCard: FC = () => {
+type SkeletonCardProps = {
+  className?: string;
+};
+
+const SkeletonCard: FC<SkeletonCardProps> = ({ className }) => {
   return (
     <SkeletonTheme baseColor="#b5460f54" highlightColor="#b5460f80">
-      <div className={style.card}>
+      <div className={cn(className, style.card)}>
         <div className={style.head}>
           <Skeleton height={360} width={'100%'} />
         </div>

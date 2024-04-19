@@ -21,7 +21,7 @@
 }
 
 .button {
-  @include for-small-mobile-down {
+  @include for-mobile-very-small-down {
     margin-top: $space-xs;
     margin-left: auto;
   }

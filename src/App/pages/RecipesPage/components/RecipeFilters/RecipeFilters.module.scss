@@ -8,11 +8,11 @@
   flex-wrap: wrap;
   gap: $space-xs $space-xl;
 
-  @include for-tablet-down {
+  @include for-mobile-down {
     gap: $space-xs $space-xs;
   }
 
-  @include for-mobile-down {
+  @include for-mobile-small-down {
     gap: $space-xs 0;
   }
 }
@@ -20,11 +20,11 @@
 .filter {
   width: 100%;
   max-width: 300px;
-  @include for-tablet-down {
+  @include for-mobile-down {
     max-width: calc(50% - $space-xs);
   }
 
-  @include for-mobile-down {
+  @include for-mobile-small-down {
     max-width: 100%;
   }
 }

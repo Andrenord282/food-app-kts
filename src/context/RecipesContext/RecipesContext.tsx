@@ -1,17 +1,20 @@
 import { FC, ReactNode, createContext, useContext, useState } from 'react';
+import { ErrorResponse } from 'services/axios/types';
 import { CursorRecipeList, FilterRecipeList, Recipe } from 'services/spoonacularApi';
 
-type RecipeListState = 'loading' | 'loaded' | 'fail';
+export type RecipeListState = 'loading' | 'loaded' | 'fail' | 'empty';
 
 type RecipesContextType = {
   recipeListState: RecipeListState;
   recipeList: Recipe[];
   cursorList: CursorRecipeList;
   filterList: FilterRecipeList;
+  errorInfo: ErrorResponse | null;
   handleUpdateCursor: (cursor: CursorRecipeList) => void;
   handleUpdateFilter: (filter: FilterRecipeList) => void;
   handleRecipeListState: (state: RecipeListState) => void;
   handleUpdateRecipeList: (list: Recipe[]) => void;
+  handleSetError: (error: ErrorResponse) => void;
 };
 
 const NUMBER_RECIPES = 9;
@@ -21,6 +24,7 @@ const RecipesContext = createContext<RecipesContextType | null>(null);
 export const RecipesProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [recipeListState, setRecipeListState] = useState<RecipeListState>('loading');
   const [recipeList, setRecipeList] = useState<Recipe[]>([]);
+  const [errorInfo, setErrorInfo] = useState<ErrorResponse | null>(null);
   const [cursorList, setCursorList] = useState<CursorRecipeList>({
     offset: 0,
     number: NUMBER_RECIPES,
@@ -50,15 +54,21 @@ export const RecipesProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }));
   };
 
+  const handleSetError = (error: ErrorResponse) => {
+    setErrorInfo(error);
+  };
+
   const value = {
     cursorList,
     filterList,
     recipeListState,
     recipeList,
+    errorInfo,
     handleUpdateCursor,
     handleUpdateFilter,
     handleRecipeListState,
     handleUpdateRecipeList,
+    handleSetError,
   };
 
   return <RecipesContext.Provider value={value}>{children}</RecipesContext.Provider>;

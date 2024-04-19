@@ -1,17 +1,32 @@
-@import "styles/global.scss";
 @import "styles/variables.scss";
+@import "styles/mixins.scss";
 
-.wrapper {
-  padding: 0;
-}
-
-.container {
-  @extend .container--m;
-}
-
-.list {
+.section {
   display: flex;
   flex-wrap: wrap;
   gap: $space-special-xxl $space-extra-xxl;
   margin-bottom: $space-m;
+
+  &--information {
+    align-items: center;
+    min-height: 80vh;
+  }
+
+  @include for-large-desktop-down {
+    justify-content: space-between;
+  }
+  @include for-mobile-down {
+    justify-content: center;
+  }
+}
+
+.item {
+  @include for-large-desktop-down {
+    max-width: calc(50% - ($space-extra-xxl / 2));
+    flex-grow: 1;
+  }
+
+  @include for-mobile-down {
+    max-width: 450px;
+  }
 }

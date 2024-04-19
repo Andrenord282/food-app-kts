@@ -2,6 +2,8 @@
 @import "styles/variables.scss";
 
 .wrapper {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   padding-bottom: $space-xl;
 }
@@ -18,4 +20,13 @@
 .filters {
   @extend .container--m;
   margin-bottom: $space-xxl;
+}
+
+.list {
+  @extend .container--m;
+  margin-bottom: $space-xxl;
+}
+
+.pagination {
+  margin-top: auto;
 }

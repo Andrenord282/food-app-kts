@@ -37,7 +37,12 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
         from <span style={{ textDecoration: 'underline' }}>weeknight dinners</span> to{' '}
         <span style={{ textDecoration: 'underline' }}>holiday feasts</span>.
       </Text>
-      <BaseInput value={searchName} onChange={handleSearchName} className={style.search} />
+      <BaseInput
+        value={searchName}
+        onChange={handleSearchName}
+        placeholder="enter the name of the dish"
+        className={style.search}
+      />
       <BaseButton onClick={onClickSearchButton} className={style.button}>
         <SearchIcon />
       </BaseButton>
