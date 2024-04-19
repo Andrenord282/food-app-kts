@@ -2,6 +2,7 @@ import { FC, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Text from 'components/Text';
 import ArrowLeftIcon from 'components/icons/ArrowLeftIcon';
+import { ROUTS } from 'config/routs';
 import Description from './components/Description';
 import Directions from './components/Directions';
 import Equipment from './components/Equipment';
@@ -25,7 +26,7 @@ const ResipePage: FC = () => {
       <div className={style.wrapper}>
         <div className={style.container}>
           <div className={style.head}>
-            <Link to={'/'}>
+            <Link to={ROUTS.INDEX}>
               <ArrowLeftIcon width={32} height={32} color="accent" />
             </Link>
             <Text tag="h2" weight="700" view="title-xl">
