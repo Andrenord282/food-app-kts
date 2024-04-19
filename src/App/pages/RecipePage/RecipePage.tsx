@@ -47,7 +47,6 @@ const ResipePage: FC = () => {
             <Ingredients ingredients={recipe.extendedIngredients} className={style['list-item']} />
             <Equipment equipments={recipe.analyzedInstructions[0].steps} className={style['list-item']} />
           </div>
-
           <Directions stepList={recipe.analyzedInstructions[0].steps} />
         </div>
       </div>

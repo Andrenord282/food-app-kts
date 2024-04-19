@@ -58,7 +58,7 @@ const useFetchRecipeList = (): UseFetchRecipeListState => {
   };
 
   useEffect(() => {
-    if (recipeListState === 'loading') {
+    if (recipeListState === 'init' || recipeListState === 'loading') {
       fetchRecipeList();
     }
   }, [recipeListState]);

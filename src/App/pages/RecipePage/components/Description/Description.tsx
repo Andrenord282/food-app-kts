@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import Text from 'components/Text';
 import style from './Description.module.scss';
 
@@ -16,4 +16,4 @@ const Description: FC<DescriptionProps> = ({ className, text }) => {
   );
 };
 
-export default Description;
+export default memo(Description);

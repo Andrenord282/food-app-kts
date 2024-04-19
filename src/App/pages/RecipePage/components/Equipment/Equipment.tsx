@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC, useMemo } from 'react';
+import { FC, memo, useMemo } from 'react';
 import Text from 'components/Text';
 import EquipmentIcon from 'components/icons/EquipmentIcon';
 import { StepInstruction } from 'services/spoonacularApi';
@@ -11,6 +11,7 @@ type EquipmentProps = {
 };
 
 const Equipment: FC<EquipmentProps> = ({ className, equipments }) => {
+
   const equipmentList = useMemo(() => {
     const uniqEquipments = new Set<string>([]);
 
@@ -40,4 +41,4 @@ const Equipment: FC<EquipmentProps> = ({ className, equipments }) => {
   );
 };
 
-export default Equipment;
+export default memo(Equipment);

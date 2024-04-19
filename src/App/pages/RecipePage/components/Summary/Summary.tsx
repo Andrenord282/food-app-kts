@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import SummaryItem from '../SummaryItem';
 import style from './Summary.module.scss';
 
@@ -30,4 +30,4 @@ const Summary: FC<SummaryProps> = ({ className, alt, image, preparation, ratings
   );
 };
 
-export default Summary;
+export default memo(Summary);

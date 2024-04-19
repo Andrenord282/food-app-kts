@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import Text from 'components/Text';
 import { StepInstruction } from 'services/spoonacularApi';
 
@@ -28,4 +28,4 @@ const Directions: FC<DirectionsProps> = ({ stepList }) => {
   );
 };
 
-export default Directions;
+export default memo(Directions);

@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import Text from 'components/Text';
 import IngredientIcon from 'components/icons/IngredientIcon';
 import { ExtendedIngredient } from 'services/spoonacularApi';
@@ -11,6 +11,7 @@ type IngredientsProps = {
 };
 
 const Ingredients: FC<IngredientsProps> = ({ className, ingredients }) => {
+
   return (
     <div className={cn(className, style.list)}>
       <Text view="p-l" weight="600" className={style.title}>
@@ -28,4 +29,4 @@ const Ingredients: FC<IngredientsProps> = ({ className, ingredients }) => {
   );
 };
 
-export default Ingredients;
+export default memo(Ingredients);

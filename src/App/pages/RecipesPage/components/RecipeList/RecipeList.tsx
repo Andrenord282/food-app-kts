@@ -24,12 +24,19 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
       return Array.from({ length: cursorList.number })
         .fill(10)
         .map((_, index) => {
-          return <SkeletonCard key={index} className={style.item}/>;
+          return <SkeletonCard key={index} className={style.item} />;
+        });
+    },
+    init: () => {
+      return Array.from({ length: cursorList.number })
+        .fill(10)
+        .map((_, index) => {
+          return <SkeletonCard key={index} className={style.item} />;
         });
     },
     loaded: () => {
       return recipeList.map((recipe) => {
-        return <RecipeCard key={recipe.id} recipe={recipe} className={style.item}/>;
+        return <RecipeCard key={recipe.id} recipe={recipe} className={style.item} />;
       });
     },
     empty: () => {
