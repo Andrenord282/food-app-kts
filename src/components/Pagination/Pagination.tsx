@@ -21,7 +21,7 @@ const Pagination: FC<PaginationProps> = ({
   pageList,
   handleChangePage,
 }) => {
-  console.log('Pagination');
+
   return (
     <div className={cn(className, style.pages)}>
       <button disabled={isStartPage} onClick={() => handleChangePage(currentPage - 1)} className={style.page}>

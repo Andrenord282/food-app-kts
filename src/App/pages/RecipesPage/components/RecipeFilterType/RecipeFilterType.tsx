@@ -24,8 +24,6 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
     return values.length === 0 ? 'Categories' : values.map(({ value }) => value).join(', ');
   }, []);
 
-  console.log('RecipeFilterType');
-
   return (
     <MultiDropdown
       data-name="Categories"
