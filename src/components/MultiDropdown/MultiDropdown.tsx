@@ -103,7 +103,7 @@ const MultiDropdown: FC<MultiDropdownProps> = ({
         <div className={style.list}>
           {options.map((option, index) => {
             const className = cn(style.item, {
-              [style['item--selected']]: value.some((item) => item.value === option.value),
+              [style['item$selected']]: value.some((item) => item.value === option.value),
             });
 
             switch (true) {

@@ -2,7 +2,7 @@
 @import "styles/variables.scss";
 
 .wrapper {
-  padding-top: var(--space-special-xl);
+  padding-top: $space-special-xl;
 }
 
 .container {
@@ -18,7 +18,7 @@
 
 .title {
   width: 100%;
-  margin-bottom: var(--space-xxl);
+  margin-bottom: $space-xxl;
 }
 
 .name-search {

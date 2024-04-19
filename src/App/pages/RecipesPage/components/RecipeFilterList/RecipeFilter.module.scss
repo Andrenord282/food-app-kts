@@ -2,7 +2,7 @@
 @import "styles/variables.scss";
 
 .filter-list {
-  padding: var(--space-special-xl) 0 var(--space-xxl) 0;
+  padding: $space-special-xl 0 $space-xxl 0;
 }
 
 .container {
@@ -13,5 +13,5 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 0 var(--space-xl);
+  gap: 0 $space-xl;
 }

@@ -1,4 +1,6 @@
+@import "styles/variables.scss";
+
 .app {
   min-height: 100vh;
-  background-color: var(--app-primary-bg);
+  background-color: $app-primary-bg;
 }

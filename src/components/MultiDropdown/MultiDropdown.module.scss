@@ -1,3 +1,5 @@
+@import "styles/variables.scss";
+
 .multi-drop-down {
   position: relative;
 }
@@ -14,29 +16,29 @@
   left: 0;
   width: 100%;
   max-height: 200px;
-  margin-top: var(--space-xxs);
-  box-shadow: 0 4px 9px 0 var(--black-light-shadow);
-  background-color: var(--component-primary-bg);
+  margin-top: $space-xxs;
+  box-shadow: 0 4px 9px 0 $black-light-shadow;
+  background-color: $component-primary-bg;
   overflow: auto;
   z-index: 100;
 }
 
 .item {
   width: 100%;
-  padding: var(--space-s) var(--space-xs);
+  padding: $space-s $space-xs;
   transition: all 0.2s linear;
-  background-color: var(--button-secondary-bg);
-  color: var(--button-secondary-text);
+  background-color: $button-secondary-bg;
+  color: $button-secondary-text;
   font-size: 16px;
 
   &--selected {
-    color: var(--text-accent-color);
+    color: $text-accent-color;
   }
 
   @media (hover: hover) {
     &:hover:not(:disabled) {
-      background-color: var(--button-secondary-bg);
-      color: var(--spun-pearl);
+      background-color: $button-secondary-bg;
+      color: $spun-pearl;
     }
   }
 }

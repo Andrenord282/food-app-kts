@@ -1,8 +1,10 @@
+@import "styles/variables.scss";
+
 .item {
   width: 100%;
   position: relative;
-  background-color: var(--component-primary-bg);
-  border-radius: var(--border-radius-m);
+  background-color: $component-primary-bg;
+  border-radius: $border-radius-m;
 
   &::after {
     width: 35px;
@@ -11,8 +13,8 @@
     top: 1px;
     right: 1px;
     bottom: 1px;
-    border-radius: var(--border-radius-m);
-    background-color: var(--component-primary-bg);
+    border-radius: $border-radius-m;
+    background-color: $component-primary-bg;
     z-index: 2;
   }
 }
@@ -21,28 +23,28 @@
   position: relative;
   width: 100%;
   font-size: 16px;
-  padding: var(--space-m) var(--space-xs);
+  padding: $space-m $space-xs;
   border: 1px solid transparent;
-  background-color: var(--component-primary-bg);
-  border-radius: var(--border-radius-m);
+  background-color: $component-primary-bg;
+  border-radius: $border-radius-m;
   z-index: 2;
 
   &::placeholder {
     font-size: 16px;
-    color: var(--input-primary-placeholder);
+    color: $input-primary-placeholder;
   }
 
   &:disabled {
-    background-color: var(--component-primary-bg);
-    color: var(--text-primary-disabled-color);
+    background-color: $component-primary-bg;
+    color: $text-primary-disabled-color;
 
     &::placeholder {
-      color: var(--input-primary-placeholder);
+      color: $input-primary-placeholder;
     }
   }
 
   &:focus {
-    border: 1px solid var(--input-primary-border-active);
+    border: 1px solid $input-primary-border-active;
   }
 }
 

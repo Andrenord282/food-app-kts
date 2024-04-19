@@ -1,4 +1,3 @@
-@import "styles/global.scss";
 @import "styles/variables.scss";
 
 .typography {
@@ -34,15 +33,15 @@
     }
 
     &-primary {
-      color: var(--text-primary-color);
+      color: $text-primary-color;
     }
 
     &-secondary {
-      color: var(--text-secondary-color);
+      color: $text-secondary-color;
     }
 
     &-accent {
-      color: var(--text-accent-color);
+      color: $text-accent-color;
     }
   }
 
