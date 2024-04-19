@@ -1,3 +1,4 @@
+import cn from 'classnames';
 import { FC, useState, useEffect } from 'react';
 import BaseButton from 'components/BaseButton';
 import BaseInput from 'components/BaseInput';
@@ -7,7 +8,11 @@ import { useRecipesContext } from 'context/RecipesContext';
 import useDebounce from 'hooks/useDebounce';
 import style from './RecipeSearch.module.scss';
 
-const RecipeSearch: FC = () => {
+type RecipeSearchProps = {
+  className?: string;
+};
+
+const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   const { handleUpdateFilter, handleRecipeListState } = useRecipesContext();
   const [searchName, setSearchName] = useState('');
   const debouncedSearchName = useDebounce(searchName);
@@ -26,20 +31,16 @@ const RecipeSearch: FC = () => {
   }, [debouncedSearchName]);
 
   return (
-    <div className={style.wrapper}>
-      <div className={style.container}>
-        <div className={style.content}>
-          <Text className={style.title} view="p-l" align="center">
-            Find the perfect food and <span style={{ textDecoration: 'underline' }}>drink ideas</span> for every
-            occasion, from <span style={{ textDecoration: 'underline' }}>weeknight dinners</span> to{' '}
-            <span style={{ textDecoration: 'underline' }}>holiday feasts</span>.
-          </Text>
-          <BaseInput value={searchName} onChange={handleSearchName} className={style['name-search']} />
-          <BaseButton onClick={onClickSearchButton}>
-            <SearchIcon />
-          </BaseButton>
-        </div>
-      </div>
+    <div className={cn(className, style.section)}>
+      <Text className={style.title} view="p-l" align="center">
+        Find the perfect food and <span style={{ textDecoration: 'underline' }}>drink ideas</span> for every occasion,
+        from <span style={{ textDecoration: 'underline' }}>weeknight dinners</span> to{' '}
+        <span style={{ textDecoration: 'underline' }}>holiday feasts</span>.
+      </Text>
+      <BaseInput value={searchName} onChange={handleSearchName} className={style.search} />
+      <BaseButton onClick={onClickSearchButton} className={style.button}>
+        <SearchIcon />
+      </BaseButton>
     </div>
   );
 };

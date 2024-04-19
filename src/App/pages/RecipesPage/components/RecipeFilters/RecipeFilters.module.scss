@@ -1,0 +1,30 @@
+@import "styles/global.scss";
+@import "styles/variables.scss";
+@import "styles/mixins.scss";
+
+.section {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: $space-xs $space-xl;
+
+  @include for-tablet-down {
+    gap: $space-xs $space-xs;
+  }
+
+  @include for-mobile-down {
+    gap: $space-xs 0;
+  }
+}
+
+.filter {
+  width: 100%;
+  max-width: 300px;
+  @include for-tablet-down {
+    max-width: calc(50% - $space-xs);
+  }
+
+  @include for-mobile-down {
+    max-width: 100%;
+  }
+}

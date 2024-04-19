@@ -63,11 +63,11 @@ const Text: FC<TextProps> = ({
       className={cn(
         className,
         style.typography,
-        style[`typography$${weight}`],
-        style[`typography$color-${color}`],
-        style[`typography$${view}`],
-        style[`typography$align-${align}`],
-        style[`typography$decoration-${decoration}`],
+        style[`typography--${weight}`],
+        style[`typography--color-${color}`],
+        style[`typography--${view}`],
+        style[`typography--align-${align}`],
+        style[`typography--decoration-${decoration}`],
       )}
       style={inlineStyle()}
     >

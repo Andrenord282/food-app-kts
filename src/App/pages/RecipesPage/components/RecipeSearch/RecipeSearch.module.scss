@@ -1,19 +1,13 @@
 @import "styles/global.scss";
 @import "styles/variables.scss";
+@import "styles/mixins.scss";
 
-.wrapper {
-  padding-top: $space-special-xl;
-}
-
-.container {
-  @extend .container--m;
-}
-
-.content {
+.section {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: 0 $space-l;
 }
 
 .title {
@@ -21,8 +15,14 @@
   margin-bottom: $space-xxl;
 }
 
-.name-search {
-  width: 100%;
-  max-width: 1154px;
+.search {
+  width: auto;
   flex-grow: 2;
+}
+
+.button {
+  @include for-small-mobile-down {
+    margin-top: $space-xs;
+    margin-left: auto;
+  }
 }

@@ -1,7 +1,7 @@
+import cn from 'classnames';
 import { FC, useState } from 'react';
 import MultiDropdown, { MultiDropdownOption } from 'components/MultiDropdown';
 import { useRecipesContext } from 'context/RecipesContext';
-import style from './RecipeFilterType.module.scss';
 
 const optionType: MultiDropdownOption[] = [
   { key: 'main course', value: 'main course' },
@@ -20,7 +20,11 @@ const optionType: MultiDropdownOption[] = [
   { key: 'drink', value: 'drink' },
 ];
 
-const RecipeFilterType: FC = () => {
+type RecipeFilterTypePorps = {
+  className?: string;
+};
+
+const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
   const { handleUpdateFilter } = useRecipesContext();
   const [valueType, setValueType] = useState<MultiDropdownOption[]>([]);
 
@@ -36,7 +40,7 @@ const RecipeFilterType: FC = () => {
   return (
     <MultiDropdown
       data-name="Categories"
-      className={style['filter-item']}
+      className={cn(className)}
       options={optionType}
       value={valueType}
       onChange={handleChangeValueType}
