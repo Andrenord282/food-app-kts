@@ -121,15 +121,11 @@ type Nutrient = {
 };
 
 type Measures = {
-  us: Us;
-  metric: Metric;
+  us: Measure;
+  metric: Measure;
 };
-type Us = {
-  amount: number;
-  unitShort: string;
-  unitLong: string;
-};
-type Metric = {
+
+type Measure = {
   amount: number;
   unitShort: string;
   unitLong: string;
