@@ -43,9 +43,8 @@ export type Recipe = {
   veryHealthy: boolean;
   cheap: boolean;
   veryPopular: boolean;
-  // gaps: string;
   preparationMinutes: number;
-  // cookingMinutes: number;
+  cookingMinutes: number;
   aggregateLikes: number;
   servings: number;
   summary: string;

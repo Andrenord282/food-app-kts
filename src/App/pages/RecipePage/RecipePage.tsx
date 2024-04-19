@@ -39,7 +39,7 @@ const ResipePage: FC = () => {
             image={recipe.image}
             preparation={recipe.preparationMinutes}
             ratings={recipe.aggregateLikes}
-            cooking={recipe.readyInMinutes}
+            cooking={recipe.cookingMinutes}
             servings={recipe.servings}
           />
           <Description className={style.description} text={recipe.summary} />
