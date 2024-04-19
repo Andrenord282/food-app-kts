@@ -5,7 +5,7 @@ import style from './SkeletonCard.module.scss';
 
 const SkeletonCard: FC = () => {
   return (
-    <SkeletonTheme baseColor="#b5460f54" highlightColor="#b5460f">
+    <SkeletonTheme baseColor="#b5460f54" highlightColor="#b5460f80">
       <div className={style.card}>
         <div className={style.head}>
           <Skeleton height={360} width={'100%'} />
