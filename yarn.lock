@@ -2330,11 +2330,6 @@ ms@^2.1.1:
   resolved "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
 
-nano-id@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/nano-id/-/nano-id-1.1.0.tgz#0ee02e76f3482c1c148ab1830e45d59cafa304e0"
-  integrity sha512-vQB87xWh4CCBZq2d7/wF46uiwZOx+n6ShQ4QBuiejQhBSijkTeK6Ugv1EhgjVAg8fwIu9wtWk3GhCN4ViD0TJQ==
-
 nanoid@^3.3.7:
   version "3.3.7"
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.3.7.tgz"
