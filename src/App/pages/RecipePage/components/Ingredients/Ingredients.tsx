@@ -16,10 +16,9 @@ const Ingredients: FC<IngredientsProps> = ({ className, ingredients }) => {
       <Text view="p-l" weight="600" className={style.title}>
         Ingredients
       </Text>
-      {ingredients.map(({ id, originalName }, index) => {
-        // id + index key выглядит тупо, но там есть id с повторами, я подумаю
+      {ingredients.map(({ originalName }, index) => {
         return (
-          <div key={id + index} className={style.item}>
+          <div key={index} className={style.item}>
             <IngredientIcon width={24} height={24} color="accent" />
             <Text view="p-xs">{originalName}</Text>
           </div>
