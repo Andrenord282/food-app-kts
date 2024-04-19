@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { FC } from 'react';
-import Text from 'components/Text';
+import SummaryItem from '../SummaryItem';
 import style from './Summary.module.scss';
 
 type SummaryProps = {
@@ -20,36 +20,11 @@ const Summary: FC<SummaryProps> = ({ className, alt, image, preparation, ratings
         <img src={image} alt={alt} />
       </div>
       <div className={style.list}>
-        <div className={style.item}>
-          <Text view="p-xs">Preparation</Text>
-          <Text view="p-xs" weight="600" color="accent">
-            {preparation} minutes
-          </Text>
-        </div>
-        <div className={style.item}>
-          <Text view="p-xs">Cooking</Text>
-          <Text view="p-xs" weight="600" color="accent">
-            {cooking} minutes
-          </Text>
-        </div>
-        <div className={style.item}>
-          <Text view="p-xs">Total</Text>
-          <Text view="p-xs" weight="600" color="accent">
-            {preparation + cooking} minutes
-          </Text>
-        </div>
-        <div className={style.item}>
-          <Text view="p-xs">Ratings</Text>
-          <Text view="p-xs" weight="600" color="accent">
-            {ratings} likes
-          </Text>
-        </div>
-        <div className={style.item}>
-          <Text view="p-xs">Servings</Text>
-          <Text view="p-xs" weight="600" color="accent">
-            {servings} servings
-          </Text>
-        </div>
+        <SummaryItem className={style.item} title="Preparation" text={`${preparation > 0 ? preparation : 0} minutes`} />
+        <SummaryItem className={style.item} title="Cooking" text={`${cooking} minutes`} />
+        <SummaryItem className={style.item} title="Total" text={`${preparation + cooking} minutes`} />
+        <SummaryItem className={style.item} title="Ratings" text={`${ratings} likes`} />
+        <SummaryItem className={style.item} title="Servings" text={`${servings} servings`} />
       </div>
     </div>
   );
