@@ -9,15 +9,17 @@ import style from './RecipesPage.module.scss';
 
 const RecipesPage: FC = () => {
   return (
-    <RecipesProvider>
-      <div className={style.wrapper}>
-        <Hero className={style.hero} />
-        <RecipeSearch className={style.search} />
-        <RecipeFilters className={style.filters} />
-        <RecipeList className={style.list} />
-        <RecipePagination className={style.pagination} />
-      </div>
-    </RecipesProvider>
+    <>
+      <RecipesProvider>
+        <div className={style.wrapper}>
+          <Hero className={style.hero} />
+          <RecipeSearch className={style.search} />
+          <RecipeFilters className={style.filters} />
+          <RecipeList className={style.list} />
+          <RecipePagination className={style.pagination} />
+        </div>
+      </RecipesProvider>
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { IconProps } from '../Icon';
 
 const IngredientIcon: FC<IconProps> = ({ className, color, width = 24, height = 24, ...props }) => {
@@ -51,4 +51,4 @@ const IngredientIcon: FC<IconProps> = ({ className, color, width = 24, height = 
   );
 };
 
-export default IngredientIcon;
+export default memo(IngredientIcon);

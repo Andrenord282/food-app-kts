@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, memo, useEffect, useMemo, useRef, useState } from 'react';
 import BaseButton from 'components/BaseButton';
 import BaseInput from 'components/BaseInput';
 import Text from 'components/Text';
@@ -139,4 +139,4 @@ const MultiDropdown: FC<MultiDropdownProps> = ({
   );
 };
 
-export default MultiDropdown;
+export default memo(MultiDropdown);

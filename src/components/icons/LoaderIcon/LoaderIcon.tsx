@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { IconProps } from '../Icon';
 
 const LoaderIcon: FC<IconProps> = ({ className, color, width = 24, height = 24, ...props }) => {
@@ -26,4 +26,4 @@ const LoaderIcon: FC<IconProps> = ({ className, color, width = 24, height = 24, 
   );
 };
 
-export default LoaderIcon;
+export default memo(LoaderIcon);

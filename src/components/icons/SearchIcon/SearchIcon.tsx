@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { IconProps } from '../Icon';
 
 const SearchIcon: FC<IconProps> = ({ className, color, width = 24, height = 24, ...props }) => {
@@ -38,4 +38,4 @@ const SearchIcon: FC<IconProps> = ({ className, color, width = 24, height = 24, 
   );
 };
 
-export default SearchIcon;
+export default memo(SearchIcon);

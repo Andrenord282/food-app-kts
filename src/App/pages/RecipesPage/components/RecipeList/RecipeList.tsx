@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import Text from 'components/Text';
 import { useRecipesContext, RecipeListState } from 'context/RecipesContext';
 import useFetchRecipeList from '../../hooks/useFetchRecipeList';
@@ -73,4 +73,4 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
   );
 };
 
-export default RecipeList;
+export default memo(RecipeList);

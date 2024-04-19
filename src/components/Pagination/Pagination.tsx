@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import ArrowLeftIcon from 'components/icons/ArrowLeftIcon';
 import ArrowRightIcon from 'components/icons/ArrowRightIcon';
 import style from './Pagination.module.scss';
@@ -21,6 +21,7 @@ const Pagination: FC<PaginationProps> = ({
   pageList,
   handleChangePage,
 }) => {
+  console.log('Pagination');
   return (
     <div className={cn(className, style.pages)}>
       <button disabled={isStartPage} onClick={() => handleChangePage(currentPage - 1)} className={style.page}>
@@ -55,4 +56,4 @@ const Pagination: FC<PaginationProps> = ({
   );
 };
 
-export default Pagination;
+export default memo(Pagination);

@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useRecipesContext } from 'context/RecipesContext';
 import spoonacularApi, { CursorRecipeList, FilterRecipeList, ParamRecipeList } from 'services/spoonacularApi';
 
@@ -20,7 +20,7 @@ const useFetchRecipeList = (): UseFetchRecipeListState => {
     handleSetError,
   } = useRecipesContext();
 
-  const fetchRecipeList = async () => {
+  const fetchRecipeList = useCallback(async () => {
     try {
       const initParam = (cursor: CursorRecipeList, filter: FilterRecipeList) => {
         const { offset, number } = cursor;
@@ -55,13 +55,13 @@ const useFetchRecipeList = (): UseFetchRecipeListState => {
         handleRecipeListState('fail');
       }
     }
-  };
+  }, [cursorList, filterList, handleRecipeListState, handleUpdateCursor, handleUpdateRecipeList, handleSetError]);
 
   useEffect(() => {
     if (recipeListState === 'init' || recipeListState === 'loading') {
       fetchRecipeList();
     }
-  }, [recipeListState]);
+  }, [recipeListState, fetchRecipeList]);
 
   return {
     fetchRecipeList,

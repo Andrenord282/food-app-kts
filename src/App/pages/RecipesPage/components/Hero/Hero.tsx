@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import style from './Hero.module.scss';
 
 type HeroProps = {
@@ -10,4 +10,4 @@ const Hero: FC<HeroProps> = ({ className }) => {
   return <div className={cn(className, style.section)} />;
 };
 
-export default Hero;
+export default memo(Hero);

@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { IconProps } from '../Icon';
 
 const EquipmentIcon: FC<IconProps> = ({ className, color, width = 24, height = 24, ...props }) => {
@@ -28,4 +28,4 @@ const EquipmentIcon: FC<IconProps> = ({ className, color, width = 24, height = 2
   );
 };
 
-export default EquipmentIcon;
+export default memo(EquipmentIcon);

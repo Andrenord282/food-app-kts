@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { IconProps } from '../Icon';
 
 const FavoriteIcon: FC<IconProps> = ({ className, color, width = 24, height = 24, ...props }) => {
@@ -31,4 +31,4 @@ const FavoriteIcon: FC<IconProps> = ({ className, color, width = 24, height = 24
   );
 };
 
-export default FavoriteIcon;
+export default memo(FavoriteIcon);

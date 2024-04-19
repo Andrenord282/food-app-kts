@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC, useState } from 'react';
+import { FC, memo, useCallback, useState } from 'react';
 import MultiDropdown, { MultiDropdownOption } from 'components/MultiDropdown';
 import { useRecipesContext } from 'context/RecipesContext';
 import { optionType } from './config';
@@ -12,14 +12,19 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
   const { handleUpdateFilter } = useRecipesContext();
   const [valueType, setValueType] = useState<MultiDropdownOption[]>([]);
 
-  const handleChangeValueType = (values: MultiDropdownOption[]) => {
-    setValueType(values);
-    handleUpdateFilter({ type: values.map(({ value }) => value) });
-  };
+  const handleChangeValueType = useCallback(
+    (values: MultiDropdownOption[]) => {
+      setValueType(values);
+      handleUpdateFilter({ type: values.map(({ value }) => value) });
+    },
+    [handleUpdateFilter],
+  );
 
-  const handleTitleValueType = (values: MultiDropdownOption[]) => {
+  const handleTitleValueType = useCallback((values: MultiDropdownOption[]) => {
     return values.length === 0 ? 'Categories' : values.map(({ value }) => value).join(', ');
-  };
+  }, []);
+
+  console.log('RecipeFilterType');
 
   return (
     <MultiDropdown
@@ -33,4 +38,4 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
   );
 };
 
-export default RecipeFilterType;
+export default memo(RecipeFilterType);

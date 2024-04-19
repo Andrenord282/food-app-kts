@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC, PropsWithChildren, CSSProperties, ElementType } from 'react';
+import { FC, PropsWithChildren, CSSProperties, ElementType, memo, useMemo } from 'react';
 import style from './Text.module.scss';
 
 type TagName = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div' | 'p' | 'span';
@@ -40,12 +40,12 @@ const Text: FC<TextProps> = ({
   view = 'p-m',
   align = 'default',
   decoration = 'default',
-  maxLines = undefined,
+  maxLines,
   children,
 }) => {
   const TagName = tagMap[tag] || (tagMap.p as ElementType);
-
-  const inlineStyle = (): CSSProperties => {
+  
+  const inlineStyle = useMemo((): CSSProperties => {
     const style: CSSProperties = {};
 
     if (maxLines) {
@@ -56,7 +56,7 @@ const Text: FC<TextProps> = ({
     }
 
     return style;
-  };
+  }, [maxLines]);
 
   return (
     <TagName
@@ -69,11 +69,11 @@ const Text: FC<TextProps> = ({
         style[`typography--align-${align}`],
         style[`typography--decoration-${decoration}`],
       )}
-      style={inlineStyle()}
+      style={inlineStyle}
     >
       {children}
     </TagName>
   );
 };
 
-export default Text;
+export default memo(Text);

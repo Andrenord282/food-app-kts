@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, memo, useCallback, useMemo, useState } from 'react';
 import Pagination from 'components/Pagination';
 import { useRecipesContext } from 'context/RecipesContext';
 
@@ -40,16 +40,19 @@ const RecipePagination: FC<RecipePagination> = ({ className }) => {
     }, []);
   }, [currentPage, totalPages]);
 
-  const handleChangePage = (page: number) => {
-    setCurrentPage(page);
+  const handleChangePage = useCallback(
+    (page: number) => {
+      setCurrentPage(page);
 
-    handleUpdateCursor({
-      offset: page * number - number,
-      number,
-      totalResults,
-    });
-    handleRecipeListState('loading');
-  };
+      handleUpdateCursor({
+        offset: page * number - number,
+        number,
+        totalResults,
+      });
+      handleRecipeListState('loading');
+    },
+    [number, totalResults, handleUpdateCursor, handleRecipeListState],
+  );
 
   return (
     <Pagination
@@ -63,4 +66,4 @@ const RecipePagination: FC<RecipePagination> = ({ className }) => {
   );
 };
 
-export default RecipePagination;
+export default memo(RecipePagination);

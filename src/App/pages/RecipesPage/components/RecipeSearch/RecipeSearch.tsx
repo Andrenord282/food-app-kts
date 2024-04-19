@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useCallback, memo } from 'react';
 import BaseButton from 'components/BaseButton';
 import BaseInput from 'components/BaseInput';
 import Text from 'components/Text';
@@ -17,18 +17,18 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   const [searchName, setSearchName] = useState('');
   const debouncedSearchName = useDebounce(searchName);
 
-  const handleSearchName = (value: string) => {
+  const handleSearchName = useCallback((value: string) => {
     setSearchName(value);
-  };
+  }, []);
 
-  const onClickSearchButton = () => {
+  const onClickSearchButton = useCallback(() => {
     handleRecipeListState('loading');
-  };
+  }, [handleRecipeListState]);
 
   useEffect(() => {
     handleUpdateFilter({ query: debouncedSearchName });
     handleRecipeListState('loading');
-  }, [debouncedSearchName]);
+  }, [debouncedSearchName, handleUpdateFilter, handleRecipeListState]);
 
   return (
     <div className={cn(className, style.section)}>
@@ -50,4 +50,4 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   );
 };
 
-export default RecipeSearch;
+export default memo(RecipeSearch);

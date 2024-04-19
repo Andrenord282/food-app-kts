@@ -1,4 +1,4 @@
-import { FC, ReactNode, createContext, useContext, useState } from 'react';
+import { FC, ReactNode, createContext, useCallback, useContext, useState } from 'react';
 import { ErrorResponse } from 'services/axios/types';
 import { CursorRecipeList, FilterRecipeList, Recipe } from 'services/spoonacularApi';
 
@@ -30,33 +30,34 @@ export const RecipesProvider: FC<{ children: ReactNode }> = ({ children }) => {
     number: NUMBER_RECIPES,
     totalResults: 0,
   });
+
   const [filterList, setFilterList] = useState<FilterRecipeList>({});
 
-  const handleUpdateRecipeList = (list: Recipe[]) => {
+  const handleUpdateRecipeList = useCallback((list: Recipe[]) => {
     setRecipeList(list);
-  };
+  }, []);
 
-  const handleRecipeListState = (state: RecipeListState) => {
+  const handleRecipeListState = useCallback((state: RecipeListState) => {
     setRecipeListState(state);
-  };
+  }, []);
 
-  const handleUpdateCursor = (cursor: CursorRecipeList) => {
+  const handleUpdateCursor = useCallback((cursor: CursorRecipeList) => {
     setCursorList((oldCursor) => ({
       ...oldCursor,
       ...cursor,
     }));
-  };
+  }, []);
 
-  const handleUpdateFilter = (filter: FilterRecipeList) => {
+  const handleUpdateFilter = useCallback((filter: FilterRecipeList) => {
     setFilterList((oldFilter) => ({
       ...oldFilter,
       ...filter,
     }));
-  };
+  }, []);
 
-  const handleSetError = (error: ErrorResponse) => {
+  const handleSetError = useCallback((error: ErrorResponse) => {
     setErrorInfo(error);
-  };
+  }, []);
 
   const value = {
     cursorList,

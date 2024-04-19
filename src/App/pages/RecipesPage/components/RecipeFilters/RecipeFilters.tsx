@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import RecipeFilterType from '../RecipeFilterType';
 import style from './RecipeFilters.module.scss';
 
@@ -15,4 +15,4 @@ const RecipeFilters: FC<RecipeFiltersProps> = ({ className }) => {
   );
 };
 
-export default RecipeFilters;
+export default memo(RecipeFilters);

@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { forwardRef, InputHTMLAttributes, ChangeEventHandler, ReactNode } from 'react';
+import { forwardRef, InputHTMLAttributes, ChangeEventHandler, ReactNode, memo } from 'react';
 import style from './BaseInput.module.scss';
 
 export type BaseInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> & {
@@ -26,4 +26,5 @@ const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
 );
 
 BaseInput.displayName = 'BaseInput';
-export default BaseInput;
+
+export default memo(BaseInput);
