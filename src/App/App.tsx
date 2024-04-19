@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ROUTS } from 'config/routs';
 import BaseLayout from './layouts/BaseLayout';
+import NotFoundPage from './pages/NotFoundPage';
 import RecipePage from './pages/RecipePage';
 import RecipesPage from './pages/RecipesPage';
 import style from './App.module.scss';
@@ -9,9 +11,10 @@ const App = () => {
     <div className={style.app}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<BaseLayout />}>
+          <Route path={ROUTS.INDEX} element={<BaseLayout />}>
             <Route index element={<RecipesPage />} />
-            <Route path="recipe/:id" element={<RecipePage />} />
+            <Route path={ROUTS.RECIPE} element={<RecipePage />} />
+            <Route path={ROUTS.NOT_FOUND} element={<NotFoundPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
