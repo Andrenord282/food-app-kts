@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import { FC, memo } from 'react';
 import { IconProps } from '../Icon';
 
@@ -15,7 +15,7 @@ const CheckIcon: FC<IconProps> = ({ className = '', color, width = 24, height = 
     >
       <path
         d="M4 11.6129L9.87755 18L20 7"
-        stroke={classNames({
+        stroke={cn({
           currentColor: !color,
           '#000000': color === 'primary',
           '#afadb5': color === 'secondary',

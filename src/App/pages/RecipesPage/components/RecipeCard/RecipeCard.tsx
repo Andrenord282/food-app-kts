@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import { FC } from 'react';
 import { useNavigate, generatePath } from 'react-router-dom';
 import BaseButton from 'components/BaseButton';
@@ -25,7 +25,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe }) => {
   };
 
   return (
-    <div className={classNames(className, style.card)} onClick={handleClickCard}>
+    <div className={cn(className, style.card)} onClick={handleClickCard}>
       <div className={style.head}>
         <img src={image} alt="img" className={style['img-item']} />
       </div>

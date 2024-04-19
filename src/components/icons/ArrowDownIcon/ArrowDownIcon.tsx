@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import { FC, memo } from 'react';
 import { IconProps } from '../Icon';
 
@@ -9,7 +9,7 @@ const ArrowDownIcon: FC<IconProps> = ({ className = '', color, width = 24, heigh
       viewBox="0 0 24 24"
       width={width}
       height={height}
-      fill={classNames({
+      fill={cn({
         currentColor: !color,
         '#000000': color === 'primary',
         '#afadb5': color === 'secondary',

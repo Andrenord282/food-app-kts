@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import BaseButton from 'components/BaseButton';
 import BaseInput from 'components/BaseInput';
@@ -88,7 +88,7 @@ const MultiDropdown: FC<MultiDropdownProps> = ({
       {...props}
       ref={MultiDropdownRef}
       onClick={(e) => e.stopPropagation()}
-      className={classNames(className, style['multi-drop-down'])}
+      className={cn(className, style['multi-drop-down'])}
     >
       <BaseInput
         className={style.input}
@@ -102,7 +102,7 @@ const MultiDropdown: FC<MultiDropdownProps> = ({
       {toggle && options && options.length > 0 && !disabled && (
         <div className={style.list}>
           {options.map((option, index) => {
-            const className = classNames(style.item, {
+            const className = cn(style.item, {
               [style['item--selected']]: value.some((item) => item.value === option.value),
             });
 

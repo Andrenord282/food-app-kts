@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import { FC } from 'react';
 import ArrowLeftIcon from 'components/icons/ArrowLeftIcon';
 import ArrowRightIcon from 'components/icons/ArrowRightIcon';
@@ -22,7 +22,7 @@ const Pagination: FC<PaginationProps> = ({
   handleChangePage,
 }) => {
   return (
-    <div className={classNames(className, style.pages)}>
+    <div className={cn(className, style.pages)}>
       <button disabled={isStartPage} onClick={() => handleChangePage(currentPage - 1)} className={style.page}>
         <ArrowLeftIcon width={32} height={32} />
       </button>
@@ -41,7 +41,7 @@ const Pagination: FC<PaginationProps> = ({
             key={page}
             disabled={isCurrentPage}
             onClick={() => handleChangePage(page)}
-            className={classNames(style.page, { [style['page--current']]: isCurrentPage })}
+            className={cn(style.page, { [style['page--current']]: isCurrentPage })}
           >
             {page}
           </button>

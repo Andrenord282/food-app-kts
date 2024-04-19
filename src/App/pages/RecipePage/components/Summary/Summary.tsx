@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import { FC } from 'react';
 import SummaryItem from '../SummaryItem';
 import style from './Summary.module.scss';
@@ -15,7 +15,7 @@ type SummaryProps = {
 
 const Summary: FC<SummaryProps> = ({ className, alt, image, preparation, ratings, cooking, servings }) => {
   return (
-    <div className={classNames(className, style.section)}>
+    <div className={cn(className, style.section)}>
       <div className={style.img}>
         <img src={image} alt={alt} />
       </div>

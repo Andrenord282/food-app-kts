@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import { FC } from 'react';
 import { IconProps } from '../Icon';
 
@@ -24,7 +24,7 @@ const SearchIcon: FC<IconProps> = ({ className, color, width = 24, height = 24, 
           <rect
             width={width}
             height={height}
-            fill={classNames({
+            fill={cn({
               currentColor: !color,
               '#000000': color === 'primary',
               '#ffffff': color === 'secondary',

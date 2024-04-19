@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import { forwardRef, InputHTMLAttributes, ChangeEventHandler, ReactNode } from 'react';
 import style from './BaseInput.module.scss';
 
@@ -17,7 +17,7 @@ const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
     };
 
     return (
-      <div className={classNames(className, style.item)}>
+      <div className={cn(className, style.item)}>
         <input ref={ref} type="text" className={style.field} value={value} onChange={handleChange} {...props} />
         {endIconSlot && <span className={style.icon}>{endIconSlot}</span>}
       </div>

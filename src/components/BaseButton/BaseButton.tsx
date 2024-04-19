@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import { FC, ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import LoaderIcon from 'components/icons/LoaderIcon';
 import style from './BaseButton.module.scss';
@@ -15,7 +15,7 @@ const BaseButton: FC<BaseButtonProps> = ({ disabled, loading, className, childre
     <button
       disabled={disabled}
       onClick={!disabled ? onClick : undefined}
-      className={classNames(className, style.button, {
+      className={cn(className, style.button, {
         [style.disabled]: disabled,
       })}
       {...props}

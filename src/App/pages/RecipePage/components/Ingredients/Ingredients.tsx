@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import { FC } from 'react';
 import Text from 'components/Text';
 import IngredientIcon from 'components/icons/IngredientIcon';
@@ -12,7 +12,7 @@ type IngredientsProps = {
 
 const Ingredients: FC<IngredientsProps> = ({ className, ingredients }) => {
   return (
-    <div className={classNames(className, style.list)}>
+    <div className={cn(className, style.list)}>
       <Text view="p-l" weight="600" className={style.title}>
         Ingredients
       </Text>

@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import { FC, PropsWithChildren, CSSProperties, ElementType } from 'react';
 import style from './Text.module.scss';
 
@@ -60,7 +60,7 @@ const Text: FC<TextProps> = ({
 
   return (
     <TagName
-      className={classNames(
+      className={cn(
         className,
         style.typography,
         style[`typography--${weight}`],

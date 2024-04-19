@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import cn from 'classnames';
 import { FC, useMemo } from 'react';
 import Text from 'components/Text';
 import EquipmentIcon from 'components/icons/EquipmentIcon';
@@ -24,7 +24,7 @@ const Equipment: FC<EquipmentProps> = ({ className, equipments }) => {
   }, [equipments]);
 
   return (
-    <div className={classNames(className, style.list)}>
+    <div className={cn(className, style.list)}>
       <Text view="p-l" weight="600" className={style.title}>
         Equipment
       </Text>
