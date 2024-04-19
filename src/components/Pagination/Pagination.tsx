@@ -41,7 +41,7 @@ const Pagination: FC<PaginationProps> = ({
             key={page}
             disabled={isCurrentPage}
             onClick={() => handleChangePage(page)}
-            className={cn(style.page, { [style['page$current']]: isCurrentPage })}
+            className={cn(style.page, { [style['page--current']]: isCurrentPage })}
           >
             {page}
           </button>
