@@ -16,13 +16,12 @@ const useFetchRecipeList = (): UseFetchRecipeListState => {
     try {
       const initParam = (cursor: CursorRecipeList, filter: FilterRecipeList) => {
         const { offset, number } = cursor;
-        const { query, type, cuisine } = filter;
+        const { type, cuisine } = filter;
 
         const param: ParamRecipeList = {
           offset,
           number,
           ...filter,
-          query: query ? query : undefined,
           type: type ? type.join(',') : undefined,
           cuisine: cuisine ? cuisine.join(',') : undefined,
         };
