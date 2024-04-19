@@ -1,30 +1,29 @@
 import classNames from 'classnames';
-import { FC, ReactNode, MouseEventHandler } from 'react';
+import { FC } from 'react';
+import { useNavigate, generatePath } from 'react-router-dom';
+import BaseButton from 'components/BaseButton';
 import Text from 'components/Text';
 import WatchIcon from 'components/icons/WatchIcon';
+import { ROUTS } from 'config/routs';
+import { Recipe } from 'services/spoonacularApi';
 import style from './RecipeCard.module.scss';
 
 export type RecipeCardProps = {
   className?: string;
-  image: string;
-  cookingTime?: ReactNode;
-  title: ReactNode;
-  composition: ReactNode;
-  nutritional: ReactNode;
-  handleClickCard?: MouseEventHandler;
-  button?: ReactNode;
+  recipe: Recipe;
 };
 
-const RecipeCard: FC<RecipeCardProps> = ({
-  className = '',
-  image,
-  cookingTime,
-  title,
-  composition,
-  nutritional,
-  handleClickCard,
-  button,
-}) => {
+const RecipeCard: FC<RecipeCardProps> = ({ className, recipe }) => {
+  const { id, image, title, readyInMinutes, nutrition } = recipe;
+  const cookingTime = `${readyInMinutes} minutes`;
+  const composition = nutrition.ingredients.map(({ name }) => name).join(' + ');
+  const nutritional = `${nutrition.nutrients[0].amount.toFixed()} ${nutrition.nutrients[0].unit}`;
+  const navigate = useNavigate();
+
+  const handleClickCard = () => {
+    navigate(generatePath(ROUTS.RECIPE, { id }));
+  };
+
   return (
     <div className={classNames(className, style.card)} onClick={handleClickCard}>
       <div className={style.head}>
@@ -49,7 +48,9 @@ const RecipeCard: FC<RecipeCardProps> = ({
             {nutritional}
           </Text>
         )}
-        {button}
+        <BaseButton>
+          <Text>Save</Text>
+        </BaseButton>
       </div>
     </div>
   );

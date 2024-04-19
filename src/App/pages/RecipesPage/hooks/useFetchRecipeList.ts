@@ -45,7 +45,7 @@ const useFetchRecipeList = (): UseFetchRecipeListState => {
 
   useEffect(() => {
     if (recipeListState === 'loading') {
-      fetchRecipeList();
+      // fetchRecipeList();
     }
   }, [recipeListState]);
 
