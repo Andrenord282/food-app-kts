@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { useNavigate, generatePath } from 'react-router-dom';
 import BaseButton from 'components/BaseButton';
 import Text from 'components/Text';
@@ -20,9 +20,9 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe }) => {
   const nutritional = `${nutrition.nutrients[0].amount.toFixed()} ${nutrition.nutrients[0].unit}`;
   const navigate = useNavigate();
 
-  const handleClickCard = () => {
+  const handleClickCard = useCallback(() => {
     navigate(generatePath(ROUTS.RECIPE, { id }));
-  };
+  }, [id, navigate]);
 
   return (
     <div className={cn(className, style.card)} onClick={handleClickCard}>

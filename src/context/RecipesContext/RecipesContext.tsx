@@ -2,7 +2,7 @@ import { FC, ReactNode, createContext, useCallback, useContext, useState } from 
 import { ErrorResponse } from 'services/axios/types';
 import { CursorRecipeList, FilterRecipeList, Recipe } from 'services/spoonacularApi';
 
-export type RecipeListState = 'loading' | 'loaded' | 'fail' | 'empty' | 'init';
+type RecipeListState = 'loading' | 'loaded' | 'fail' | 'empty' | 'init';
 
 type RecipesContextType = {
   recipeListState: RecipeListState;

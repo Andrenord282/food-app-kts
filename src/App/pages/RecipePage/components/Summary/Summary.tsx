@@ -20,13 +20,9 @@ const Summary: FC<SummaryProps> = ({ className, alt, image, preparation, ratings
         <img src={image} alt={alt} />
       </div>
       <div className={style.list}>
-        <SummaryItem className={style.item} title="Preparation" text={`${preparation > 0 ? preparation : 0} minutes`} />
-        <SummaryItem className={style.item} title="Cooking" text={`${cooking > 0 ? cooking : 0} minutes`} />
-        <SummaryItem
-          className={style.item}
-          title="Total"
-          text={`${preparation + cooking < 0 ? 0 : preparation + cooking} minutes`}
-        />
+        <SummaryItem className={style.item} title="Preparation" text={`${Math.max(preparation, 0)} minutes`} />
+        <SummaryItem className={style.item} title="Cooking" text={`${Math.max(cooking, 0)} minutes`} />
+        <SummaryItem className={style.item} title="Total" text={`${Math.max(preparation + cooking, 0)} minutes`} />
         <SummaryItem className={style.item} title="Ratings" text={`${ratings} likes`} />
         <SummaryItem className={style.item} title="Servings" text={`${servings} servings`} />
       </div>
