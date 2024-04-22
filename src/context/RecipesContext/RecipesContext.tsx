@@ -22,7 +22,7 @@ const NUMBER_RECIPES = 9;
 const RecipesContext = createContext<RecipesContextType | null>(null);
 
 export const RecipesProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [recipeListState, setRecipeListState] = useState<RecipeListState>('loading');
+  const [recipeListState, setRecipeListState] = useState<RecipeListState>('init');
   const [recipeList, setRecipeList] = useState<Recipe[]>([]);
   const [errorInfo, setErrorInfo] = useState<ErrorResponse | null>(null);
   const [cursorList, setCursorList] = useState<CursorRecipeList>({

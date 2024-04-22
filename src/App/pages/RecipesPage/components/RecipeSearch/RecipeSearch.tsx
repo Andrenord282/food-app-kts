@@ -26,6 +26,7 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   }, [handleRecipeListState]);
 
   useEffect(() => {
+    if (debouncedSearchName.length === 0) return;
     handleUpdateFilter({ query: debouncedSearchName });
     handleRecipeListState('loading');
   }, [debouncedSearchName, handleUpdateFilter, handleRecipeListState]);
