@@ -1,11 +1,12 @@
 import cn from 'classnames';
 import { FC, memo } from 'react';
 import { IconProps } from '../Icon';
+import 'styles/global.scss';
 
 const LoaderIcon: FC<IconProps> = ({ className, color, width = 24, height = 24, ...props }) => {
   return (
     <svg
-      className={className}
+      className={cn(className, 'loader-icon')}
       width={width}
       height={height}
       viewBox="0 0 16 16"

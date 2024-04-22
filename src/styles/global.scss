@@ -8,3 +8,16 @@
     margin: 0 auto;
   }
 }
+
+.loader-icon {
+  animation: loaded-spin 1s linear infinite;
+}
+
+@keyframes loaded-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

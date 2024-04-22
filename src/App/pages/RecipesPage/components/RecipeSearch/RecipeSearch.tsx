@@ -1,7 +1,7 @@
 import cn from 'classnames';
-import { FC, useState, useEffect, useCallback, memo } from 'react';
-import BaseButton from 'components/BaseButton';
+import { FC, useState, useEffect, useCallback, memo, useMemo } from 'react';
 import BaseInput from 'components/BaseInput';
+import IconButton from 'components/IconButton';
 import Text from 'components/Text';
 import SearchIcon from 'components/icons/SearchIcon';
 import { useRecipesContext } from 'context/RecipesContext';
@@ -13,9 +13,16 @@ type RecipeSearchProps = {
 };
 
 const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
-  const { handleUpdateFilter, handleRecipeListState } = useRecipesContext();
+  const { recipeListState, handleUpdateFilter, handleRecipeListState } = useRecipesContext();
   const [searchName, setSearchName] = useState('');
   const debouncedSearchName = useDebounce(searchName);
+  const searchLoading = useMemo(() => {
+    if (recipeListState === 'init' || recipeListState === 'loading') {
+      return true;
+    } else {
+      return false;
+    }
+  }, [recipeListState]);
 
   const handleSearchName = useCallback((value: string) => {
     setSearchName(value);
@@ -44,9 +51,14 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
         placeholder="enter the name of the dish"
         className={style.search}
       />
-      <BaseButton onClick={onClickSearchButton} className={style.button}>
+      <IconButton
+        onClick={onClickSearchButton}
+        disabled={searchLoading}
+        loading={searchLoading}
+        className={style.button}
+      >
         <SearchIcon />
-      </BaseButton>
+      </IconButton>
     </div>
   );
 };
