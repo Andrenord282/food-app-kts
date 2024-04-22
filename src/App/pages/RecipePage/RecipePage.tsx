@@ -1,5 +1,6 @@
 import { FC, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import Loader from 'components/Loader';
 import Text from 'components/Text';
 import ArrowLeftIcon from 'components/icons/ArrowLeftIcon';
 import { ROUTS } from 'config/routs';
@@ -20,6 +21,14 @@ const ResipePage: FC = () => {
       fetchRecipe(id);
     }
   }, [id]);
+
+  if (recipe === null) {
+    return (
+      <div className={style.wrapper}>
+        <Loader iconSize="l" className={style.loader} />
+      </div>
+    );
+  }
 
   if (recipe) {
     return (
