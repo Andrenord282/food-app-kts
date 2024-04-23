@@ -1,10 +1,12 @@
 import cn from 'classnames';
-import { FC, useState, useEffect, useCallback, memo, useMemo } from 'react';
+import { observer } from 'mobx-react-lite';
+import { FC, useState, useEffect, useCallback, memo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import BaseInput from 'components/BaseInput';
 import IconButton from 'components/IconButton';
 import Text from 'components/Text';
 import SearchIcon from 'components/icons/SearchIcon';
-import { useRecipesContext } from 'context';
+import { useRecipesStoreContext } from 'context/RecipesStoreContext';
 import useDebounce from 'hooks/useDebounce';
 import style from './RecipeSearch.module.scss';
 
@@ -13,30 +15,25 @@ type RecipeSearchProps = {
 };
 
 const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
-  const { recipeListState, handleUpdateFilter, handleRecipeListState } = useRecipesContext();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { isLoading } = useRecipesStoreContext();
   const [searchName, setSearchName] = useState('');
   const debouncedSearchName = useDebounce(searchName);
-  const searchLoading = useMemo(() => {
-    if (recipeListState === 'init' || recipeListState === 'loading') {
-      return true;
-    } else {
-      return false;
-    }
-  }, [recipeListState]);
 
   const handleSearchName = useCallback((value: string) => {
     setSearchName(value);
   }, []);
 
-  const onClickSearchButton = useCallback(() => {
-    handleRecipeListState('loading');
-  }, [handleRecipeListState]);
+  const onClickSearchButton = useCallback(() => {}, []);
 
   useEffect(() => {
-    if (debouncedSearchName.length === 0) return;
-    handleUpdateFilter({ query: debouncedSearchName });
-    handleRecipeListState('loading');
-  }, [debouncedSearchName, handleUpdateFilter, handleRecipeListState]);
+    if (debouncedSearchName.length === 0) {
+      searchParams.delete('query');
+    } else {
+      searchParams.set('query', debouncedSearchName);
+    }
+    setSearchParams(searchParams);
+  }, [debouncedSearchName, searchParams, setSearchParams]);
 
   return (
     <div className={cn(className, style.section)}>
@@ -51,12 +48,7 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
         placeholder="enter the name of the dish"
         className={style.search}
       />
-      <IconButton
-        onClick={onClickSearchButton}
-        disabled={searchLoading}
-        loading={searchLoading}
-        className={style.button}
-      >
+      <IconButton onClick={onClickSearchButton} disabled={isLoading} loading={isLoading} className={style.button}>
         <SearchIcon />
       </IconButton>
     </div>

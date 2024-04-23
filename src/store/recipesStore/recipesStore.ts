@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
-import { computed, makeAutoObservable, observable } from 'mobx';
+import { IReactionDisposer, computed, makeAutoObservable, observable, reaction } from 'mobx';
 import { ErrorResponse } from 'services/axios/types';
-import rootStore from 'store/RootStore/';
+import rootStore from 'store/RootStore';
 import SpoonacularApiStore from 'store/SpoonacularApiStore';
 import { FilterRecipes, RecipeApi, RecipeParamRequest } from 'store/models/recipes/modelsApi';
 import { RecipeModel } from 'store/models/recipes/modelsClient';
@@ -15,7 +15,7 @@ import {
 import { Meta } from 'utils/meta';
 import { ILocalStore } from 'utils/useLocalStore';
 
-type PrivateFields = '_meta' | '_offset' | '_numberRecipes' | '_filter' | '_resipes' | '_error';
+type PrivateFields = '_meta' | '_offset' | '_numberRecipes' | '_filter' | '_resipes' | '_error' | '_query';
 
 const NUMBER_RECIPES = 9;
 
@@ -28,14 +28,15 @@ class RecipesStore implements ILocalStore {
 
   private _numberRecipes = NUMBER_RECIPES;
 
-  private _filter: FilterRecipes = {
-    query: '',
-    type: [],
-    cuisine: [],
-  };
   private _resipes: CollectionModel<number, RecipeModel> = getInitialCollectionModel();
 
   private _error: ErrorResponse | null = null;
+
+  private _query: string = rootStore.query.getParam('query');
+
+  private _filter: FilterRecipes = {
+    query: this._query,
+  };
 
   constructor() {
     makeAutoObservable<RecipesStore, PrivateFields>(this, {
@@ -45,6 +46,7 @@ class RecipesStore implements ILocalStore {
       _filter: observable.ref,
       _resipes: observable.ref,
       _error: observable.ref,
+      _query: observable,
       meta: computed,
       resipes: computed,
       numberRecipes: computed,
@@ -69,14 +71,10 @@ class RecipesStore implements ILocalStore {
   }
 
   private _initRequestParam() {
-    const { cuisine, type } = this._filter;
-
     const param: RecipeParamRequest = {
       offset: this._offset,
       number: this._numberRecipes,
       ...this._filter,
-      type: type ? type.join(',') : undefined,
-      cuisine: cuisine ? cuisine.join(',') : undefined,
     };
 
     return param;
@@ -100,6 +98,7 @@ class RecipesStore implements ILocalStore {
         normalizeRecipe,
       );
       this._meta = Meta.success;
+      
     } catch (error) {
       if (error instanceof AxiosError) {
         this._error = error.response?.data;
@@ -107,6 +106,22 @@ class RecipesStore implements ILocalStore {
       }
     }
   }
+
+  private readonly _querySearchReaction: IReactionDisposer = reaction(
+    () => rootStore.query.getParam('query'),
+    async (query) => {
+      this._filter.query = query as string;
+      await this.getRecipes();
+    },
+  );
+
+  private readonly _queryTypeReaction: IReactionDisposer = reaction(
+    () => rootStore.query.getParam('type'),
+    async (type) => {
+      this._filter.type = type as string;
+      await this.getRecipes();
+    },
+  );
 
   destroy(): void {}
 }

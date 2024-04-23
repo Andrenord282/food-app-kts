@@ -13,7 +13,7 @@ const RecipesPage: FC = () => {
       <RecipesStoreProvider>
         <div className={style.wrapper}>
           <Hero className={style.hero} />
-          {/* <RecipeSearch className={style.search} /> */}
+          <RecipeSearch className={style.search} />
           {/* <RecipeFilters className={style.filters} /> */}
           <RecipeList className={style.list} />
           {/* <RecipePagination className={style.pagination} /> */}

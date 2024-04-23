@@ -1,4 +1,4 @@
- export type RecipesResponseApi = {
+export type RecipesResponseApi = {
   results: RecipeApi[];
   offset: number;
   number: number;
@@ -6,9 +6,9 @@
 };
 
 export type FilterRecipes = {
-  query: string;
-  type: string[];
-  cuisine: string[];
+  query?: string;
+  type?: string;
+  cuisine?: string;
 };
 
 export type RecipeParamRequest = {
