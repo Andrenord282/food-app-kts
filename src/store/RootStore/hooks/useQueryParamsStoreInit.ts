@@ -4,6 +4,5 @@ import rootStore from '../instance';
 
 export const useQueryParamsStoreInit = () => {
   const { search } = useLocation();
-
   rootStore.query.setSearch(search);
 };
