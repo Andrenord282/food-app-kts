@@ -25,7 +25,7 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
     );
   }
 
-  if (isSuccess) {
+  if (isSuccess && !isEmpty) {
     return (
       <div className={cn(className, style.section)}>
         {resipes.map((recipe) => {
@@ -35,7 +35,7 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
     );
   }
 
-  if (isEmpty) {
+  if (isSuccess && isEmpty) {
     return (
       <div className={cn(className, style.section, style['section--information'])}>
         <Text tag="h2" view="title-l" weight="700" align="center">
