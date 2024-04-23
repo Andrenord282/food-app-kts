@@ -1,5 +1,4 @@
 import cn from 'classnames';
-import { observer } from 'mobx-react-lite';
 import { FC, useState, useEffect, useCallback, memo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import BaseInput from 'components/BaseInput';
