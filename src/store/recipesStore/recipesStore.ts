@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import { computed, makeAutoObservable, observable } from 'mobx';
 import { ErrorResponse } from 'services/axios/types';
+import SpoonacularApiStore from 'store/SpoonacularApiStore';
 import { FilterRecipes, RecipeApi, RecipeParamRequest } from 'store/models/recipes/modelsApi';
 import { RecipeModel } from 'store/models/recipes/modelsClient';
 import { normalizeRecipe } from 'store/models/recipes/utils';
@@ -10,7 +11,6 @@ import {
   linearizeCollection,
   normalizeCollection,
 } from 'store/models/shared';
-import SpoonacularApiStore from 'store/spoonacularApiStore';
 import { Meta } from 'utils/meta';
 import { ILocalStore } from 'utils/useLocalStore';
 
@@ -32,7 +32,6 @@ class RecipesStore implements ILocalStore {
     type: [],
     cuisine: [],
   };
-
   private _resipes: CollectionModel<number, RecipeModel> = getInitialCollectionModel();
 
   private _error: ErrorResponse | null = null;

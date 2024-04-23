@@ -1,1 +1,1 @@
-export { default } from './spoonacularApiStore';
+export { default } from './SpoonacularApiStore';

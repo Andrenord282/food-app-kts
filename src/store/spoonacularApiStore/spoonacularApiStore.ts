@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { SPOONACULAR_API_KEY } from 'config/services';
 import spoonacularClient from 'services/axios/spoonacularClient';
-import { RecipeParamRequest, Recipe, RecipesResponseApi } from 'store/models/recipes';
+import { RecipeParamRequest, RecipeApi, RecipesResponseApi } from 'store/models/recipes/modelsApi';
 
 class SpoonacularApiStore {
   getRecipes = async (params: RecipeParamRequest): Promise<AxiosResponse<RecipesResponseApi>> => {
@@ -15,7 +15,7 @@ class SpoonacularApiStore {
     return response;
   };
 
-  getRecipe = async (id: string): Promise<AxiosResponse<Recipe>> => {
+  getRecipe = async (id: string): Promise<AxiosResponse<RecipeApi>> => {
     const response = await spoonacularClient.get(`recipes/${id}/information`, {
       params: {
         apiKey: SPOONACULAR_API_KEY,

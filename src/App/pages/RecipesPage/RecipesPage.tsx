@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { RecipesProvider } from 'context/RecipesContext';
+import { RecipesStoreProvider } from 'context/RecipesStoreContext';
 import Hero from './components/Hero';
 import RecipeFilters from './components/RecipeFilters';
 import RecipeList from './components/RecipeList';
@@ -10,15 +10,15 @@ import style from './RecipesPage.module.scss';
 const RecipesPage: FC = () => {
   return (
     <>
-      <RecipesProvider>
+      <RecipesStoreProvider>
         <div className={style.wrapper}>
           <Hero className={style.hero} />
-          <RecipeSearch className={style.search} />
-          <RecipeFilters className={style.filters} />
+          {/* <RecipeSearch className={style.search} /> */}
+          {/* <RecipeFilters className={style.filters} /> */}
           <RecipeList className={style.list} />
-          <RecipePagination className={style.pagination} />
+          {/* <RecipePagination className={style.pagination} /> */}
         </div>
-      </RecipesProvider>
+      </RecipesStoreProvider>
     </>
   );
 };

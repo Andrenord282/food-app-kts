@@ -4,7 +4,7 @@ import BaseInput from 'components/BaseInput';
 import IconButton from 'components/IconButton';
 import Text from 'components/Text';
 import SearchIcon from 'components/icons/SearchIcon';
-import { useRecipesContext } from 'context/RecipesContext';
+import { useRecipesContext } from 'context';
 import useDebounce from 'hooks/useDebounce';
 import style from './RecipeSearch.module.scss';
 

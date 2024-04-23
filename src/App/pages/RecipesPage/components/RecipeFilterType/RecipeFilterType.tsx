@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { FC, memo, useCallback, useState } from 'react';
 import MultiDropdown, { MultiDropdownOption } from 'components/MultiDropdown';
-import { useRecipesContext } from 'context/RecipesContext';
+import { useRecipesStoreContext } from 'context/RecipesStoreContext';
 import { optionType } from './config';
 
 type RecipeFilterTypePorps = {
@@ -9,16 +9,16 @@ type RecipeFilterTypePorps = {
 };
 
 const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
-  const { handleUpdateFilter } = useRecipesContext();
+  // const { handleUpdateFilter } = useRecipesStoreContext();
   const [valueType, setValueType] = useState<MultiDropdownOption[]>([]);
 
-  const handleChangeValueType = useCallback(
-    (values: MultiDropdownOption[]) => {
-      setValueType(values);
-      handleUpdateFilter({ type: values.map(({ value }) => value) });
-    },
-    [handleUpdateFilter],
-  );
+  // const handleChangeValueType = useCallback(
+  //   (values: MultiDropdownOption[]) => {
+  //     setValueType(values);
+  //     handleUpdateFilter({ type: values.map(({ value }) => value) });
+  //   },
+  //   [handleUpdateFilter],
+  // );
 
   const handleTitleValueType = useCallback((values: MultiDropdownOption[]) => {
     return values.length === 0 ? 'Categories' : values.map(({ value }) => value).join(', ');

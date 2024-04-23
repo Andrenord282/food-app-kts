@@ -1,6 +1,6 @@
 import { FC, memo, useCallback, useMemo, useState } from 'react';
 import Pagination from 'components/Pagination';
-import { useRecipesContext } from 'context/RecipesContext';
+import { useRecipesContext } from 'context';
 
 type RecipePagination = {
   className?: string;

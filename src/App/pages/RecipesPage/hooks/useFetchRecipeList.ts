@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { useCallback, useEffect } from 'react';
-import { useRecipesContext } from 'context/RecipesContext';
+import { useRecipesContext } from 'context';
 import spoonacularApi, { CursorRecipeList, FilterRecipeList, ParamRecipeList } from 'services/spoonacularApi';
 
 type UseFetchRecipeListState = {
