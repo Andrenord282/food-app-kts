@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { FC, ReactNode, createContext, useContext, useEffect } from 'react';
+import { FC, ReactNode, createContext, useCallback, useContext, useEffect } from 'react';
 import { ErrorResponse } from 'services/axios/types';
 import RecipesStore from 'store/RecipesStore';
 import { FilterRecipes } from 'store/models/recipes/modelsApi';
@@ -16,7 +16,7 @@ type RecipesStoreContextTypes = {
   resipes: RecipeModel[];
   page: number;
   limit: number;
-  getRecipes: () => Promise<void>;
+  getRecipes: () => void;
   setFilter: (key: keyof FilterRecipes, type: string) => void;
 };
 
@@ -33,8 +33,8 @@ export const RecipesStoreProvider: FC<{ children: ReactNode }> = observer(({ chi
   const resipes = recipesStore.resipes;
   const page = recipesStore.page;
   const limit = recipesStore.limit;
-  const getRecipes = recipesStore.getRecipes.bind(recipesStore);
-  const setFilter = recipesStore.setFilter.bind(recipesStore);
+  const getRecipes = useCallback(() => recipesStore.getRecipes.bind(recipesStore), [recipesStore]);
+  const setFilter = useCallback(() => recipesStore.setFilter.bind(recipesStore), [recipesStore]);
 
   useEffect(() => {
     if (isInitial) {
