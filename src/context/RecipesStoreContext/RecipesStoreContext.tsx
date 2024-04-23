@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { FC, ReactNode, createContext, useContext, useEffect } from 'react';
 import { ErrorResponse } from 'services/axios/types';
 import RecipesStore from 'store/RecipesStore';
+import { FilterRecipes } from 'store/models/recipes/modelsApi';
 import { RecipeModel } from 'store/models/recipes/modelsClient';
 import { Meta } from 'utils/meta';
 import { useLocalStore } from 'utils/useLocalStore';
@@ -12,10 +13,11 @@ type RecipesStoreContextTypes = {
   isError: boolean;
   isEmpty: boolean;
   errorInfo: ErrorResponse | null;
-  numberRecipes: number;
   resipes: RecipeModel[];
-  recipesStore: RecipesStore;
+  page: number;
+  limit: number;
   getRecipes: () => Promise<void>;
+  setFilter: (key: keyof FilterRecipes, type: string) => void;
 };
 
 const RecipesStoreContext = createContext<RecipesStoreContextTypes | null>(null);
@@ -28,9 +30,11 @@ export const RecipesStoreProvider: FC<{ children: ReactNode }> = observer(({ chi
   const isError = recipesStore.meta === Meta.error;
   const isEmpty = isSuccess && recipesStore.resipes.length === 0;
   const errorInfo = recipesStore.error;
-  const numberRecipes = recipesStore.numberRecipes;
   const resipes = recipesStore.resipes;
+  const page = recipesStore.page;
+  const limit = recipesStore.limit;
   const getRecipes = recipesStore.getRecipes.bind(recipesStore);
+  const setFilter = recipesStore.setFilter.bind(recipesStore);
 
   useEffect(() => {
     if (isInitial) {
@@ -44,10 +48,11 @@ export const RecipesStoreProvider: FC<{ children: ReactNode }> = observer(({ chi
     isError,
     isEmpty,
     errorInfo,
-    numberRecipes,
     resipes,
-    recipesStore,
+    page,
+    limit,
     getRecipes,
+    setFilter,
   };
 
   return <RecipesStoreContext.Provider value={value}>{children}</RecipesStoreContext.Provider>;

@@ -10,21 +10,13 @@ type PaginationProps = {
   isStartPage: boolean;
   isEndPage: boolean;
   pageList: number[];
-  handleChangePage: (page: number) => void;
+  onChange: (page: number) => void;
 };
 
-const Pagination: FC<PaginationProps> = ({
-  className,
-  currentPage,
-  isStartPage,
-  isEndPage,
-  pageList,
-  handleChangePage,
-}) => {
-
+const Pagination: FC<PaginationProps> = ({ className, currentPage, isStartPage, isEndPage, pageList, onChange }) => {
   return (
     <div className={cn(className, style.pages)}>
-      <button disabled={isStartPage} onClick={() => handleChangePage(currentPage - 1)} className={style.page}>
+      <button disabled={isStartPage} onClick={() => onChange(currentPage - 1)} className={style.page}>
         <ArrowLeftIcon width={32} height={32} />
       </button>
       {pageList.map((page) => {
@@ -41,7 +33,7 @@ const Pagination: FC<PaginationProps> = ({
           <button
             key={page}
             disabled={isCurrentPage}
-            onClick={() => handleChangePage(page)}
+            onClick={() => onChange(page)}
             className={cn(style.page, { [style['page--current']]: isCurrentPage })}
           >
             {page}
@@ -49,7 +41,7 @@ const Pagination: FC<PaginationProps> = ({
         );
       })}
 
-      <button disabled={isEndPage} onClick={() => handleChangePage(currentPage + 1)} className={style.page}>
+      <button disabled={isEndPage} onClick={() => onChange(currentPage + 1)} className={style.page}>
         <ArrowRightIcon width={32} height={32} />
       </button>
     </div>

@@ -12,11 +12,13 @@ type RecipeFilterTypePorps = {
 
 const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { recipesStore } = useRecipesStoreContext();
+  const { setFilter } = useRecipesStoreContext();
   const [valueType, setValueType] = useState<MultiDropdownOption[]>([]);
 
   useEffect(() => {
     const type = rootStore.query.getParam('type');
+    if (!type) return;
+    
     const initValueType = type.split(',').reduce((acc, item) => {
       const value: MultiDropdownOption = {
         key: item,
@@ -33,7 +35,7 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
     (values: MultiDropdownOption[]) => {
       setValueType(values);
       const newType = values.map(({ value }) => value).join(',');
-      recipesStore.setFilter('type', newType);
+      setFilter('type', newType);
 
       if (newType) {
         searchParams.set('type', newType);
@@ -42,7 +44,7 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
       }
       setSearchParams(searchParams);
     },
-    [recipesStore, searchParams, setSearchParams],
+    [setFilter, searchParams, setSearchParams],
   );
 
   const handleTitleType = useCallback((values: MultiDropdownOption[]) => {

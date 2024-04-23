@@ -11,12 +11,12 @@ type RecipeListPorps = {
 };
 
 const RecipeList: FC<RecipeListPorps> = ({ className }) => {
-  const { isLoading, isSuccess, isEmpty, isError, numberRecipes, resipes, errorInfo } = useRecipesStoreContext();
+  const { isLoading, isSuccess, isEmpty, isError, limit, resipes, errorInfo } = useRecipesStoreContext();
 
   if (isLoading) {
     return (
       <div className={cn(className, style.section)}>
-        {Array.from({ length: numberRecipes })
+        {Array.from({ length: limit })
           .fill(10)
           .map((_, index) => {
             return <SkeletonCard key={index} className={style.item} />;

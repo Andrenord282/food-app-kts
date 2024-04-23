@@ -16,7 +16,7 @@ const RecipesPage: FC = () => {
           <RecipeSearch className={style.search} />
           <RecipeFilters className={style.filters} />
           <RecipeList className={style.list} />
-          {/* <RecipePagination className={style.pagination} /> */}
+          <RecipePagination className={style.pagination} />
         </div>
       </RecipesStoreProvider>
     </>

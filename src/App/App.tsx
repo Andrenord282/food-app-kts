@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ROUTS } from 'config/routs';
-
 import BaseLayout from './layouts/BaseLayout';
 import NotFoundPage from './pages/NotFoundPage';
 import RecipePage from './pages/RecipePage';
@@ -8,8 +7,6 @@ import RecipesPage from './pages/RecipesPage';
 import style from './App.module.scss';
 
 const App = () => {
-
-
   return (
     <BrowserRouter>
       <div className={style.app}>

@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC, useCallback } from 'react';
+import { FC, memo, useCallback } from 'react';
 import { useNavigate, generatePath } from 'react-router-dom';
 import BaseButton from 'components/BaseButton';
 import Text from 'components/Text';
@@ -56,4 +56,4 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe }) => {
   );
 };
 
-export default RecipeCard;
+export default memo(RecipeCard);

@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { IReactionDisposer, computed, makeAutoObservable, observable, reaction } from 'mobx';
+import { IReactionDisposer, action, computed, makeAutoObservable, observable, reaction, runInAction } from 'mobx';
 import { ErrorResponse } from 'services/axios/types';
 import rootStore from 'store/RootStore';
 import SpoonacularApiStore from 'store/SpoonacularApiStore';
@@ -15,18 +15,23 @@ import {
 import { Meta } from 'utils/meta';
 import { ILocalStore } from 'utils/useLocalStore';
 
-type PrivateFields = '_meta' | '_offset' | '_numberRecipes' | '_filter' | '_resipes' | '_error' | '_query';
+type PrivateFields =
+  | '_meta'
+  | '_offset'
+  | '_limit'
+  | '_filter'
+  | '_resipes'
+  | '_error'
+  | '_query'
+  | '_page'
+  | '_updateOffset';
 
-const NUMBER_RECIPES = 9;
+const RECIPES_LIMIT = 9;
 
 class RecipesStore implements ILocalStore {
   private readonly _apiStore = new SpoonacularApiStore();
 
   private _meta: Meta = Meta.initial;
-
-  private _offset = 0;
-
-  private _numberRecipes = NUMBER_RECIPES;
 
   private _resipes: CollectionModel<number, RecipeModel> = getInitialCollectionModel();
 
@@ -35,6 +40,12 @@ class RecipesStore implements ILocalStore {
   private _query: string = rootStore.query.getParam('query');
 
   private _type: string = rootStore.query.getParam('type');
+
+  private _page: number = rootStore.query.getParam('page') ? Number(rootStore.query.getParam('page')) : 1;
+
+  private _limit = RECIPES_LIMIT;
+
+  private _offset = this._page > 1 ? this._page * this._limit - this._limit : 0;
 
   private _filter: FilterRecipes = {
     query: this._query,
@@ -45,15 +56,21 @@ class RecipesStore implements ILocalStore {
     makeAutoObservable<RecipesStore, PrivateFields>(this, {
       _meta: observable,
       _offset: observable,
-      _numberRecipes: observable,
+      _limit: observable,
       _filter: observable.ref,
       _resipes: observable.ref,
       _error: observable.ref,
       _query: observable,
+      _page: observable,
       meta: computed,
       resipes: computed,
-      numberRecipes: computed,
+      limit: computed,
       error: computed,
+      page: computed,
+      _updateOffset: action,
+      getRecipes: action,
+      updatePage: action,
+      setFilter: action,
     });
   }
 
@@ -65,18 +82,22 @@ class RecipesStore implements ILocalStore {
     return this._meta;
   }
 
-  get numberRecipes(): number {
-    return this._numberRecipes;
+  get limit(): number {
+    return this._limit;
   }
 
   get error(): ErrorResponse | null {
     return this._error;
   }
 
+  get page(): number {
+    return this._page;
+  }
+
   private _initRequestParam() {
     const param: RecipeParamRequest = {
       offset: this._offset,
-      number: this._numberRecipes,
+      number: this._limit,
       ...this._filter,
     };
 
@@ -88,30 +109,9 @@ class RecipesStore implements ILocalStore {
     return await this._apiStore.getRecipes(param);
   }
 
-  async getRecipes() {
-    try {
-      this._meta = Meta.loading;
-
-      const { data } = await this._request();
-      const { results } = data;
-      console.log(this)
-      this._resipes = normalizeCollection<number, RecipeApi, RecipeModel>(
-        results,
-        (element) => element.id,
-        normalizeRecipe,
-      );
-      this._meta = Meta.success;
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        this._error = error.response?.data;
-        this._meta = Meta.error;
-      }
-    }
-  }
-
-  setFilter(key: keyof FilterRecipes, type: string) {
-    this._filter[key as keyof FilterRecipes] = type;
-  }
+  private _updateOffset = (page: string): void => {
+    this._offset = Number(page) * this._limit - this._limit;
+  };
 
   private readonly _querySearchReaction: IReactionDisposer = reaction(
     () => rootStore.query.getParam('query'),
@@ -127,6 +127,46 @@ class RecipesStore implements ILocalStore {
       this._filter.type = type as string;
     },
   );
+
+  private readonly _queryPageReaction: IReactionDisposer = reaction(
+    () => rootStore.query.getParam('page'),
+    async (page) => {
+      this._updateOffset(page);
+      this.updatePage(page);
+      await this.getRecipes();
+    },
+  );
+
+  updatePage = (page: string): void => {
+    this._page = Number(page);
+  };
+
+  async getRecipes() {
+    try {
+      this._meta = Meta.loading;
+
+      const { data } = await this._request();
+      const { results } = data;
+
+      runInAction(() => {
+        this._resipes = normalizeCollection<number, RecipeApi, RecipeModel>(
+          results,
+          (element) => element.id,
+          normalizeRecipe,
+        );
+        this._meta = Meta.success;
+      });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        this._error = error.response?.data;
+        this._meta = Meta.error;
+      }
+    }
+  }
+
+  setFilter(key: keyof FilterRecipes, type: string) {
+    this._filter[key as keyof FilterRecipes] = type;
+  }
 
   destroy(): void {}
 }
