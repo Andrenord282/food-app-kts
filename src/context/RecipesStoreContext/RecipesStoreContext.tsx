@@ -15,6 +15,7 @@ type RecipesStoreContextTypes = {
   numberRecipes: number;
   resipes: RecipeModel[];
   recipesStore: RecipesStore;
+  getRecipes: () => Promise<void>;
 };
 
 const RecipesStoreContext = createContext<RecipesStoreContextTypes | null>(null);
@@ -29,6 +30,7 @@ export const RecipesStoreProvider: FC<{ children: ReactNode }> = observer(({ chi
   const errorInfo = recipesStore.error;
   const numberRecipes = recipesStore.numberRecipes;
   const resipes = recipesStore.resipes;
+  const getRecipes = recipesStore.getRecipes.bind(recipesStore);
 
   useEffect(() => {
     if (isInitial) {
@@ -45,6 +47,7 @@ export const RecipesStoreProvider: FC<{ children: ReactNode }> = observer(({ chi
     numberRecipes,
     resipes,
     recipesStore,
+    getRecipes,
   };
 
   return <RecipesStoreContext.Provider value={value}>{children}</RecipesStoreContext.Provider>;

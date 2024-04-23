@@ -94,7 +94,7 @@ class RecipesStore implements ILocalStore {
 
       const { data } = await this._request();
       const { results } = data;
-
+      console.log(this)
       this._resipes = normalizeCollection<number, RecipeApi, RecipeModel>(
         results,
         (element) => element.id,

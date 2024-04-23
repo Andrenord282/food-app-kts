@@ -16,15 +16,17 @@ type RecipeSearchProps = {
 
 const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isLoading } = useRecipesStoreContext();
+  const { isLoading, getRecipes } = useRecipesStoreContext();
   const [searchName, setSearchName] = useState('');
   const debouncedSearchName = useDebounce(searchName);
 
-  const handleSearchName = useCallback((value: string) => {
+  const handleChangeSearchName = useCallback((value: string) => {
     setSearchName(value);
   }, []);
 
-  const onClickSearchButton = useCallback(() => {}, []);
+  const onClickSearch = useCallback(() => {
+    getRecipes();
+  }, [getRecipes]);
 
   useEffect(() => {
     if (debouncedSearchName.length === 0) {
@@ -52,11 +54,11 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
       </Text>
       <BaseInput
         value={searchName}
-        onChange={handleSearchName}
+        onChange={handleChangeSearchName}
         placeholder="enter the name of the dish"
         className={style.search}
       />
-      <IconButton onClick={onClickSearchButton} disabled={isLoading} loading={isLoading} className={style.button}>
+      <IconButton onClick={onClickSearch} disabled={isLoading} loading={isLoading} className={style.button}>
         <SearchIcon />
       </IconButton>
     </div>
