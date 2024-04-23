@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import { computed, makeAutoObservable, observable } from 'mobx';
 import { ErrorResponse } from 'services/axios/types';
+import rootStore from 'store/RootStore/';
 import SpoonacularApiStore from 'store/SpoonacularApiStore';
 import { FilterRecipes, RecipeApi, RecipeParamRequest } from 'store/models/recipes/modelsApi';
 import { RecipeModel } from 'store/models/recipes/modelsClient';

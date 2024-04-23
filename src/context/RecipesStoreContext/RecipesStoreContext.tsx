@@ -31,7 +31,7 @@ export const RecipesStoreProvider: FC<{ children: ReactNode }> = observer(({ chi
 
   useEffect(() => {
     if (isInitial) {
-      recipesStore.getRecipes();
+      // recipesStore.getRecipes();
     }
   }, [recipesStore, isInitial]);
 
