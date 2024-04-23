@@ -14,6 +14,7 @@ type RecipesStoreContextTypes = {
   errorInfo: ErrorResponse | null;
   numberRecipes: number;
   resipes: RecipeModel[];
+  recipesStore: RecipesStore;
 };
 
 const RecipesStoreContext = createContext<RecipesStoreContextTypes | null>(null);
@@ -43,6 +44,7 @@ export const RecipesStoreProvider: FC<{ children: ReactNode }> = observer(({ chi
     errorInfo,
     numberRecipes,
     resipes,
+    recipesStore,
   };
 
   return <RecipesStoreContext.Provider value={value}>{children}</RecipesStoreContext.Provider>;

@@ -34,8 +34,11 @@ class RecipesStore implements ILocalStore {
 
   private _query: string = rootStore.query.getParam('query');
 
+  private _type: string = rootStore.query.getParam('type');
+
   private _filter: FilterRecipes = {
     query: this._query,
+    type: this._type,
   };
 
   constructor() {
@@ -98,13 +101,16 @@ class RecipesStore implements ILocalStore {
         normalizeRecipe,
       );
       this._meta = Meta.success;
-      
     } catch (error) {
       if (error instanceof AxiosError) {
         this._error = error.response?.data;
         this._meta = Meta.error;
       }
     }
+  }
+
+  setFilter(key: keyof FilterRecipes, type: string) {
+    this._filter[key as keyof FilterRecipes] = type;
   }
 
   private readonly _querySearchReaction: IReactionDisposer = reaction(
@@ -119,7 +125,6 @@ class RecipesStore implements ILocalStore {
     () => rootStore.query.getParam('type'),
     async (type) => {
       this._filter.type = type as string;
-      await this.getRecipes();
     },
   );
 
