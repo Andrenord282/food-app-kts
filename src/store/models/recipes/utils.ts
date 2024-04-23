@@ -1,4 +1,5 @@
-import { RecipeApi, RecipeModel } from 'store';
+import { RecipeApi } from 'store/models/recipes/modelsApi';
+import { RecipeModel } from 'store/models/recipes/modelsClient';
 
 export const normalizeRecipe = (from: RecipeApi): RecipeModel => {
   return {

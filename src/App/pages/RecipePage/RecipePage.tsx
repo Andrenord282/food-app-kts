@@ -20,7 +20,7 @@ const ResipePage: FC = () => {
     if (id) {
       fetchRecipe(id);
     }
-  }, [id]);
+  }, [id, fetchRecipe]);
 
   if (recipe === null) {
     return (

@@ -28,7 +28,7 @@ type PrivateFields =
 
 const RECIPES_LIMIT = 9;
 
-class RecipesStore implements ILocalStore {
+export default class RecipesStore implements ILocalStore {
   private readonly _apiStore = new SpoonacularApiStore();
 
   private _meta: Meta = Meta.initial;
@@ -170,5 +170,3 @@ class RecipesStore implements ILocalStore {
 
   destroy(): void {}
 }
-
-export default RecipesStore;
