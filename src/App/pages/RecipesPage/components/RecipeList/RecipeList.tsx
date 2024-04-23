@@ -1,8 +1,10 @@
 import cn from 'classnames';
-import { FC, memo } from 'react';
+import { observer } from 'mobx-react-lite';
+import { FC, useEffect } from 'react';
 import Text from 'components/Text';
-import { useRecipesContext } from 'context/RecipesContext';
-import useFetchRecipeList from '../../hooks/useFetchRecipeList';
+import RecipesStore from 'store/recipesStore';
+import { Meta } from 'utils/meta';
+import { useLocalStore } from 'utils/useLocalStore';
 import RecipeCard from '../RecipeCard';
 import SkeletonCard from '../SkeletonCard';
 import style from './RecipeList.module.scss';
@@ -12,13 +14,21 @@ type RecipeListPorps = {
 };
 
 const RecipeList: FC<RecipeListPorps> = ({ className }) => {
-  const { recipeListState, recipeList, cursorList, errorInfo } = useRecipesContext();
-  useFetchRecipeList();
+  const recipesStore = useLocalStore(() => new RecipesStore());
+  const isLoading = recipesStore.meta === Meta.loading;
+  const isSuccess = recipesStore.meta === Meta.success;
+  const isError = recipesStore.meta === Meta.error;
+  const isEmpty = isSuccess && recipesStore.resipes.length === 0;
+  const errorInfo = recipesStore.error;
 
-  if (recipeListState === 'init' || recipeListState === 'loading') {
+  useEffect(() => {
+    recipesStore.getRecipes();
+  }, [recipesStore]);
+
+  if (isLoading) {
     return (
       <div className={cn(className, style.section)}>
-        {Array.from({ length: cursorList.number })
+        {Array.from({ length: recipesStore.numberRecipes })
           .fill(10)
           .map((_, index) => {
             return <SkeletonCard key={index} className={style.item} />;
@@ -27,17 +37,17 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
     );
   }
 
-  if (recipeListState === 'loaded') {
+  if (isSuccess) {
     return (
       <div className={cn(className, style.section)}>
-        {recipeList.map((recipe) => {
+        {recipesStore.resipes.map((recipe) => {
           return <RecipeCard key={recipe.id} recipe={recipe} className={style.item} />;
         })}
       </div>
     );
   }
 
-  if (recipeListState === 'empty') {
+  if (isEmpty) {
     return (
       <div className={cn(className, style.section, style['section--information'])}>
         <Text tag="h2" view="title-l" weight="700" align="center">
@@ -47,7 +57,7 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
     );
   }
 
-  if (recipeListState === 'fail') {
+  if (isError) {
     return (
       <div className={cn(className, style.section, style['section--information'])}>
         <Text tag="h2" view="title-l" weight="700" align="center">
@@ -58,4 +68,4 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
   }
 };
 
-export default memo(RecipeList);
+export default observer(RecipeList);

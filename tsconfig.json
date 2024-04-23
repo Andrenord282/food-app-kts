@@ -26,6 +26,7 @@
       "hooks": ["hooks/*"],
       "styles": ["styles/*"],
       "utils": ["utils/*"],
+      "store": ["store/*"],
       "services": ["services/*"]
     },
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
