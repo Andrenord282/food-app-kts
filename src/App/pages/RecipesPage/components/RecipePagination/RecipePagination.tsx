@@ -10,8 +10,8 @@ type RecipePagination = {
 
 const RecipePagination: FC<RecipePagination> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { page, limit } = useRecipesStoreContext();
-  const totalPages = useMemo(() => Math.ceil(900 / limit), [limit]);
+  const { page, limit, total } = useRecipesStoreContext();
+  const totalPages = useMemo(() => Math.ceil(total / limit), [total, limit]);
   const isStartPage = useMemo(() => page === 1, [page]);
   const isEndPage = useMemo(() => page === totalPages, [totalPages, page]);
 

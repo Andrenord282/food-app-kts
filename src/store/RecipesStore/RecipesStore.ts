@@ -15,16 +15,7 @@ import {
 import { Meta } from 'utils/meta';
 import { ILocalStore } from 'utils/useLocalStore';
 
-type PrivateFields =
-  | '_meta'
-  | '_offset'
-  | '_limit'
-  | '_filter'
-  | '_recipes'
-  | '_error'
-  | '_query'
-  | '_page'
-  | '_updateOffset';
+type PrivateFields = '_meta' | '_offset' | '_total' | '_limit' | '_filter' | '_recipes' | '_error' | '_query' | '_page';
 
 const RECIPES_LIMIT = 9;
 
@@ -47,6 +38,8 @@ export default class RecipesStore implements ILocalStore {
 
   private _offset = this._page > 1 ? this._page * this._limit - this._limit : 0;
 
+  private _total: number = 0;
+
   private _filter: FilterRecipes = {
     query: this._query,
     type: this._type,
@@ -62,12 +55,12 @@ export default class RecipesStore implements ILocalStore {
       _error: observable.ref,
       _query: observable,
       _page: observable,
+      _total: observable,
       meta: computed,
       recipes: computed,
       limit: computed,
       error: computed,
       page: computed,
-      _updateOffset: action,
       getRecipes: action,
       updatePage: action,
       setFilter: action,
@@ -94,6 +87,10 @@ export default class RecipesStore implements ILocalStore {
     return this._page;
   }
 
+  get total(): number {
+    return this._total;
+  }
+
   private _initRequestParam() {
     const param: RecipeParamRequest = {
       offset: this._offset,
@@ -108,10 +105,6 @@ export default class RecipesStore implements ILocalStore {
     const param = this._initRequestParam();
     return await this._apiStore.getRecipes(param);
   }
-
-  private _updateOffset = (page: string): void => {
-    this._offset = Number(page) * this._limit - this._limit;
-  };
 
   private readonly _querySearchReaction: IReactionDisposer = reaction(
     () => rootStore.query.getParam('query'),
@@ -131,19 +124,23 @@ export default class RecipesStore implements ILocalStore {
   private readonly _queryPageReaction: IReactionDisposer = reaction(
     () => rootStore.query.getParam('page'),
     async (page) => {
-      this._updateOffset(page);
-      this.updatePage(page);
-      await this.getRecipes();
+      if (page) {
+        this.updatePage(Number(page));
+        await this.getRecipes();
+      }
     },
   );
 
-  updatePage = (page: string): void => {
-    this._page = Number(page);
+  updatePage = (page: number): void => {
+    this._page = page;
+    this._offset = page * this._limit - this._limit;
   };
 
   async getRecipes() {
     try {
       this._meta = Meta.loading;
+      this._recipes = getInitialCollectionModel();
+
       const { data } = await this._request();
       const { results } = data;
 
@@ -153,6 +150,7 @@ export default class RecipesStore implements ILocalStore {
           (element) => element.id,
           normalizeRecipe,
         );
+        this._total = data.totalResults;
         this._meta = Meta.success;
       });
     } catch (error) {

@@ -16,8 +16,10 @@ type RecipesStoreContextTypes = {
   recipes: RecipeModel[];
   page: number;
   limit: number;
+  total: number;
   getRecipes: () => void;
   setFilter: (key: keyof FilterRecipes, type: string) => void;
+  updatePage: (page: number) => void;
 };
 
 const RecipesStoreContext = createContext<RecipesStoreContextTypes | null>(null);
@@ -33,8 +35,10 @@ export const RecipesStoreProvider: FC<{ children: ReactNode }> = observer(({ chi
   const recipes = recipesStore.recipes;
   const page = recipesStore.page;
   const limit = recipesStore.limit;
+  const total = recipesStore.total;
   const getRecipes = recipesStore.getRecipes.bind(recipesStore);
   const setFilter = recipesStore.setFilter.bind(recipesStore);
+  const updatePage = recipesStore.updatePage.bind(recipesStore);
 
   useEffect(() => {
     if (isInitial) {
@@ -51,8 +55,10 @@ export const RecipesStoreProvider: FC<{ children: ReactNode }> = observer(({ chi
     recipes,
     page,
     limit,
+    total,
     getRecipes,
     setFilter,
+    updatePage,
   };
 
   return <RecipesStoreContext.Provider value={value}>{children}</RecipesStoreContext.Provider>;
