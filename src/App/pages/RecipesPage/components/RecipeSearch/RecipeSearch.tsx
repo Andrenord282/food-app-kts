@@ -15,7 +15,7 @@ type RecipeSearchProps = {
 
 const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isLoading } = useRecipesStoreContext();
+  const { isLoading, getRecipes, updatePage } = useRecipesStoreContext();
   const [searchName, setSearchName] = useState('');
   const debouncedSearchName = useDebounce(searchName);
 
@@ -26,7 +26,9 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   const onClickSearch = useCallback(() => {
     searchParams.delete('page');
     setSearchParams(searchParams);
-  }, [searchParams, setSearchParams]);
+    updatePage(1);
+    getRecipes();
+  }, [searchParams, setSearchParams, getRecipes, updatePage]);
 
   useEffect(() => {
     if (debouncedSearchName.length === 0) {
