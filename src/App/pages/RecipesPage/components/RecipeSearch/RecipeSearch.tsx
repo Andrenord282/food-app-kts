@@ -24,13 +24,15 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   }, []);
 
   const onClickSearch = useCallback(() => {
+    searchParams.delete('page');
     getRecipes();
-  }, [getRecipes]);
+  }, [getRecipes, searchParams]);
 
   useEffect(() => {
     if (debouncedSearchName.length === 0) {
       searchParams.delete('query');
     } else {
+      searchParams.delete('page');
       searchParams.set('query', debouncedSearchName);
     }
     setSearchParams(searchParams);
