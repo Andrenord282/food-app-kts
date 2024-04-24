@@ -110,6 +110,7 @@ export default class RecipesStore implements ILocalStore {
     () => rootStore.query.getParam('query'),
     async (query) => {
       this._filter.query = query as string;
+      this.updatePage(1);
       await this.getRecipes();
     },
   );

@@ -7,7 +7,6 @@ import Text from 'components/Text';
 import SearchIcon from 'components/icons/SearchIcon';
 import { useRecipesStoreContext } from 'context/RecipesStoreContext';
 import useDebounce from 'hooks/useDebounce';
-import rootStore from 'store/RootStore';
 import style from './RecipeSearch.module.scss';
 
 type RecipeSearchProps = {
@@ -16,7 +15,7 @@ type RecipeSearchProps = {
 
 const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isLoading, getRecipes } = useRecipesStoreContext();
+  const { isLoading } = useRecipesStoreContext();
   const [searchName, setSearchName] = useState('');
   const debouncedSearchName = useDebounce(searchName);
 
@@ -27,18 +26,17 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   const onClickSearch = useCallback(() => {
     searchParams.delete('page');
     setSearchParams(searchParams);
-    getRecipes();
   }, [searchParams, setSearchParams]);
 
   useEffect(() => {
     if (debouncedSearchName.length === 0) {
       searchParams.delete('query');
-      searchParams.delete('page');
       setSearchParams(searchParams);
       return;
     }
 
     searchParams.set('query', debouncedSearchName);
+    searchParams.delete('page');
     setSearchParams(searchParams);
   }, [debouncedSearchName, searchParams, setSearchParams]);
 
