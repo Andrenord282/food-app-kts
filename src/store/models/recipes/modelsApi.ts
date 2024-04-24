@@ -5,6 +5,8 @@ export type RecipesResponseApi = {
   totalResults: number;
 };
 
+export type RecipeResponseApi = RecipeApi;
+
 export type FilterRecipes = {
   query?: string;
   type?: string;

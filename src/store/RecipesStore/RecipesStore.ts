@@ -20,7 +20,7 @@ type PrivateFields =
   | '_offset'
   | '_limit'
   | '_filter'
-  | '_resipes'
+  | '_recipes'
   | '_error'
   | '_query'
   | '_page'
@@ -33,7 +33,7 @@ export default class RecipesStore implements ILocalStore {
 
   private _meta: Meta = Meta.initial;
 
-  private _resipes: CollectionModel<number, RecipeModel> = getInitialCollectionModel();
+  private _recipes: CollectionModel<number, RecipeModel> = getInitialCollectionModel();
 
   private _error: ErrorResponse | null = null;
 
@@ -58,12 +58,12 @@ export default class RecipesStore implements ILocalStore {
       _offset: observable,
       _limit: observable,
       _filter: observable.ref,
-      _resipes: observable.ref,
+      _recipes: observable.ref,
       _error: observable.ref,
       _query: observable,
       _page: observable,
       meta: computed,
-      resipes: computed,
+      recipes: computed,
       limit: computed,
       error: computed,
       page: computed,
@@ -74,8 +74,8 @@ export default class RecipesStore implements ILocalStore {
     });
   }
 
-  get resipes(): RecipeModel[] {
-    return linearizeCollection<number, RecipeModel>(this._resipes);
+  get recipes(): RecipeModel[] {
+    return linearizeCollection<number, RecipeModel>(this._recipes);
   }
 
   get meta(): Meta {
@@ -144,12 +144,11 @@ export default class RecipesStore implements ILocalStore {
   async getRecipes() {
     try {
       this._meta = Meta.loading;
-
       const { data } = await this._request();
       const { results } = data;
 
       runInAction(() => {
-        this._resipes = normalizeCollection<number, RecipeApi, RecipeModel>(
+        this._recipes = normalizeCollection<number, RecipeApi, RecipeModel>(
           results,
           (element) => element.id,
           normalizeRecipe,

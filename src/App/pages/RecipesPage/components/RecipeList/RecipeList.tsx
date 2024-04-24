@@ -11,7 +11,7 @@ type RecipeListPorps = {
 };
 
 const RecipeList: FC<RecipeListPorps> = ({ className }) => {
-  const { isLoading, isSuccess, isEmpty, isError, limit, resipes, errorInfo } = useRecipesStoreContext();
+  const { isLoading, isSuccess, isEmpty, isError, limit, recipes, errorInfo } = useRecipesStoreContext();
 
   if (isLoading) {
     return (
@@ -28,7 +28,7 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
   if (isSuccess && !isEmpty) {
     return (
       <div className={cn(className, style.section)}>
-        {resipes.map((recipe) => {
+        {recipes.map((recipe) => {
           return <RecipeCard key={recipe.id} recipe={recipe} className={style.item} />;
         })}
       </div>
@@ -49,7 +49,7 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
     return (
       <div className={cn(className, style.section, style['section--information'])}>
         <Text tag="h2" view="title-l" weight="700" align="center">
-          {errorInfo?.code}, {errorInfo?.status}: <br /> {errorInfo?.message}
+          {errorInfo?.code}: <br /> {errorInfo?.message}
         </Text>
       </div>
     );

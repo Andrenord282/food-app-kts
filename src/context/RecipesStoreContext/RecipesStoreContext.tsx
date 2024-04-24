@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { FC, ReactNode, createContext, useCallback, useContext, useEffect } from 'react';
+import { FC, ReactNode, createContext, useContext, useEffect } from 'react';
 import { ErrorResponse } from 'services/axios/types';
 import RecipesStore from 'store/RecipesStore';
 import { FilterRecipes } from 'store/models/recipes/modelsApi';
@@ -13,7 +13,7 @@ type RecipesStoreContextTypes = {
   isError: boolean;
   isEmpty: boolean;
   errorInfo: ErrorResponse | null;
-  resipes: RecipeModel[];
+  recipes: RecipeModel[];
   page: number;
   limit: number;
   getRecipes: () => void;
@@ -28,13 +28,13 @@ export const RecipesStoreProvider: FC<{ children: ReactNode }> = observer(({ chi
   const isLoading = recipesStore.meta === Meta.loading;
   const isSuccess = recipesStore.meta === Meta.success;
   const isError = recipesStore.meta === Meta.error;
-  const isEmpty = isSuccess && recipesStore.resipes.length === 0;
+  const isEmpty = isSuccess && recipesStore.recipes.length === 0;
   const errorInfo = recipesStore.error;
-  const resipes = recipesStore.resipes;
+  const recipes = recipesStore.recipes;
   const page = recipesStore.page;
   const limit = recipesStore.limit;
-  const getRecipes = useCallback(() => recipesStore.getRecipes.bind(recipesStore), [recipesStore]);
-  const setFilter = useCallback(() => recipesStore.setFilter.bind(recipesStore), [recipesStore]);
+  const getRecipes = recipesStore.getRecipes.bind(recipesStore);
+  const setFilter = recipesStore.setFilter.bind(recipesStore);
 
   useEffect(() => {
     if (isInitial) {
@@ -48,7 +48,7 @@ export const RecipesStoreProvider: FC<{ children: ReactNode }> = observer(({ chi
     isError,
     isEmpty,
     errorInfo,
-    resipes,
+    recipes,
     page,
     limit,
     getRecipes,
