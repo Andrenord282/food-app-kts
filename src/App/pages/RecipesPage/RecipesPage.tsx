@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { RecipesStoreProvider } from 'context/RecipesStoreContext';
+import { RecipesStoreProvider } from 'context';
 import Hero from './components/Hero';
 import RecipeFilters from './components/RecipeFilters';
 import RecipeList from './components/RecipeList';

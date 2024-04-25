@@ -1,13 +1,10 @@
 import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Loader from 'components/Loader';
-import Text from 'components/Text';
-import ArrowLeftIcon from 'components/icons/ArrowLeftIcon';
+import { Text, Loader, ArrowLeftIcon } from 'components';
 import { ROUTS } from 'config/routs';
-import RecipeStore from 'store/RecipeStore';
-import { Meta } from 'utils/meta';
-import { useLocalStore } from 'utils/useLocalStore';
+import { RecipeStore } from 'store';
+import { Meta, useLocalStore } from 'utils';
 import Description from './components/Description';
 import Directions from './components/Directions';
 import Equipment from './components/Equipment';

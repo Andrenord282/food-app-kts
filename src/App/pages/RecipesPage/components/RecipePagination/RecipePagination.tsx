@@ -1,8 +1,8 @@
 import { FC, memo, useCallback, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import Pagination from 'components/Pagination';
-import { useRecipesStoreContext } from 'context/RecipesStoreContext';
-import rootStore from 'store/RootStore';
+import { Pagination } from 'components';
+import { useRecipesStoreContext } from 'context';
+import { rootStore } from 'store';
 
 type RecipePagination = {
   className?: string;

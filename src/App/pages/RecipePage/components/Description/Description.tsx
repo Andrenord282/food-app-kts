@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { FC, memo } from 'react';
-import Text from 'components/Text';
+import { Text } from 'components';
 import style from './Description.module.scss';
 
 type DescriptionProps = {

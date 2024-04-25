@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { FC, memo } from 'react';
-import Text from 'components/Text';
-import { useRecipesStoreContext } from 'context/RecipesStoreContext';
+import { Text } from 'components';
+import { useRecipesStoreContext } from 'context';
 import RecipeCard from '../RecipeCard';
 import SkeletonCard from '../SkeletonCard';
 import style from './RecipeList.module.scss';

@@ -1,16 +1,14 @@
 import { AxiosError } from 'axios';
 import { action, computed, makeAutoObservable, observable, runInAction } from 'mobx';
-import { ErrorResponse } from 'services/axios/types';
-import SpoonacularApiStore from 'store/SpoonacularApiStore';
+import { ErrorResponse } from 'services/axios';
+import { SpoonacularApiStore } from 'store';
 import { RecipeModel } from 'store/models/recipes/modelsClient';
 import { normalizeRecipe } from 'store/models/recipes/utils';
-import { Meta } from 'utils/meta';
-import { ResponseStatus } from 'utils/status';
-import { ILocalStore } from 'utils/useLocalStore';
+import { Meta, TLocalStore, ResponseStatus } from 'utils';
 
 type PrivateFields = '_meta' | '_reсipe' | '_error';
 
-export default class RecipeStore implements ILocalStore {
+export default class RecipeStore implements TLocalStore {
   private readonly _apiStore = new SpoonacularApiStore();
 
   private _meta: Meta = Meta.initial;
@@ -57,7 +55,6 @@ export default class RecipeStore implements ILocalStore {
       });
     } catch (error) {
       if (error instanceof AxiosError) {
-
         if (error.response?.status === ResponseStatus.NotFound) {
           this._error = {
             code: error.response?.status,

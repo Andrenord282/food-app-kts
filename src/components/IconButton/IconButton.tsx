@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { ButtonHTMLAttributes, FC, PropsWithChildren } from 'react';
+import { ButtonHTMLAttributes, FC, PropsWithChildren, memo } from 'react';
 import LoaderIcon from 'components/icons/LoaderIcon';
 import style from './IconsButton.module.scss';
 
@@ -26,4 +26,4 @@ const IconButton: FC<IconButtonProps> = ({ disabled, loading, className, childre
   );
 };
 
-export default IconButton;
+export default memo(IconButton);

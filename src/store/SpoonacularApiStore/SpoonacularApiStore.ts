@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { SPOONACULAR_API_KEY } from 'config/services';
-import spoonacularClient from 'services/axios/spoonacularClient';
+import { spoonacularClient } from 'services/axios';
 import { RecipeParamRequest, RecipesResponseApi, RecipeResponseApi } from 'store/models/recipes/modelsApi';
 
 export default class SpoonacularApiStore {

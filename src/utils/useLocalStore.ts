@@ -1,10 +1,10 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect } from 'react';
 
-export interface ILocalStore {
+export type TLocalStore = {
   destroy(): void;
-}
+};
 
-export const useLocalStore = <T extends ILocalStore>(creator: () => T): T => {
+export const useLocalStore = <T extends TLocalStore>(creator: () => T): T => {
   const container = useRef<T | null>(null);
 
   if (container.current === null) {

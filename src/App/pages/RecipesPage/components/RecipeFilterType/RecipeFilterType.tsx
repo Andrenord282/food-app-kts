@@ -1,9 +1,10 @@
 import cn from 'classnames';
 import { FC, memo, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import MultiDropdown, { MultiDropdownOption } from 'components/MultiDropdown';
-import { useRecipesStoreContext } from 'context/RecipesStoreContext';
-import rootStore from 'store/RootStore';
+import { MultiDropdown } from 'components';
+import { MultiDropdownOption } from 'components/MultiDropdown';
+import { useRecipesStoreContext } from 'context';
+import { rootStore } from 'store';
 import { optionType } from './config';
 
 type RecipeFilterTypePorps = {
@@ -18,7 +19,7 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
   useEffect(() => {
     const type = rootStore.query.getParam('type');
     if (!type) return;
-    
+
     const initValueType = type.split(',').reduce((acc, item) => {
       const value: MultiDropdownOption = {
         key: item,

@@ -1,17 +1,15 @@
 import cn from 'classnames';
 import { FC, memo, useMemo } from 'react';
-import Text from 'components/Text';
-import EquipmentIcon from 'components/icons/EquipmentIcon';
-import { StepInstruction } from 'services/spoonacularApi';
+import { Text, EquipmentIcon } from 'components';
+import { StepInstructionModel } from 'store/models/recipes/modelsClient';
 import style from './Equipment.module.scss';
 
 type EquipmentProps = {
   className?: string;
-  equipments: StepInstruction[];
+  equipments: StepInstructionModel[];
 };
 
 const Equipment: FC<EquipmentProps> = ({ className, equipments }) => {
-
   const equipmentList = useMemo(() => {
     const uniqEquipments = new Set<string>([]);
 

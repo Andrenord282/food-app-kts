@@ -1,11 +1,10 @@
 import { observer } from 'mobx-react-lite';
 import { FC, ReactNode, createContext, useContext, useEffect } from 'react';
-import { ErrorResponse } from 'services/axios/types';
-import RecipesStore from 'store/RecipesStore';
+import { ErrorResponse } from 'services/axios';
+import { RecipesStore } from 'store';
 import { FilterRecipes } from 'store/models/recipes/modelsApi';
 import { RecipeModel } from 'store/models/recipes/modelsClient';
-import { Meta } from 'utils/meta';
-import { useLocalStore } from 'utils/useLocalStore';
+import { Meta, useLocalStore } from 'utils';
 
 type RecipesStoreContextTypes = {
   isLoading: boolean;
@@ -42,7 +41,7 @@ export const RecipesStoreProvider: FC<{ children: ReactNode }> = observer(({ chi
 
   useEffect(() => {
     if (isInitial) {
-      recipesStore.getRecipes();
+      // recipesStore.getRecipes();
     }
   }, [recipesStore, isInitial]);
 

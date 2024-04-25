@@ -1,12 +1,9 @@
 import cn from 'classnames';
 import { FC, useState, useEffect, useCallback, memo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import BaseInput from 'components/BaseInput';
-import IconButton from 'components/IconButton';
-import Text from 'components/Text';
-import SearchIcon from 'components/icons/SearchIcon';
-import { useRecipesStoreContext } from 'context/RecipesStoreContext';
-import useDebounce from 'hooks/useDebounce';
+import { IconButton, BaseInput, Text, SearchIcon } from 'components';
+import { useRecipesStoreContext } from 'context';
+import { useDebounce } from 'hooks';
 import style from './RecipeSearch.module.scss';
 
 type RecipeSearchProps = {

@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, memo } from 'react';
 import Text from 'components/Text';
 import LoaderIcon from 'components/icons/LoaderIcon';
 import style from './Loader.module.scss';
@@ -23,4 +23,4 @@ const Loader: FC<LoaderProps> = ({ className, children, iconSize = 'l', color = 
   );
 };
 
-export default Loader;
+export default memo(Loader);
