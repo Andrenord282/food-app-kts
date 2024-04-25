@@ -12,6 +12,7 @@ export const useLocalStore = <T extends TLocalStore>(creator: () => T): T => {
   }
 
   useEffect(() => {
+
     return container.current?.destroy();
   }, []);
 

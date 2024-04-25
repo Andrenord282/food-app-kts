@@ -6,7 +6,6 @@ type PrivateFields = '_params';
 class QueryParamsStore {
   private _params: qs.ParsedQs = {};
   private _search: string = '';
-
   constructor() {
     makeObservable<QueryParamsStore, PrivateFields>(this, {
       _params: observable.ref,
@@ -22,10 +21,11 @@ class QueryParamsStore {
     search = search.startsWith('?') ? search.slice(1) : search;
 
     if (this._search !== search) {
-      this._search = search;
+      this._search = this._search + search;
       this._params = parse(search);
     }
   }
+
 }
 
 export default QueryParamsStore;

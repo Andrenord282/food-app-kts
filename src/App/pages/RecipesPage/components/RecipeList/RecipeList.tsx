@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC, memo } from 'react';
+import { FC, memo, useEffect } from 'react';
 import { Text } from 'components';
 import { useRecipesStoreContext } from 'context';
 import RecipeCard from '../RecipeCard';
@@ -11,7 +11,14 @@ type RecipeListPorps = {
 };
 
 const RecipeList: FC<RecipeListPorps> = ({ className }) => {
-  const { isLoading, isSuccess, isEmpty, isError, limit, recipes, errorInfo } = useRecipesStoreContext();
+  const { isInitial, isLoading, isSuccess, isError, isEmpty, limit, recipes, error, getRecipes } =
+    useRecipesStoreContext();
+
+  useEffect(() => {
+    if (isInitial) {
+      getRecipes();
+    }
+  }, [isInitial, getRecipes]);
 
   if (isLoading) {
     return (
@@ -49,7 +56,7 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
     return (
       <div className={cn(className, style.section, style['section--information'])}>
         <Text tag="h2" view="title-l" weight="700" align="center">
-          {errorInfo?.code}: <br /> {errorInfo?.message}
+          {error?.code}: <br /> {error?.message}
         </Text>
       </div>
     );

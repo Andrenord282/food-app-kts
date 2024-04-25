@@ -59,6 +59,11 @@ export default class RecipesStore implements TLocalStore {
       limit: computed,
       error: computed,
       page: computed,
+      isLoading: computed,
+      isInitial: computed,
+      isSuccess: computed,
+      isError: computed,
+      isEmpty: computed,
       getRecipes: action,
       updatePage: action,
       setFilter: action,
@@ -87,6 +92,30 @@ export default class RecipesStore implements TLocalStore {
 
   get total(): number {
     return this._total;
+  }
+
+  get filter(): FilterRecipes {
+    return this._filter;
+  }
+
+  get isLoading(): boolean {
+    return this._meta === Meta.loading;
+  }
+
+  get isInitial(): boolean {
+    return this._meta === Meta.initial;
+  }
+
+  get isSuccess(): boolean {
+    return this._meta === Meta.success;
+  }
+
+  get isError(): boolean {
+    return this._meta === Meta.error;
+  }
+
+  get isEmpty(): boolean {
+    return this._meta === Meta.success && this._recipes.order.length === 0;
   }
 
   private _initRequestParam() {
@@ -126,20 +155,21 @@ export default class RecipesStore implements TLocalStore {
       if (page) {
         this.updatePage(Number(page));
         await this.getRecipes();
+      } else {
+        this.updatePage(1);
       }
     },
   );
 
-  updatePage = (page: number): void => {
+  updatePage = (page: number) => {
     this._page = page;
     this._offset = page * this._limit - this._limit;
   };
 
-  async getRecipes() {
+  getRecipes = async () => {
     try {
       this._meta = Meta.loading;
       this._recipes = getInitialCollectionModel();
-
       const { data } = await this._request();
       const { results } = data;
 
@@ -158,11 +188,11 @@ export default class RecipesStore implements TLocalStore {
         this._meta = Meta.error;
       }
     }
-  }
+  };
 
-  setFilter(key: keyof FilterRecipes, type: string) {
+  setFilter = (key: keyof FilterRecipes, type: string) => {
     this._filter[key as keyof FilterRecipes] = type;
-  }
+  };
 
   destroy(): void {}
 }

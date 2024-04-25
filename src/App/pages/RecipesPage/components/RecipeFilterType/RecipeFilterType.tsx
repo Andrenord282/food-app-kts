@@ -2,8 +2,7 @@ import cn from 'classnames';
 import { FC, memo, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { MultiDropdown } from 'components';
-import { MultiDropdownOption } from 'components/MultiDropdown';
-import { useRecipesStoreContext } from 'context';
+import { MultiDropdownOption, initializeValue } from 'components/MultiDropdown';
 import { rootStore } from 'store';
 import { optionType } from './config';
 
@@ -13,42 +12,29 @@ type RecipeFilterTypePorps = {
 
 const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { setFilter } = useRecipesStoreContext();
-  const [valueType, setValueType] = useState<MultiDropdownOption[]>([]);
+  const [value, setValue] = useState<MultiDropdownOption<string>[]>([]);
 
   useEffect(() => {
     const type = rootStore.query.getParam('type');
     if (!type) return;
 
-    const initValueType = type.split(',').reduce((acc, item) => {
-      const value: MultiDropdownOption = {
-        key: item,
-        value: item,
-      };
-      acc.push(value);
-      return acc;
-    }, [] as MultiDropdownOption[]);
-
-    setValueType(initValueType);
+    const initValue = initializeValue(type);
+    
+    setValue(initValue);
   }, []);
 
-  const handleChangeType = useCallback(
-    (values: MultiDropdownOption[]) => {
-      setValueType(values);
-      const newType = values.map(({ value }) => value).join(',');
-      setFilter('type', newType);
-
-      if (newType) {
-        searchParams.set('type', newType);
-      } else {
-        searchParams.delete('type');
-      }
+  const handleChangeValue = useCallback(
+    (value: MultiDropdownOption<string>[]) => {
+      setValue(value);
+      const newValue = value.map(({ value }) => value).join(',');
+      newValue ? searchParams.set('type', newValue) : searchParams.delete('type');
+      searchParams.delete('page');
       setSearchParams(searchParams);
     },
-    [setFilter, searchParams, setSearchParams],
+    [searchParams, setSearchParams],
   );
 
-  const handleTitleType = useCallback((values: MultiDropdownOption[]) => {
+  const handleTitle = useCallback((values: MultiDropdownOption<string>[]) => {
     return values.length === 0 ? 'Categories' : values.map(({ value }) => value).join(', ');
   }, []);
 
@@ -57,9 +43,9 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
       data-name="Categories"
       className={cn(className)}
       options={optionType}
-      value={valueType}
-      onChange={handleChangeType}
-      setTitle={handleTitleType}
+      value={value}
+      onChange={handleChangeValue}
+      setTitle={handleTitle}
     />
   );
 };

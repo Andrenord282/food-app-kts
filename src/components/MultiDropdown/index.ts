@@ -1,2 +1,2 @@
-export { default } from './MultiDropdown';
+export { default, initializeValue } from './MultiDropdown';
 export type { MultiDropdownOption } from './MultiDropdown';

@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { RecipesStoreProvider } from 'context';
 import Hero from './components/Hero';
 import RecipeFilters from './components/RecipeFilters';
 import RecipeList from './components/RecipeList';
@@ -9,17 +8,13 @@ import style from './RecipesPage.module.scss';
 
 const RecipesPage: FC = () => {
   return (
-    <>
-      <RecipesStoreProvider>
-        <div className={style.wrapper}>
-          <Hero className={style.hero} />
-          <RecipeSearch className={style.search} />
-          <RecipeFilters className={style.filters} />
-          <RecipeList className={style.list} />
-          <RecipePagination className={style.pagination} />
-        </div>
-      </RecipesStoreProvider>
-    </>
+    <div className={style.wrapper}>
+      <Hero className={style.hero} />
+      <RecipeSearch className={style.search} />
+      <RecipeFilters className={style.filters} />
+      <RecipeList className={style.list} />
+      <RecipePagination className={style.pagination} />
+    </div>
   );
 };
 

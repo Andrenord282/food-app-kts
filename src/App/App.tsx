@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ROUTS } from 'config/routs';
+import { RecipesStoreProvider } from 'context';
 import BaseLayout from './layouts/BaseLayout';
 import NotFoundPage from './pages/NotFoundPage';
 import RecipePage from './pages/RecipePage';
@@ -12,7 +13,14 @@ const App = () => {
       <div className={style.app}>
         <Routes>
           <Route path={ROUTS.INDEX} element={<BaseLayout />}>
-            <Route index element={<RecipesPage />} />
+            <Route
+              index
+              element={
+                <RecipesStoreProvider>
+                  <RecipesPage />
+                </RecipesStoreProvider>
+              }
+            />
             <Route path={ROUTS.RECIPE} element={<RecipePage />} />
             <Route path={ROUTS.NOT_FOUND} element={<NotFoundPage />} />
           </Route>

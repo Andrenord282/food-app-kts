@@ -6,18 +6,25 @@ import Text from 'components/Text';
 import ArrowDownIcon from 'components/icons/ArrowDownIcon';
 import style from './MultiDropdown.module.scss';
 
-export type MultiDropdownOption = {
-  key: string;
-  value: string;
+export type MultiDropdownOption<T> = {
+  key: T;
+  value: T;
 };
 
 export type MultiDropdownProps = {
   className?: string;
-  options: MultiDropdownOption[];
-  value: MultiDropdownOption[];
+  options: MultiDropdownOption<string>[];
+  value: MultiDropdownOption<string>[];
   disabled?: boolean;
-  onChange: (value: MultiDropdownOption[]) => void;
-  setTitle: (value: MultiDropdownOption[]) => string;
+  onChange: (value: MultiDropdownOption<string>[]) => void;
+  setTitle: (value: MultiDropdownOption<string>[]) => string;
+};
+
+export const initializeValue = (value: string): MultiDropdownOption<string>[] => {
+  return value.split(',').map((string) => ({
+    key: string,
+    value: string,
+  }));
 };
 
 const MultiDropdown: FC<MultiDropdownProps> = ({
