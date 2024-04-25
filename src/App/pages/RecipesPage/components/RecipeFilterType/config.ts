@@ -1,6 +1,6 @@
 import { MultiDropdownOption } from 'components/MultiDropdown';
 
-const optionType: MultiDropdownOption[] = [
+const optionType: MultiDropdownOption<string>[] = [
   { key: 'main course', value: 'main course' },
   { key: 'side dish', value: 'side dish' },
   { key: 'dessert', value: 'dessert' },

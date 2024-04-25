@@ -1,8 +1,7 @@
-import { FC, memo, useCallback, useEffect, useMemo } from 'react';
+import { FC, memo, useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Pagination } from 'components';
 import { useRecipesStoreContext } from 'context';
-import { rootStore } from 'store';
 
 type RecipePagination = {
   className?: string;
@@ -48,14 +47,6 @@ const RecipePagination: FC<RecipePagination> = ({ className }) => {
     },
     [searchParams, setSearchParams],
   );
-
-  useEffect(() => {
-    const page = rootStore.query.getParam('page');
-    if (!page) return;
-
-    searchParams.set('page', String(page));
-    setSearchParams(searchParams);
-  }, []);
 
   return (
     <Pagination

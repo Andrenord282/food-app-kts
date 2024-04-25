@@ -22,6 +22,31 @@ export type RecipeModel = {
   analyzedInstructions: AnalyzedInstructionModel[];
 };
 
+export type RecipeDetailModel = {
+  id: number;
+  image: string;
+  title: string;
+  readyInMinutes: number;
+  extendedIngredients: ExtendedIngredientModel[];
+  nutrition: NutritionModel;
+  vegetarian: boolean;
+  vegan: boolean;
+  glutenFree: boolean;
+  dairyFree: boolean;
+  veryHealthy: boolean;
+  cheap: boolean;
+  veryPopular: boolean;
+  preparationMinutes: number;
+  cookingMinutes: number;
+  aggregateLikes: number;
+  servings: number;
+  summary: string;
+  cuisines: string[];
+  dishTypes: string[];
+  equipments: string[];
+  analyzedInstructions: AnalyzedInstructionModel[];
+};
+
 export type ExtendedIngredientModel = {
   id: number;
   aisle: string;

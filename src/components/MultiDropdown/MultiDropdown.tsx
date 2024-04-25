@@ -64,7 +64,7 @@ const MultiDropdown: FC<MultiDropdownProps> = ({
     setMultiInputValue(value);
   };
 
-  const handleSelectValue = (selectValue: MultiDropdownOption) => {
+  const handleSelectValue = (selectValue: MultiDropdownOption<string>) => {
     if (selectedKeys.has(selectValue.key)) {
       const newValue = value.filter(({ key }) => key !== selectValue.key);
       onChange(newValue);

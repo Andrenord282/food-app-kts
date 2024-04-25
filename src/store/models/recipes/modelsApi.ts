@@ -96,7 +96,7 @@ type MeasureApi = {
   unitLong: string;
 };
 
-type StepInstructionApi = {
+export type StepInstructionApi = {
   number: number;
   step: string;
   ingredients: Ingredient2Api[];

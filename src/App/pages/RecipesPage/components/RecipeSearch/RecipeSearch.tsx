@@ -16,7 +16,6 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   const intervalStore = useLocalStore(() => new IntervalStore());
   const { isLoading, getRecipes } = useRecipesStoreContext();
   const [value, setValue] = useState('');
-  const [btn, setBtn] = useState(0);
 
   useEffect(() => {
     const query = rootStore.query.getParam('query');
@@ -45,14 +44,6 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
 
   return (
     <div className={cn(className, style.section)}>
-      <button
-        style={{ border: '1px solid #000', padding: '20px' }}
-        onClick={() => {
-          setBtn((btn) => btn + 1);
-        }}
-      >
-        {btn}
-      </button>
       <Text className={style.title} view="p-l" align="center">
         Find the perfect food and <span style={{ textDecoration: 'underline' }}>drink ideas</span> for every occasion,
         from <span style={{ textDecoration: 'underline' }}>weeknight dinners</span> to{' '}

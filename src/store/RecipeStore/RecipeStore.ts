@@ -2,8 +2,8 @@ import { AxiosError } from 'axios';
 import { action, computed, makeAutoObservable, observable, runInAction } from 'mobx';
 import { ErrorResponse } from 'services/axios';
 import { SpoonacularApiStore } from 'store';
-import { RecipeModel } from 'store/models/recipes/modelsClient';
-import { normalizeRecipe } from 'store/models/recipes/utils';
+import { RecipeDetailModel } from 'store/models/recipes/modelsClient';
+import { normalizeRecipeDetail } from 'store/models/recipes/utils';
 import { Meta, TLocalStore, ResponseStatus } from 'utils';
 
 type PrivateFields = '_meta' | '_reсipe' | '_error';
@@ -13,7 +13,7 @@ export default class RecipeStore implements TLocalStore {
 
   private _meta: Meta = Meta.initial;
 
-  private _reсipe: RecipeModel | null = null;
+  private _reсipe: RecipeDetailModel | null = null;
 
   private _error: ErrorResponse | null = null;
 
@@ -28,7 +28,7 @@ export default class RecipeStore implements TLocalStore {
     });
   }
 
-  get recipe(): RecipeModel | null {
+  get recipe(): RecipeDetailModel | null {
     return this._reсipe;
   }
 
@@ -50,7 +50,7 @@ export default class RecipeStore implements TLocalStore {
 
       const { data } = await this._request(id);
       runInAction(() => {
-        this._reсipe = normalizeRecipe(data);
+        this._reсipe = normalizeRecipeDetail(data);
         this._meta = Meta.success;
       });
     } catch (error) {

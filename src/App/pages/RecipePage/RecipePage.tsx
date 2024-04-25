@@ -78,7 +78,7 @@ const ResipePage: FC = () => {
           <Description className={style.description} text={reсipe.summary} />
           <div className={style.lists}>
             <Ingredients ingredients={reсipe.extendedIngredients} className={style['list-item']} />
-            <Equipment equipments={reсipe.analyzedInstructions[0].steps} className={style['list-item']} />
+            <Equipment equipments={reсipe.equipments} className={style['list-item']} />
           </div>
           <Directions stepList={reсipe.analyzedInstructions[0].steps} />
         </div>
