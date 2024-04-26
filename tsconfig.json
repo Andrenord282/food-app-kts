@@ -21,10 +21,14 @@
     "baseUrl": "src",
     "paths": {
       "components": ["components/*"],
+      "context": ["context/*"],
       "config": ["config/*"],
+      "hooks": ["hooks/*"],
       "styles": ["styles/*"],
-      "utils": ["utils/*"]
-    }
+      "utils": ["utils/*"],
+      "services": ["services/*"]
+    },
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

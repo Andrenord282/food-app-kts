@@ -1,0 +1,16 @@
+@import "styles/mixins.scss";
+
+.section {
+  width: 100%;
+  max-width: 1480px;
+  margin: 0 auto;
+  padding-top: 572px;
+  background-image: url("/images/recipes-page/recipe-hero-bg.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  @include for-mobile-small-down {
+    padding-top: 300px;
+  }
+}

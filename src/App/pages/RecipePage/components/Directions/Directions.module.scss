@@ -1,0 +1,20 @@
+@import "styles/variables.scss";
+
+.section {
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin-bottom: $space-xl;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+
+  &:not(:last-of-type) {
+    margin-bottom: $space-m;
+  }
+}

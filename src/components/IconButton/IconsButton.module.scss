@@ -1,0 +1,30 @@
+@import "styles/variables.scss";
+
+.button {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: $border-radius-m;
+  padding: $space-xxs;
+  color: $button-primary-text;
+  background-color: $button-primary-bg;
+  overflow: hidden;
+
+  &:active {
+    background-color: $button-primary-bg-active;
+  }
+
+  &--disabled {
+    cursor: default;
+    pointer-events: none;
+    background-color: $button-primary-bg-disabled;
+  }
+
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      background-color: $button-primary-bg-hover;
+    }
+  }
+}

@@ -1,0 +1,34 @@
+@import "styles/variables.scss";
+
+.pages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 42px;
+  font-weight: 700;
+}
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 42px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 120%;
+  color: $button-secondary-text;
+  background-color: transparent;
+
+  &--current {
+    color: $button-primary-text;
+    background-color: $button-primary-bg;
+  }
+}

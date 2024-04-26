@@ -1,0 +1,60 @@
+@import "styles/variables.scss";
+
+.item {
+  width: 100%;
+  position: relative;
+  background-color: $component-primary-bg;
+  border-radius: $border-radius-m;
+
+  &::after {
+    width: 35px;
+    position: absolute;
+    content: "";
+    top: 1px;
+    right: 1px;
+    bottom: 1px;
+    border-radius: $border-radius-m;
+    background-color: $component-primary-bg;
+    z-index: 2;
+  }
+}
+
+.field {
+  position: relative;
+  width: 100%;
+  font-size: 16px;
+  padding: $space-m $space-xs;
+  border: 1px solid transparent;
+  background-color: $component-primary-bg;
+  border-radius: $border-radius-m;
+  z-index: 2;
+
+  &::placeholder {
+    font-size: 16px;
+    color: $input-primary-placeholder;
+  }
+
+  &:disabled {
+    background-color: $component-primary-bg;
+    color: $text-primary-disabled-color;
+
+    &::placeholder {
+      color: $input-primary-placeholder;
+    }
+  }
+
+  &:focus {
+    border: 1px solid $input-primary-border-active;
+  }
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  z-index: 3;
+}

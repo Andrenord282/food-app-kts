@@ -1,0 +1,28 @@
+@import "styles/global.scss";
+@import "styles/variables.scss";
+
+.wrapper {
+  background-color: $component-primary-bg;
+  padding: $space-s 0;
+}
+
+.container {
+  @extend .container--m;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0 $space-l;
+  text-decoration: none;
+  margin-right: auto;
+}
+
+.favorite {
+  margin-right: $space-l;
+}

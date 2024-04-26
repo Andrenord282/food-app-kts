@@ -1,0 +1,29 @@
+html,
+body {
+  font-family: "Roboto";
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+}
+
+input {
+  outline: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: inherit;
+}
+
+button {
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background-color: transparent;
+}

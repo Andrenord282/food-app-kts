@@ -1,0 +1,105 @@
+@import "styles/variables.scss";
+
+.typography {
+  color: inherit;
+
+  & a {
+    color: inherit;
+  }
+
+  & span {
+    display: inline-block;
+  }
+
+  &--400 {
+    font-weight: 400;
+  }
+
+  &--500 {
+    font-weight: 500;
+  }
+
+  &--600 {
+    font-weight: 600;
+  }
+
+  &--700 {
+    font-weight: 700;
+  }
+
+  &--color {
+    &-default {
+      color: inherit;
+    }
+
+    &-primary {
+      color: $text-primary-color;
+    }
+
+    &-secondary {
+      color: $text-secondary-color;
+    }
+
+    &-accent {
+      color: $text-accent-color;
+    }
+  }
+
+  &--title-xl {
+    font-size: 44px;
+    line-height: 110%;
+  }
+
+  &--title-l {
+    font-size: 36px;
+    line-height: 110%;
+  }
+
+  &--p-l {
+    font-size: 20px;
+    line-height: 120%;
+  }
+
+  &--p-m {
+    font-size: 18px;
+    line-height: 122%;
+  }
+
+  &--p-xs {
+    font-size: 16px;
+    line-height: 125%;
+  }
+  &--p-xxs {
+    font-size: 14px;
+    line-height: 129%;
+  }
+
+  &--button-m {
+    font-size: 18px;
+    line-height: 100%;
+  }
+
+  &--align {
+    &-default {
+      text-align: left;
+    }
+
+    &-center {
+      text-align: center;
+    }
+  }
+
+  &--decoration {
+    &-default {
+      text-decoration: none;
+    }
+
+    &-underline {
+      text-decoration: underline;
+    }
+
+    &-line-through {
+      text-decoration: line-through;
+    }
+  }
+}

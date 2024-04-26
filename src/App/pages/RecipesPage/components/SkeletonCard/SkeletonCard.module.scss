@@ -1,0 +1,38 @@
+@import "styles/variables.scss";
+
+.card {
+  width: 100%;
+  max-width: 360px;
+  height: 578px;
+  display: flex;
+  flex-direction: column;
+  max-width: 360px;
+  border-radius: $border-radius-m;
+  background-color: $component-primary-bg;
+  padding-bottom: $space-xl;
+  overflow: hidden;
+}
+
+.head {
+  margin-top: -2px;
+  min-height: 360px;
+  margin-bottom: $space-xl;
+}
+
+.body {
+  padding: 0 $space-xs;
+  margin-bottom: $space-l;
+}
+
+.body-item {
+  margin-bottom: $space-xxs;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 $space-l;
+  padding: 0 $space-xs;
+  margin-top: auto;
+}

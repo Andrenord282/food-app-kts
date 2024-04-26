@@ -1,0 +1,45 @@
+@import "styles/global.scss";
+@import "styles/variables.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: $space-xxl;
+}
+
+.container {
+  @extend .container--m;
+}
+
+.loader {
+  margin: auto;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  margin-bottom: $space-xxl;
+  gap: 0 $space-m;
+  margin-bottom: $space-xxl;
+}
+
+.summary {
+  margin-bottom: $space-xxl;
+}
+
+.description {
+  margin-bottom: $space-xxl;
+}
+
+.lists {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: $space-xxl;
+  gap: 0 $space-xl;
+}
+
+.list-item {
+  width: 45%;
+}
