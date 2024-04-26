@@ -8,9 +8,9 @@ export type RecipesResponseApi = {
 export type RecipeResponseApi = RecipeApi;
 
 export type FilterRecipes = {
-  query: string;
-  type: string;
-  cuisine: string;
+  query: string | undefined;
+  type: string | undefined;
+  cuisine: string | undefined;
 };
 
 export type FilterRecipesSchema<T, U> = {

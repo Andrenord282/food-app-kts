@@ -35,9 +35,9 @@ export default class RecipesStore implements TLocalStore {
   private _total: number = 0;
 
   private _filter: FilterRecipes = {
-    query: rootStore.query.getParam('query') || '',
-    type: rootStore.query.getParam('type') || '',
-    cuisine: '',
+    query: rootStore.query.getParam('query'),
+    type: rootStore.query.getParam('type'),
+    cuisine: rootStore.query.getParam('cuisine'),
   };
 
   private readonly _intervalStore = new IntervalStore();
@@ -95,7 +95,7 @@ export default class RecipesStore implements TLocalStore {
 
   get filter(): FilterRecipesSchema<string, string> {
     return {
-      query: this._filter.query,
+      query: !this._filter.query ? '' : this._filter.query,
       type: !this._filter.type ? [] : this._filter.type.split(',').map((string) => ({ key: string, value: string })),
       cuisine: !this._filter.cuisine
         ? []
@@ -135,6 +135,7 @@ export default class RecipesStore implements TLocalStore {
 
   private async _request() {
     const param = this._initRequestParam();
+    console.log(param);
     return await this._apiStore.getRecipes(param);
   }
 
