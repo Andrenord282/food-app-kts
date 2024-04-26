@@ -151,8 +151,6 @@ export default class RecipesStore implements TLocalStore {
       if (page) {
         this.updatePage(Number(page));
         await this.getRecipes();
-      } else {
-        this.updatePage(1);
       }
     },
   );
@@ -162,10 +160,12 @@ export default class RecipesStore implements TLocalStore {
     this._offset = page * this._limit - this._limit;
   };
 
-  getRecipes = async () => {
+  getRecipes = async (option: { resetPage?: boolean } = {}) => {
     try {
+      const { resetPage = false } = option;
       this._meta = Meta.loading;
       this._recipes = getInitialCollectionModel();
+      if (resetPage) this.updatePage(1);
       const { data } = await this._request();
       const { results } = data;
 
@@ -191,8 +191,7 @@ export default class RecipesStore implements TLocalStore {
 
     if (key === 'query') {
       this._intervalStore.startTimeout(async () => {
-        this.updatePage(1);
-        await this.getRecipes();
+        await this.getRecipes({ resetPage: true });
       }, 500);
     }
   };

@@ -31,7 +31,7 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   const onClickSearch = useCallback(() => {
     searchParams.delete('page');
     setSearchParams(searchParams);
-    getRecipes();
+    getRecipes({ resetPage: true });
   }, [getRecipes, searchParams, setSearchParams]);
 
   return (
