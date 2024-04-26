@@ -24,6 +24,10 @@ export default class RecipeStore implements TLocalStore {
       _error: observable.ref,
       meta: computed,
       recipe: computed,
+      isLoading: computed,
+      isInitial: computed,
+      isSuccess: computed,
+      isError: computed,
       getRecipe: action,
     });
   }
@@ -36,6 +40,22 @@ export default class RecipeStore implements TLocalStore {
     return this._meta;
   }
 
+  get isLoading(): boolean {
+    return this._meta === Meta.loading;
+  }
+
+  get isInitial(): boolean {
+    return this._meta === Meta.initial;
+  }
+
+  get isSuccess(): boolean {
+    return this._meta === Meta.success;
+  }
+
+  get isError(): boolean {
+    return this._meta === Meta.error;
+  }
+
   get error(): ErrorResponse | null {
     return this._error;
   }
@@ -44,7 +64,7 @@ export default class RecipeStore implements TLocalStore {
     return await this._apiStore.getRecipe(id);
   }
 
-  async getRecipe(id: string) {
+  getRecipe = async (id: string) => {
     try {
       this._meta = Meta.loading;
 
@@ -65,7 +85,7 @@ export default class RecipeStore implements TLocalStore {
         this._meta = Meta.error;
       }
     }
-  }
+  };
 
   destroy(): void {}
 }

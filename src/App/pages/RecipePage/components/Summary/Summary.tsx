@@ -2,7 +2,6 @@ import cn from 'classnames';
 import { FC, memo } from 'react';
 import SummaryItem from '../SummaryItem';
 import style from './Summary.module.scss';
-
 type SummaryProps = {
   className?: string;
   alt: string;

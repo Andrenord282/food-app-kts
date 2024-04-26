@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ROUTS } from 'config/routs';
-import { RecipesStoreProvider } from 'context';
+import { RecipesStoreProvider, RecipeStoreProvider } from 'context';
 import BaseLayout from './layouts/BaseLayout';
 import NotFoundPage from './pages/NotFoundPage';
 import RecipePage from './pages/RecipePage';
@@ -21,7 +21,14 @@ const App = () => {
                 </RecipesStoreProvider>
               }
             />
-            <Route path={ROUTS.RECIPE} element={<RecipePage />} />
+            <Route
+              path={ROUTS.RECIPE}
+              element={
+                <RecipeStoreProvider>
+                  <RecipePage />
+                </RecipeStoreProvider>
+              }
+            />
             <Route path={ROUTS.NOT_FOUND} element={<NotFoundPage />} />
           </Route>
         </Routes>

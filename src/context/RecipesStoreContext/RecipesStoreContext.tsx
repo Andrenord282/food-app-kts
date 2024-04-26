@@ -18,7 +18,7 @@ type RecipesStoreContextTypes = {
   recipes: RecipeModel[];
   filter: FilterRecipesSchema<string, string>;
   error: ErrorResponse | null;
-  getRecipes: (option: { resetPage?: boolean }) => Promise<void>;
+  getRecipes: (option?: { resetPage?: boolean }) => Promise<void>;
   setFilter: (key: keyof FilterRecipes, type: string) => void;
   updatePage: (page: number) => void;
 };

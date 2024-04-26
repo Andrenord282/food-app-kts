@@ -24,6 +24,18 @@
   margin-bottom: $space-xxl;
 }
 
+.button {
+  padding: 0;
+  flex-shrink: 0;
+  background-color: transparent;
+
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      background-color: transparent;
+    }
+  }
+}
+
 .summary {
   margin-bottom: $space-xxl;
 }
