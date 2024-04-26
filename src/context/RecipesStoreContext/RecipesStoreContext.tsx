@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { FC, ReactNode, createContext, useContext, useMemo } from 'react';
 import { ErrorResponse } from 'services/axios';
 import { RecipesStore } from 'store';
-import { FilterRecipes } from 'store/models/recipes/modelsApi';
+import { FilterRecipes, FilterRecipesSchema } from 'store/models/recipes/modelsApi';
 import { RecipeModel } from 'store/models/recipes/modelsClient';
 import { useLocalStore } from 'utils';
 
@@ -16,7 +16,7 @@ type RecipesStoreContextTypes = {
   total: number;
   page: number;
   recipes: RecipeModel[];
-  filter: FilterRecipes;
+  filter: FilterRecipesSchema<string, string>;
   error: ErrorResponse | null;
   getRecipes: () => Promise<void>;
   setFilter: (key: keyof FilterRecipes, type: string) => void;

@@ -1,9 +1,9 @@
 import cn from 'classnames';
-import { FC, memo, useCallback, useEffect, useState } from 'react';
+import { FC, memo, useCallback, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { MultiDropdown } from 'components';
-import { MultiDropdownOption, initializeValue } from 'components/MultiDropdown';
-import { rootStore } from 'store';
+import { MultiDropdownOption } from 'components/MultiDropdown';
+import { useRecipesStoreContext } from 'context/RecipesStoreContext';
 import { optionType } from './config';
 
 type RecipeFilterTypePorps = {
@@ -12,26 +12,22 @@ type RecipeFilterTypePorps = {
 
 const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [value, setValue] = useState<MultiDropdownOption<string>[]>([]);
-
-  useEffect(() => {
-    const type = rootStore.query.getParam('type');
-    if (!type) return;
-
-    const initValue = initializeValue(type);
-    
-    setValue(initValue);
-  }, []);
+  const { filter, setFilter } = useRecipesStoreContext();
+  const [value, setValue] = useState<MultiDropdownOption<string>[]>(filter.type);
 
   const handleChangeValue = useCallback(
     (value: MultiDropdownOption<string>[]) => {
       setValue(value);
       const newValue = value.map(({ value }) => value).join(',');
+      setFilter('type', newValue);
+      // сейчас я вынес в стор работу с значением query и убрал отсюда таймер
+      // setSearchParams отрабатывает каждый раз и создает ререндер
+      // я хочу работу с url search всю вынести в QueryParamsStore, подумаю как сделать это
       newValue ? searchParams.set('type', newValue) : searchParams.delete('type');
       searchParams.delete('page');
       setSearchParams(searchParams);
     },
-    [searchParams, setSearchParams],
+    [setFilter, searchParams, setSearchParams],
   );
 
   const handleTitle = useCallback((values: MultiDropdownOption<string>[]) => {

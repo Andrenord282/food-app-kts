@@ -21,6 +21,7 @@ export type MultiDropdownProps = {
 };
 
 export const initializeValue = (value: string): MultiDropdownOption<string>[] => {
+  if (!value) return [];
   return value.split(',').map((string) => ({
     key: string,
     value: string,

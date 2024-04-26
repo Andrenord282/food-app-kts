@@ -1,8 +1,8 @@
 import { AxiosError } from 'axios';
 import { IReactionDisposer, action, computed, makeAutoObservable, observable, reaction, runInAction } from 'mobx';
 import { ErrorResponse } from 'services/axios';
-import { rootStore, SpoonacularApiStore } from 'store';
-import { FilterRecipes, RecipeApi, RecipeParamRequest } from 'store/models/recipes/modelsApi';
+import { rootStore, IntervalStore, SpoonacularApiStore } from 'store';
+import { FilterRecipes, FilterRecipesSchema, RecipeApi, RecipeParamRequest } from 'store/models/recipes/modelsApi';
 import { RecipeModel } from 'store/models/recipes/modelsClient';
 import { normalizeRecipe } from 'store/models/recipes/utils';
 import {
@@ -13,7 +13,7 @@ import {
 } from 'store/models/shared';
 import { Meta, TLocalStore } from 'utils';
 
-type PrivateFields = '_meta' | '_offset' | '_total' | '_limit' | '_filter' | '_recipes' | '_error' | '_query' | '_page';
+type PrivateFields = '_meta' | '_offset' | '_total' | '_limit' | '_filter' | '_recipes' | '_error' | '_page';
 
 const RECIPES_LIMIT = 9;
 
@@ -26,10 +26,6 @@ export default class RecipesStore implements TLocalStore {
 
   private _error: ErrorResponse | null = null;
 
-  private _query: string = rootStore.query.getParam('query');
-
-  private _type: string = rootStore.query.getParam('type');
-
   private _page: number = rootStore.query.getParam('page') ? Number(rootStore.query.getParam('page')) : 1;
 
   private _limit = RECIPES_LIMIT;
@@ -39,9 +35,12 @@ export default class RecipesStore implements TLocalStore {
   private _total: number = 0;
 
   private _filter: FilterRecipes = {
-    query: this._query,
-    type: this._type,
+    query: rootStore.query.getParam('query') || '',
+    type: rootStore.query.getParam('type') || '',
+    cuisine: '',
   };
+
+  private readonly _intervalStore = new IntervalStore();
 
   constructor() {
     makeAutoObservable<RecipesStore, PrivateFields>(this, {
@@ -51,7 +50,6 @@ export default class RecipesStore implements TLocalStore {
       _filter: observable.ref,
       _recipes: observable.ref,
       _error: observable.ref,
-      _query: observable,
       _page: observable,
       _total: observable,
       meta: computed,
@@ -59,6 +57,7 @@ export default class RecipesStore implements TLocalStore {
       limit: computed,
       error: computed,
       page: computed,
+      filter: computed,
       isLoading: computed,
       isInitial: computed,
       isSuccess: computed,
@@ -94,8 +93,14 @@ export default class RecipesStore implements TLocalStore {
     return this._total;
   }
 
-  get filter(): FilterRecipes {
-    return this._filter;
+  get filter(): FilterRecipesSchema<string, string> {
+    return {
+      query: this._filter.query,
+      type: !this._filter.type ? [] : this._filter.type.split(',').map((string) => ({ key: string, value: string })),
+      cuisine: !this._filter.cuisine
+        ? []
+        : this._filter.cuisine.split(',').map((string) => ({ key: string, value: string })),
+    };
   }
 
   get isLoading(): boolean {
@@ -132,15 +137,6 @@ export default class RecipesStore implements TLocalStore {
     const param = this._initRequestParam();
     return await this._apiStore.getRecipes(param);
   }
-
-  private readonly _querySearchReaction: IReactionDisposer = reaction(
-    () => rootStore.query.getParam('query'),
-    async (query) => {
-      this._filter.query = query as string;
-      this.updatePage(1);
-      await this.getRecipes();
-    },
-  );
 
   private readonly _queryTypeReaction: IReactionDisposer = reaction(
     () => rootStore.query.getParam('type'),
@@ -192,6 +188,13 @@ export default class RecipesStore implements TLocalStore {
 
   setFilter = (key: keyof FilterRecipes, type: string) => {
     this._filter[key as keyof FilterRecipes] = type;
+
+    if (key === 'query') {
+      this._intervalStore.startTimeout(async () => {
+        this.updatePage(1);
+        await this.getRecipes();
+      }, 500);
+    }
   };
 
   destroy(): void {}

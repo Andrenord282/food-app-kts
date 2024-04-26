@@ -8,9 +8,15 @@ export type RecipesResponseApi = {
 export type RecipeResponseApi = RecipeApi;
 
 export type FilterRecipes = {
-  query?: string;
-  type?: string;
-  cuisine?: string;
+  query: string;
+  type: string;
+  cuisine: string;
+};
+
+export type FilterRecipesSchema<T, U> = {
+  query: T;
+  type: { key: U; value: T }[];
+  cuisine: { key: U; value: T }[];
 };
 
 export type RecipeParamRequest = {

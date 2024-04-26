@@ -1,10 +1,8 @@
 import cn from 'classnames';
-import { FC, useState, useEffect, useCallback, memo } from 'react';
+import { FC, useState, useCallback, memo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { IconButton, BaseInput, Text, SearchIcon } from 'components';
 import { useRecipesStoreContext } from 'context';
-import { IntervalStore, rootStore } from 'store';
-import { useLocalStore } from 'utils/useLocalStore';
 import style from './RecipeSearch.module.scss';
 
 type RecipeSearchProps = {
@@ -13,27 +11,21 @@ type RecipeSearchProps = {
 
 const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const intervalStore = useLocalStore(() => new IntervalStore());
-  const { isLoading, getRecipes } = useRecipesStoreContext();
-  const [value, setValue] = useState('');
-
-  useEffect(() => {
-    const query = rootStore.query.getParam('query');
-
-    if (!query) return;
-    setValue(query);
-  }, []);
+  const { isLoading, filter, setFilter, getRecipes } = useRecipesStoreContext();
+  const [value, setValue] = useState(filter.query);
 
   const handleChangeValue = useCallback(
     (value: string) => {
       setValue(value);
-      intervalStore.startTimeout(() => {
-        value ? searchParams.set('query', value) : searchParams.delete('query');
-        searchParams.delete('page');
-        setSearchParams(searchParams);
-      }, 1000);
+      setFilter('query', value);
+      // сейчас я вынес в стор работу с значением query и убрал отсюда таймер
+      // setSearchParams отрабатывает каждый раз и создает ререндер
+      // я хочу работу с url search всю вынести в QueryParamsStore, подумаю как сделать это
+      value ? searchParams.set('query', value) : searchParams.delete('query');
+      searchParams.delete('page');
+      setSearchParams(searchParams);
     },
-    [intervalStore, searchParams, setSearchParams],
+    [setFilter, searchParams, setSearchParams],
   );
 
   const onClickSearch = useCallback(() => {
