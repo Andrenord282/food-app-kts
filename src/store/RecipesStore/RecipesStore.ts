@@ -190,9 +190,7 @@ export default class RecipesStore implements TLocalStore {
     this._filter[key as keyof FilterRecipes] = type;
 
     if (key === 'query') {
-      this._intervalStore.startTimeout(async () => {
-        await this.getRecipes({ resetPage: true });
-      }, 500);
+      this.getRecipes({ resetPage: true });
     }
   };
 

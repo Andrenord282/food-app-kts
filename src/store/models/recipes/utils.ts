@@ -1,5 +1,7 @@
 import { RecipeApi, StepInstructionApi } from 'store/models/recipes/modelsApi';
 import { RecipeDetailModel, RecipeModel } from 'store/models/recipes/modelsClient';
+import { RecipeSearchOptionApi } from 'store/models/recipes/recipeSearchApi';
+import { RecipeSearchOptionModel } from 'store/models/recipes/recipeSearchClient';
 
 const setEquipment = (equipments: StepInstructionApi[]): string[] => {
   if (!equipments) return [];
@@ -64,5 +66,12 @@ export const normalizeRecipeDetail = (from: RecipeApi): RecipeDetailModel => {
     dishTypes: from.dishTypes,
     analyzedInstructions: from.analyzedInstructions,
     equipments: setEquipment(from.analyzedInstructions[0].steps),
+  };
+};
+
+export const normalizeSearchRecipe = (from: RecipeSearchOptionApi): RecipeSearchOptionModel => {
+  return {
+    key: from.id,
+    value: from.title,
   };
 };

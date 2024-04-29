@@ -1,6 +1,6 @@
 import cn from 'classnames';
-import { FC, memo, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowDownIcon, BaseButton, BaseInput, IconButton } from 'components';
+import { FC, ReactNode, memo, useCallback, useEffect, useMemo, useRef } from 'react';
+import { Text, LoaderIcon, BaseButton, BaseInput } from 'components';
 import style from './SingleSelect.module.scss';
 
 export type SingleSelectValue<U, T> = {
@@ -10,11 +10,17 @@ export type SingleSelectValue<U, T> = {
 
 type SingleSelectProps = {
   className?: string;
-  options: SingleSelectValue<number, string>[];
+  matchStartString?: boolean;
+  options: SingleSelectValue<number, string>[] | [];
   optionStyle?: 'row' | 'grid';
+  toggle: boolean;
   value: string;
   selected: SingleSelectValue<number, string> | null;
   disabled?: boolean;
+  loading?: boolean;
+  endSlot?: ReactNode;
+  helperText?: string;
+  onChangeToggle: (toggle?: boolean) => void;
   onChangeValue: (value: string) => void;
   onChangeSelect: (selected: SingleSelectValue<number, string>) => void;
   setTitle: (selected: SingleSelectValue<number, string> | null) => string;
@@ -22,52 +28,62 @@ type SingleSelectProps = {
 
 const SingleSelect: FC<SingleSelectProps> = ({
   className,
+  matchStartString = false,
   options,
   optionStyle = 'row',
+  toggle,
   value,
   selected,
   disabled,
+  loading,
+  endSlot,
+  helperText,
   onChangeValue,
+  onChangeToggle,
   onChangeSelect,
   setTitle,
   ...props
 }) => {
   const singleSelectRef = useRef<HTMLDivElement>(null);
-  const [toggle, setToggle] = useState(false);
-
   const title = useMemo(() => {
     return setTitle(selected);
   }, [selected, setTitle]);
 
   const filteredOptions = useMemo(() => {
     const str = value.toLowerCase();
-    return options.filter((option) => option.value.toLowerCase().indexOf(str) === 0);
-  }, [value, options]);
-
-  const handleToggle = () => {
-    setToggle((oldToggle) => !oldToggle);
-  };
+    if (matchStartString) {
+      return options.filter((option) => option.value.toLowerCase().indexOf(str) === 0);
+    }
+    return options.filter((option) => option.value.toLowerCase().includes(str));
+  }, [value, matchStartString, options]);
 
   const handleFocus = () => {
-    setToggle(true);
+    onChangeToggle(true);
   };
 
-  const handleChangeValue = (value: string) => {
-    onChangeValue(value);
-  };
+  const handleChangeValue = useCallback(
+    (value: string) => {
+      onChangeValue(value);
+    },
+    [onChangeValue],
+  );
 
-  const handleSelectValue = (select: SingleSelectValue<number, string>) => {
-    onChangeSelect(select);
-    handleToggle();
-  };
+  const handleSelectValue = useCallback(
+    (select: SingleSelectValue<number, string>) => {
+      onChangeSelect(select);
+      onChangeToggle(false);
+    },
+    [onChangeSelect, onChangeToggle],
+  );
 
   useEffect(() => {
     const singleSelect = singleSelectRef.current;
 
     const handleClickOutside = (e: MouseEvent) => {
       if (singleSelect && !singleSelect.contains(e.target as Node)) {
-        setToggle(false);
-        onChangeValue('');
+        if (toggle) {
+          onChangeToggle(false);
+        }
       }
     };
 
@@ -76,7 +92,7 @@ const SingleSelect: FC<SingleSelectProps> = ({
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, []);
+  }, [toggle, onChangeValue, onChangeToggle]);
 
   return (
     <div className={cn(className, style['single-select'])} ref={singleSelectRef} {...props}>
@@ -85,12 +101,13 @@ const SingleSelect: FC<SingleSelectProps> = ({
         placeholder={title}
         onFocus={handleFocus}
         onChange={handleChangeValue}
-        endIconSlot={
-          <IconButton onClick={handleToggle}>
-            <ArrowDownIcon />
-          </IconButton>
-        }
+        endSlot={loading ? <LoaderIcon width={40} height={40} /> : endSlot}
       />
+      {helperText && (
+        <Text tag="span" view="p-xxs">
+          {helperText}
+        </Text>
+      )}
       {toggle && filteredOptions.length > 0 && !disabled && (
         <div className={cn(style.list, style[`list--${optionStyle}`])}>
           {filteredOptions.map(({ key, value }) => {

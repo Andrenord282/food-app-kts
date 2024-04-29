@@ -24,6 +24,15 @@ export const normalizeCollection = <K extends string | number, T, U>(
   return collection;
 };
 
+export const normalizeArray = <T, U>(elements: T[], normalize: (element: T) => U) => {
+  const array: U[] = [];
+  elements.forEach((element) => {
+    array.push(normalize(element));
+  });
+
+  return array;
+};
+
 export const linearizeCollection = <K extends string | number, T>(collection: CollectionModel<K, T>): T[] => {
   return collection.order.map((id) => collection.entities[id]);
 };

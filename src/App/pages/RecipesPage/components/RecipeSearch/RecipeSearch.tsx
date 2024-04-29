@@ -1,8 +1,12 @@
 import cn from 'classnames';
-import { FC, useState, useCallback, memo } from 'react';
+import { observer } from 'mobx-react-lite';
+import { FC, useState, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { IconButton, BaseInput, Text, SearchIcon, BaseButton } from 'components';
+import { Text, SingleSelect, IconButton, BaseCrossIcon } from 'components';
+import { SingleSelectValue } from 'components/SingleSelect';
 import { useRecipesStoreContext } from 'context';
+import { RecipeSearchStore } from 'store';
+import { useLocalStore } from 'utils';
 import style from './RecipeSearch.module.scss';
 
 type RecipeSearchProps = {
@@ -11,28 +15,66 @@ type RecipeSearchProps = {
 
 const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isLoading, filter, setFilter, getRecipes } = useRecipesStoreContext();
-  const [value, setValue] = useState(filter.query);
+  const { isLoading, isSuccess, isError, isEmpty, searchOptions, setSearchValue, resetSearchOptions } = useLocalStore(
+    () => new RecipeSearchStore('query'),
+  );
+  const { filter, setFilter } = useRecipesStoreContext();
+  const [toggle, setToggle] = useState<boolean>(false);
+  const [selected, setSelected] = useState<SingleSelectValue<number, string> | null>(null);
+  const [value, setValue] = useState<string>(filter.query);
+
+  const handleTitle = useCallback(() => {
+    return value || 'Enter the name of the dish';
+  }, [value]);
+
+  const handleChangeSelect = useCallback(
+    (selected: SingleSelectValue<number, string>) => {
+      setValue(selected.value);
+      setSelected(selected);
+
+      setFilter('query', selected.value);
+      resetSearchOptions();
+
+      searchParams.set('query', selected.value);
+      searchParams.delete('page');
+      setSearchParams(searchParams);
+    },
+    [searchParams, setSearchParams, setFilter, resetSearchOptions],
+  );
+
+  const handleResetSelect = useCallback(() => {
+    setSelected(null);
+    setValue('');
+
+    resetSearchOptions();
+    setFilter('query', '');
+    setToggle(false);
+
+    searchParams.delete('query');
+    searchParams.delete('page');
+    setSearchParams(searchParams);
+  }, [searchParams, setSearchParams, setFilter, resetSearchOptions]);
 
   const handleChangeValue = useCallback(
     (value: string) => {
       setValue(value);
-      setFilter('query', value);
-      // сейчас я вынес в стор работу с значением query и убрал отсюда таймер
-      // setSearchParams отрабатывает каждый раз и создает ререндер
-      // я хочу работу с url search всю вынести в QueryParamsStore, подумаю как сделать это
-      value ? searchParams.set('query', value) : searchParams.delete('query');
-      searchParams.delete('page');
-      setSearchParams(searchParams);
+      setSearchValue(value);
     },
-    [setFilter, searchParams, setSearchParams],
+    [setSearchValue],
   );
 
-  const onClickSearch = useCallback(() => {
-    searchParams.delete('page');
-    setSearchParams(searchParams);
-    getRecipes({ resetPage: true });
-  }, [getRecipes, searchParams, setSearchParams]);
+  const handleChangeToggle = useCallback(
+    (toggle?: boolean) => {
+      resetSearchOptions();
+      if (toggle) {
+        setToggle(toggle);
+        return;
+      }
+      setToggle((oldToggle) => !oldToggle);
+    },
+    [resetSearchOptions],
+  );
+
 
   return (
     <div className={cn(className, style.section)}>
@@ -41,17 +83,29 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
         from <span style={{ textDecoration: 'underline' }}>weeknight dinners</span> to{' '}
         <span style={{ textDecoration: 'underline' }}>holiday feasts</span>.
       </Text>
-      <BaseInput
+      <SingleSelect
+        loading={isLoading}
+        toggle={toggle}
+        selected={selected}
+        options={searchOptions}
         value={value}
-        onChange={handleChangeValue}
-        placeholder="enter the name of the dish"
+        onChangeToggle={handleChangeToggle}
+        onChangeValue={handleChangeValue}
+        onChangeSelect={handleChangeSelect}
+        setTitle={handleTitle}
+        optionStyle="grid"
         className={style.search}
+        helperText={isError ? 'something went wrong' : isSuccess && isEmpty ? 'name not found' : ''}
+        endSlot={
+          value && (
+            <IconButton onClick={handleResetSelect}>
+              <BaseCrossIcon />
+            </IconButton>
+          )
+        }
       />
-      <IconButton onClick={onClickSearch} disabled={isLoading} loading={isLoading} className={style.button}>
-        <SearchIcon />
-      </IconButton>
     </div>
   );
 };
 
-export default memo(RecipeSearch);
+export default observer(RecipeSearch);

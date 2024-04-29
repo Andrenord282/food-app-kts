@@ -102,7 +102,7 @@ const MultiDropdown: FC<MultiDropdownProps> = ({
         onFocus={handleToggleOptionList}
         placeholder={multiInputPlaceholder}
         disabled={disabled}
-        endIconSlot={<ArrowDownIcon color="secondary" />}
+        endSlot={<ArrowDownIcon color="secondary" />}
       />
       {toggle && options && options.length > 0 && !disabled && (
         <div className={style.list}>
