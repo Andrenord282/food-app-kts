@@ -135,7 +135,6 @@ export default class RecipesStore implements TLocalStore {
 
   private async _request() {
     const param = this._initRequestParam();
-    console.log(param);
     return await this._apiStore.getRecipes(param);
   }
 

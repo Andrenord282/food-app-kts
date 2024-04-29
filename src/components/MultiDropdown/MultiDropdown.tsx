@@ -1,9 +1,6 @@
 import cn from 'classnames';
 import { FC, memo, useEffect, useMemo, useRef, useState } from 'react';
-import BaseButton from 'components/BaseButton';
-import BaseInput from 'components/BaseInput';
-import Text from 'components/Text';
-import ArrowDownIcon from 'components/icons/ArrowDownIcon';
+import { BaseButton, BaseInput,  ArrowDownIcon } from 'components';
 import style from './MultiDropdown.module.scss';
 
 export type MultiDropdownOption<T> = {
@@ -123,7 +120,7 @@ const MultiDropdown: FC<MultiDropdownProps> = ({
                     data-option-index={index}
                     className={className}
                   >
-                    <Text view="p-xs">{option.value}</Text>
+                    {option.value}
                   </BaseButton>
                 );
               case !multiInputValue:
@@ -134,7 +131,7 @@ const MultiDropdown: FC<MultiDropdownProps> = ({
                     data-option-index={index}
                     className={className}
                   >
-                    <Text view="p-xs">{option.value}</Text>
+                    {option.value}
                   </BaseButton>
                 );
               default:

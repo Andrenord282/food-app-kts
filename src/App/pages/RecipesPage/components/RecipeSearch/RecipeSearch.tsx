@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { FC, useState, useCallback, memo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { IconButton, BaseInput, Text, SearchIcon } from 'components';
+import { IconButton, BaseInput, Text, SearchIcon, BaseButton } from 'components';
 import { useRecipesStoreContext } from 'context';
 import style from './RecipeSearch.module.scss';
 

@@ -46,7 +46,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe }) => {
           </Text>
         )}
         <BaseButton>
-          <Text>Save</Text>
+          Save
         </BaseButton>
       </div>
     </div>
