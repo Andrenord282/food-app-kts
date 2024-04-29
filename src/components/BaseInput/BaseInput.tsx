@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { forwardRef, InputHTMLAttributes, ChangeEventHandler, ReactNode, memo } from 'react';
+import { forwardRef, InputHTMLAttributes, ChangeEventHandler, ReactNode, memo, useCallback } from 'react';
 import style from './BaseInput.module.scss';
 
 export type BaseInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> & {
@@ -11,10 +11,13 @@ export type BaseInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'onChan
 
 const BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
   ({ className, value, onChange, endIconSlot, ...props }, ref) => {
-    const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-      const value = e.target.value;
-      onChange(value);
-    };
+    const handleChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+      (e) => {
+        const value = e.target.value;
+        onChange(value);
+      },
+      [onChange],
+    );
 
     return (
       <div className={cn(className, style.item)}>
