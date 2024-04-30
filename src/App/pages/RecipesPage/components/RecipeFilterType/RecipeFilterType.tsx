@@ -1,10 +1,13 @@
 import cn from 'classnames';
-import { FC, memo, useCallback, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { MultiDropdown } from 'components';
-import { MultiDropdownOption } from 'components/MultiDropdown';
-import { useRecipesStoreContext } from 'context/RecipesStoreContext';
-import { optionType } from './config';
+import { ArrowDownIcon, IconButton, MultiSelect } from 'components';
+import { MultiSelectValue } from 'components/MultiSelect';
+import { RecipeFilterStore } from 'store';
+import { useLocalStore } from 'utils';
+import { types } from './config';
+import style from './RecipeFilterType.module.scss';
 
 type RecipeFilterTypePorps = {
   className?: string;
@@ -12,38 +15,63 @@ type RecipeFilterTypePorps = {
 
 const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { filter, setFilter } = useRecipesStoreContext();
-  const [value, setValue] = useState<MultiDropdownOption<string>[]>(filter.type);
+  const { filterOptions, filterSelected, updateFilter } = useLocalStore(() => new RecipeFilterStore('type', types));
+  const [toggle, setToggle] = useState<boolean>(false);
+  const [value, setValue] = useState<string>('');
+  const options = useMemo(() => filterOptions, [filterOptions]);
+  const selected = useMemo(() => filterSelected, [filterSelected]);
 
-  const handleChangeValue = useCallback(
-    (value: MultiDropdownOption<string>[]) => {
-      setValue(value);
-      const newValue = value.map(({ value }) => value).join(',');
-      setFilter('type', newValue);
-      // сейчас я вынес в стор работу с значением query и убрал отсюда таймер
-      // setSearchParams отрабатывает каждый раз и создает ререндер
-      // я хочу работу с url search всю вынести в QueryParamsStore, подумаю как сделать это
-      newValue ? searchParams.set('type', newValue) : searchParams.delete('type');
-      searchParams.delete('page');
-      setSearchParams(searchParams);
-    },
-    [setFilter, searchParams, setSearchParams],
-  );
-
-  const handleTitle = useCallback((values: MultiDropdownOption<string>[]) => {
-    return values.length === 0 ? 'Categories' : values.map(({ value }) => value).join(', ');
+  const handleChangeToggle = useCallback((toggle?: boolean) => {
+    if (toggle) {
+      setToggle(toggle);
+      return;
+    }
+    setToggle((oldToggle) => !oldToggle);
   }, []);
 
+  const handleChangeSelect = useCallback(
+    (selected: MultiSelectValue<string, string>[]) => {
+      updateFilter(selected);
+      selected.length === 0
+        ? searchParams.delete('type')
+        : searchParams.set('type', selected.map(({ value }) => value).join(','));
+      setSearchParams(searchParams);
+    },
+    [updateFilter, searchParams, setSearchParams],
+  );
+
+  const handleChangeValue = useCallback((value: string) => {
+    setValue(value);
+  }, []);
+
+  const handleTitle = useCallback(() => {
+    return selected.length === 0 ? 'Categories' : selected.map(({ value }) => value).join(', ');
+  }, [selected]);
+
   return (
-    <MultiDropdown
-      data-name="Categories"
-      className={cn(className)}
-      options={optionType}
+    <MultiSelect
+      toggle={toggle}
+      selected={selected}
+      options={options}
       value={value}
-      onChange={handleChangeValue}
+      onChangeToggle={handleChangeToggle}
+      onChangeValue={handleChangeValue}
+      onChangeSelect={handleChangeSelect}
       setTitle={handleTitle}
+      helperText={toggle ? 'you can choose multiple categories' : ''}
+      matchStartString
+      className={cn(className)}
+      endSlot={
+        <IconButton onClick={() => handleChangeToggle()}>
+          <ArrowDownIcon
+            className={cn(style.icon, {
+              [style['is-open']]: toggle,
+            })}
+          />
+        </IconButton>
+      }
     />
   );
 };
 
-export default memo(RecipeFilterType);
+export default observer(RecipeFilterType);

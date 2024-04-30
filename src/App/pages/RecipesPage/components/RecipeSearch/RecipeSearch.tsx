@@ -15,13 +15,12 @@ type RecipeSearchProps = {
 
 const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isLoading, isSuccess, isError, isEmpty, searchOptions, setSearchValue, resetSearchOptions } = useLocalStore(
-    () => new RecipeSearchStore('query'),
-  );
-  const { filter, setFilter } = useRecipesStoreContext();
+  const { isLoading, isSuccess, isError, isEmpty, searchValue, searchOptions, setSearchValue, resetSearchOptions } =
+    useLocalStore(() => new RecipeSearchStore('query'));
+  const { setFilter } = useRecipesStoreContext();
   const [toggle, setToggle] = useState<boolean>(false);
   const [selected, setSelected] = useState<SingleSelectValue<number, string> | null>(null);
-  const [value, setValue] = useState<string>(filter.query);
+  const [value, setValue] = useState<string>(searchValue);
 
   const handleTitle = useCallback(() => {
     return value || 'Enter the name of the dish';
@@ -74,7 +73,6 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
     },
     [resetSearchOptions],
   );
-
 
   return (
     <div className={cn(className, style.section)}>
