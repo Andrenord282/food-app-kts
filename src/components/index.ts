@@ -6,7 +6,6 @@ export { default as SingleSelect } from './SingleSelect';
 export { default as MultiSelect } from './MultiSelect';
 export { default as IconButton } from './IconButton';
 export { default as Loader } from './Loader';
-export { default as MultiDropdown } from './MultiDropdown';
 export { default as Pagination } from './Pagination';
 
 export * from './icons';
