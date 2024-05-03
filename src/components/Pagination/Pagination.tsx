@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { FC, memo } from 'react';
 import ArrowLeftIcon from 'components/icons/ArrowLeftIcon';
 import ArrowRightIcon from 'components/icons/ArrowRightIcon';
-import * as style from './Pagination.module.scss';
+import style from './Pagination.module.scss';
 
 type PaginationProps = {
   className?: string;

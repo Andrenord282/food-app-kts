@@ -7,7 +7,7 @@ import { SingleSelectValue } from 'components/SingleSelect';
 import { useRecipesStoreContext } from 'context';
 import { RecipeSearchStore } from 'store';
 import { useLocalStore } from 'utils';
-import * as style from './RecipeSearch.module.scss';
+import style from './RecipeSearch.module.scss';
 
 type RecipeSearchProps = {
   className?: string;

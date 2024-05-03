@@ -2,7 +2,7 @@ import { FC, memo } from 'react';
 import { Text } from 'components';
 import { StepInstructionModel } from 'store/models/recipes/modelsClient';
 
-import * as style from './Directions.module.scss';
+import style from './Directions.module.scss';
 
 type DirectionsProps = {
   stepList: StepInstructionModel[];

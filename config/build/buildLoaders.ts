@@ -26,6 +26,7 @@ export const buildLoaders = (options: WebpackOptions): RuleSetRule[] => {
       exclude: /\.module\.s?css$/,
       use: [
         'style-loader',
+        "css-modules-typescript-loader",
         'css-loader',
         {
           loader: 'postcss-loader',

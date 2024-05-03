@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { forwardRef, InputHTMLAttributes, ChangeEventHandler, ReactNode, memo, useCallback } from 'react';
-import * as style from './BaseInput.module.scss';
+import style from './BaseInput.module.scss';
 
 export type BaseInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> & {
   className?: string;

@@ -5,7 +5,7 @@ import BaseLayout from './layouts/BaseLayout';
 import NotFoundPage from './pages/NotFoundPage';
 import RecipePage from './pages/RecipePage';
 import RecipesPage from './pages/RecipesPage';
-import * as style from './App.module.scss';
+import style from './App.module.scss';
 
 const App = () => {
   return (

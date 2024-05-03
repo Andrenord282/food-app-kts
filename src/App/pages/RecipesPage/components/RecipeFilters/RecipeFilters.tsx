@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { FC, memo } from 'react';
 import RecipeFilterType from '../RecipeFilterType';
 import RecipeInitFilter from '../RecipeInitFilter';
-import * as style from './RecipeFilters.module.scss';
+import style from './RecipeFilters.module.scss';
 
 type RecipeFiltersProps = {
   className?: string;

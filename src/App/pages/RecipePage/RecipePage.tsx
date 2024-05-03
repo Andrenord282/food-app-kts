@@ -9,7 +9,7 @@ import Equipment from './components/Equipment';
 import Ingredients from './components/Ingredients';
 import Summary from './components/Summary';
 import Wrapper from './components/Wrapper';
-import * as style from './RecipePage.module.scss';
+import style from './RecipePage.module.scss';
 
 const RecipePage: FC = () => {
   const navigate = useNavigate();

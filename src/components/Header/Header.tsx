@@ -6,7 +6,7 @@ import FavoriteIcon from 'components/icons/FavoriteIcon';
 import ProfileIcon from 'components/icons/ProfileIcon';
 import { ROUTS } from 'config/routs';
 
-import * as style from './Header.module.scss';
+import style from './Header.module.scss';
 
 const Header: FC = () => {
   return (

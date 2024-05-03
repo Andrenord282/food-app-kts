@@ -4,7 +4,7 @@ import { useNavigate, generatePath } from 'react-router-dom';
 import { BaseButton, Text, WatchIcon } from 'components';
 import { ROUTS } from 'config/routs';
 import { RecipeModel } from 'store/models/recipes/modelsClient';
-import * as style from './RecipeCard.module.scss';
+import style from './RecipeCard.module.scss';
 
 export type RecipeCardProps = {
   className?: string;

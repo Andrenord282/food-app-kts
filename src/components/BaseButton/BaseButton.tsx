@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { FC, ButtonHTMLAttributes, PropsWithChildren, memo } from 'react';
 import { Text } from 'components';
 import LoaderIcon from 'components/icons/LoaderIcon';
-import * as style from './BaseButton.module.scss';
+import style from './BaseButton.module.scss';
 
 type BaseButtonSize = 'm' | 'l';
 
@@ -30,7 +30,7 @@ const BaseButton: FC<BaseButtonProps> = ({
       disabled={disabled}
       onClick={!disabled ? onClick : undefined}
       className={cn(className, style.button, style[`button--${size}`], {
-        [style['button--disabled']]: disabled,
+        [style['button--d']]: disabled,
       })}
       {...props}
     >

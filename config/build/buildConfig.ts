@@ -1,5 +1,5 @@
-import { buildPlugins } from './buildPlugins';
 import { buildDevServer } from './buildDevServer';
+import { buildPlugins } from './buildPlugins';
 import { buildDevtools } from './buildDevtools';
 import { buildLoaders } from './buildLoaders';
 import { Configuration as WebpackConfiguration } from 'webpack';

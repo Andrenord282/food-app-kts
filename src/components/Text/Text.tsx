@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { FC, PropsWithChildren, CSSProperties, ElementType, memo, useMemo } from 'react';
-import * as style from './Text.module.scss';
+import style from './Text.module.scss';
 
 type TagName = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div' | 'p' | 'span';
 type TextWeight = '400' | '500' | '700' | '600';

@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { FC, PropsWithChildren, memo } from 'react';
 import Text from 'components/Text';
 import LoaderIcon from 'components/icons/LoaderIcon';
-import * as style from './Loader.module.scss';
+import style from './Loader.module.scss';
 
 type LoaderColor = 'primary' | 'secondary' | 'accent';
 type LoaderSize = 's' | 'm' | 'l';

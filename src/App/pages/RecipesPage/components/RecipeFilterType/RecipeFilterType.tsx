@@ -7,7 +7,7 @@ import { MultiSelectValue } from 'components/MultiSelect';
 import { RecipeFilterStore } from 'store';
 import { useLocalStore } from 'utils';
 import { types } from './config';
-import * as style from './RecipeFilterType.module.scss';
+import style from './RecipeFilterType.module.scss';
 
 type RecipeFilterTypePorps = {
   className?: string;

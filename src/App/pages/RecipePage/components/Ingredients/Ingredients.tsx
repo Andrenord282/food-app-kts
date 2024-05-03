@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { FC, memo } from 'react';
 import { Text, IngredientIcon } from 'components';
 import { ExtendedIngredientModel } from 'store/models/recipes/modelsClient';
-import * as style from './Ingredients.module.scss';
+import style from './Ingredients.module.scss';
 
 type IngredientsProps = {
   className?: string;

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Text } from 'components';
-import * as style from './NotFoundPage.module.scss';
+import style from './NotFoundPage.module.scss';
 
 const NotFoundPage: FC = () => {
   return (
