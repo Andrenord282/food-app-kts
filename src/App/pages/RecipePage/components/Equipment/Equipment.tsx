@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { FC, memo } from 'react';
 import { Text, EquipmentIcon } from 'components';
-import style from './Equipment.module.scss';
+import * as style from './Equipment.module.scss';
 
 type EquipmentProps = {
   className?: string;

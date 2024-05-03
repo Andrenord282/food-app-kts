@@ -9,8 +9,7 @@ lerna-debug.log*
 
 .todo
 node_modules
-dist
-dist-ssr
+build
 *.local
 
 # Editor directories and files

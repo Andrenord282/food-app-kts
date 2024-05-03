@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { FC, memo } from 'react';
-import style from './Hero.module.scss';
+import * as style from './Hero.module.scss';
 
 type HeroProps = {
   className?: string;

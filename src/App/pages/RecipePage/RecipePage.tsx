@@ -2,14 +2,14 @@ import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Text, Loader, ArrowLeftIcon, IconButton } from 'components';
-import { useRecipeStoreContext } from 'context/RecipeStoreContext';
+import { useRecipeStoreContext } from 'context';
 import Description from './components/Description';
 import Directions from './components/Directions';
 import Equipment from './components/Equipment';
 import Ingredients from './components/Ingredients';
 import Summary from './components/Summary';
 import Wrapper from './components/Wrapper';
-import style from './RecipePage.module.scss';
+import * as style from './RecipePage.module.scss';
 
 const RecipePage: FC = () => {
   const navigate = useNavigate();

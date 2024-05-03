@@ -4,7 +4,7 @@ import { Text } from 'components';
 import { useRecipesStoreContext } from 'context';
 import RecipeCard from '../RecipeCard';
 import SkeletonCard from '../SkeletonCard';
-import style from './RecipeList.module.scss';
+import * as style from './RecipeList.module.scss';
 
 type RecipeListPorps = {
   className?: string;

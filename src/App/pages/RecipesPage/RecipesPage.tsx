@@ -4,7 +4,7 @@ import RecipeFilters from './components/RecipeFilters';
 import RecipeList from './components/RecipeList';
 import RecipePagination from './components/RecipePagination';
 import RecipeSearch from './components/RecipeSearch';
-import style from './RecipesPage.module.scss';
+import * as style from './RecipesPage.module.scss';
 
 const RecipesPage: FC = () => {
   return (

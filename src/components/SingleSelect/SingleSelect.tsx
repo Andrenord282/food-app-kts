@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { FC, ReactNode, memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import { Text, LoaderIcon, BaseButton, BaseInput } from 'components';
-import style from './SingleSelect.module.scss';
+import * as style from './SingleSelect.module.scss';
 
 export type SingleSelectValue<U, T> = {
   key: U;

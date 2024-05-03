@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { FC, ButtonHTMLAttributes, PropsWithChildren, memo } from 'react';
 import { Text } from 'components';
 import LoaderIcon from 'components/icons/LoaderIcon';
-import style from './BaseButton.module.scss';
+import * as style from './BaseButton.module.scss';
 
 type BaseButtonSize = 'm' | 'l';
 

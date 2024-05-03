@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { FC, PropsWithChildren, CSSProperties, ElementType, memo, useMemo } from 'react';
-import style from './Text.module.scss';
+import * as style from './Text.module.scss';
 
 type TagName = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div' | 'p' | 'span';
 type TextWeight = '400' | '500' | '700' | '600';
@@ -44,7 +44,7 @@ const Text: FC<TextProps> = ({
   children,
 }) => {
   const TagName = tagMap[tag] || (tagMap.p as ElementType);
-  
+
   const inlineStyle = useMemo((): CSSProperties => {
     const style: CSSProperties = {};
 

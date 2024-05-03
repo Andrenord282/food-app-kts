@@ -1,7 +1,6 @@
 import cn from 'classnames';
 import { FC, memo } from 'react';
 import { IconProps } from '../Icon';
-import 'styles/global.scss';
 
 const LoaderIcon: FC<IconProps> = ({ className, color, width = 24, height = 24, ...props }) => {
   return (

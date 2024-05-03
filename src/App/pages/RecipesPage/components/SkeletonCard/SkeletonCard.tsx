@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { FC } from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import style from './SkeletonCard.module.scss';
+import * as style from './SkeletonCard.module.scss';
 
 type SkeletonCardProps = {
   className?: string;
