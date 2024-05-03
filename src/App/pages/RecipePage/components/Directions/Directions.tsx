@@ -1,11 +1,11 @@
 import { FC, memo } from 'react';
-import Text from 'components/Text';
-import { StepInstruction } from 'services/spoonacularApi';
+import { Text } from 'components';
+import { StepInstructionModel } from 'store/models/recipes/modelsClient';
 
 import style from './Directions.module.scss';
 
 type DirectionsProps = {
-  stepList: StepInstruction[];
+  stepList: StepInstructionModel[];
 };
 
 const Directions: FC<DirectionsProps> = ({ stepList }) => {

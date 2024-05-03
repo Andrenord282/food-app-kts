@@ -1,6 +1,6 @@
-import { MultiDropdownOption } from 'components/MultiDropdown';
+import { MultiSelectValue } from 'components/MultiSelect';
 
-const optionType: MultiDropdownOption[] = [
+const types: MultiSelectValue<string, string>[] = [
   { key: 'main course', value: 'main course' },
   { key: 'side dish', value: 'side dish' },
   { key: 'dessert', value: 'dessert' },
@@ -17,4 +17,4 @@ const optionType: MultiDropdownOption[] = [
   { key: 'drink', value: 'drink' },
 ];
 
-export { optionType };
+export { types };

@@ -2,12 +2,12 @@ import cn from 'classnames';
 import { FC, memo } from 'react';
 import Text from 'components/Text';
 import IngredientIcon from 'components/icons/IngredientIcon';
-import { ExtendedIngredient } from 'services/spoonacularApi';
+import { ExtendedIngredientModel } from 'store/models/recipes/modelsClient';
 import style from './Ingredients.module.scss';
 
 type IngredientsProps = {
   className?: string;
-  ingredients: ExtendedIngredient[];
+  ingredients: ExtendedIngredientModel[];
 };
 
 const Ingredients: FC<IngredientsProps> = ({ className, ingredients }) => {

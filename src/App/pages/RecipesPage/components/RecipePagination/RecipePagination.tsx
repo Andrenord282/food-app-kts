@@ -1,26 +1,26 @@
-import { FC, memo, useCallback, useMemo, useState } from 'react';
-import Pagination from 'components/Pagination';
-import { useRecipesContext } from 'context/RecipesContext';
+import { FC, memo, useCallback, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { Pagination } from 'components';
+import { useRecipesStoreContext } from 'context';
 
 type RecipePagination = {
   className?: string;
 };
 
 const RecipePagination: FC<RecipePagination> = ({ className }) => {
-  const { cursorList, handleUpdateCursor, handleRecipeListState } = useRecipesContext();
-  const { number, totalResults } = cursorList;
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const totalPages = useMemo(() => Math.ceil(totalResults / number), [totalResults, number]);
-  const isStartPage = useMemo(() => currentPage === 1, [currentPage]);
-  const isEndPage = useMemo(() => currentPage === totalPages, [totalPages, currentPage]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { page, limit, total } = useRecipesStoreContext();
+  const totalPages = useMemo(() => Math.ceil(total / limit), [total, limit]);
+  const isStartPage = useMemo(() => page === 1, [page]);
+  const isEndPage = useMemo(() => page === totalPages, [totalPages, page]);
 
   const pageList = useMemo(() => {
     return Array.from({ length: totalPages }).reduce((result: number[], _, index) => {
       const number = index + 1;
       const siblingNumberCount = 2;
       const isStartOfEndPage = number === 1 || number === totalPages;
-      const isLeftDots = number < currentPage - siblingNumberCount;
-      const isRightDots = number > currentPage + siblingNumberCount;
+      const isLeftDots = number < page - siblingNumberCount;
+      const isRightDots = number > page + siblingNumberCount;
 
       switch (true) {
         case !isStartOfEndPage && isLeftDots && result.includes(-1):
@@ -38,20 +38,14 @@ const RecipePagination: FC<RecipePagination> = ({ className }) => {
           return result;
       }
     }, []);
-  }, [currentPage, totalPages]);
+  }, [page, totalPages]);
 
   const handleChangePage = useCallback(
     (page: number) => {
-      setCurrentPage(page);
-
-      handleUpdateCursor({
-        offset: page * number - number,
-        number,
-        totalResults,
-      });
-      handleRecipeListState('loading');
+      searchParams.set('page', String(page));
+      setSearchParams(searchParams);
     },
-    [number, totalResults, handleUpdateCursor, handleRecipeListState],
+    [searchParams, setSearchParams],
   );
 
   return (
@@ -60,8 +54,8 @@ const RecipePagination: FC<RecipePagination> = ({ className }) => {
       isStartPage={isStartPage}
       isEndPage={isEndPage}
       pageList={pageList}
-      currentPage={currentPage}
-      handleChangePage={handleChangePage}
+      currentPage={page}
+      onChange={handleChangePage}
     />
   );
 };

@@ -5,18 +5,6 @@
   position: relative;
   background-color: $component-primary-bg;
   border-radius: $border-radius-m;
-
-  &::after {
-    width: 35px;
-    position: absolute;
-    content: "";
-    top: 1px;
-    right: 1px;
-    bottom: 1px;
-    border-radius: $border-radius-m;
-    background-color: $component-primary-bg;
-    z-index: 2;
-  }
 }
 
 .field {
@@ -57,4 +45,6 @@
   right: 12px;
   transform: translateY(-50%);
   z-index: 3;
+  color: $rust;
+  background-color: $component-primary-bg;
 }

@@ -1,11 +1,12 @@
 import cn from 'classnames';
-import { FC, useState, useEffect, useCallback, memo, useMemo } from 'react';
-import BaseInput from 'components/BaseInput';
-import IconButton from 'components/IconButton';
-import Text from 'components/Text';
-import SearchIcon from 'components/icons/SearchIcon';
-import { useRecipesContext } from 'context/RecipesContext';
-import useDebounce from 'hooks/useDebounce';
+import { observer } from 'mobx-react-lite';
+import { FC, useState, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { Text, SingleSelect, IconButton, BaseCrossIcon } from 'components';
+import { SingleSelectValue } from 'components/SingleSelect';
+import { useRecipesStoreContext } from 'context';
+import { RecipeSearchStore } from 'store';
+import { useLocalStore } from 'utils';
 import style from './RecipeSearch.module.scss';
 
 type RecipeSearchProps = {
@@ -13,30 +14,65 @@ type RecipeSearchProps = {
 };
 
 const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
-  const { recipeListState, handleUpdateFilter, handleRecipeListState } = useRecipesContext();
-  const [searchName, setSearchName] = useState('');
-  const debouncedSearchName = useDebounce(searchName);
-  const searchLoading = useMemo(() => {
-    if (recipeListState === 'init' || recipeListState === 'loading') {
-      return true;
-    } else {
-      return false;
-    }
-  }, [recipeListState]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { isLoading, isSuccess, isError, isEmpty, searchValue, searchOptions, setSearchValue, resetSearchOptions } =
+    useLocalStore(() => new RecipeSearchStore('query'));
+  const { setFilter } = useRecipesStoreContext();
+  const [toggle, setToggle] = useState<boolean>(false);
+  const [selected, setSelected] = useState<SingleSelectValue<number, string> | null>(null);
+  const [value, setValue] = useState<string>(searchValue);
 
-  const handleSearchName = useCallback((value: string) => {
-    setSearchName(value);
-  }, []);
+  const handleTitle = useCallback(() => {
+    return value || 'Enter the name of the dish';
+  }, [value]);
 
-  const onClickSearchButton = useCallback(() => {
-    handleRecipeListState('loading');
-  }, [handleRecipeListState]);
+  const handleChangeSelect = useCallback(
+    (selected: SingleSelectValue<number, string>) => {
+      setValue(selected.value);
+      setSelected(selected);
 
-  useEffect(() => {
-    if (debouncedSearchName.length === 0) return;
-    handleUpdateFilter({ query: debouncedSearchName });
-    handleRecipeListState('loading');
-  }, [debouncedSearchName, handleUpdateFilter, handleRecipeListState]);
+      setFilter('query', selected.value);
+      resetSearchOptions();
+
+      searchParams.set('query', selected.value);
+      searchParams.delete('page');
+      setSearchParams(searchParams);
+    },
+    [searchParams, setSearchParams, setFilter, resetSearchOptions],
+  );
+
+  const handleResetSelect = useCallback(() => {
+    setSelected(null);
+    setValue('');
+
+    resetSearchOptions();
+    setFilter('query', '');
+    setToggle(false);
+
+    searchParams.delete('query');
+    searchParams.delete('page');
+    setSearchParams(searchParams);
+  }, [searchParams, setSearchParams, setFilter, resetSearchOptions]);
+
+  const handleChangeValue = useCallback(
+    (value: string) => {
+      setValue(value);
+      setSearchValue(value);
+    },
+    [setSearchValue],
+  );
+
+  const handleChangeToggle = useCallback(
+    (toggle?: boolean) => {
+      resetSearchOptions();
+      if (toggle) {
+        setToggle(toggle);
+        return;
+      }
+      setToggle((oldToggle) => !oldToggle);
+    },
+    [resetSearchOptions],
+  );
 
   return (
     <div className={cn(className, style.section)}>
@@ -45,22 +81,29 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
         from <span style={{ textDecoration: 'underline' }}>weeknight dinners</span> to{' '}
         <span style={{ textDecoration: 'underline' }}>holiday feasts</span>.
       </Text>
-      <BaseInput
-        value={searchName}
-        onChange={handleSearchName}
-        placeholder="enter the name of the dish"
+      <SingleSelect
+        loading={isLoading}
+        toggle={toggle}
+        selected={selected}
+        options={searchOptions}
+        value={value}
+        onChangeToggle={handleChangeToggle}
+        onChangeValue={handleChangeValue}
+        onChangeSelect={handleChangeSelect}
+        setTitle={handleTitle}
+        optionStyle="grid"
         className={style.search}
+        helperText={isError ? 'something went wrong' : isSuccess && isEmpty ? 'name not found' : ''}
+        endSlot={
+          value && (
+            <IconButton onClick={handleResetSelect}>
+              <BaseCrossIcon />
+            </IconButton>
+          )
+        }
       />
-      <IconButton
-        onClick={onClickSearchButton}
-        disabled={searchLoading}
-        loading={searchLoading}
-        className={style.button}
-      >
-        <SearchIcon />
-      </IconButton>
     </div>
   );
 };
 
-export default memo(RecipeSearch);
+export default observer(RecipeSearch);

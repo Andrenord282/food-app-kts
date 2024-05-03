@@ -1,8 +1,7 @@
 import cn from 'classnames';
-import { FC, memo } from 'react';
-import Text from 'components/Text';
-import { useRecipesContext } from 'context/RecipesContext';
-import useFetchRecipeList from '../../hooks/useFetchRecipeList';
+import { FC, memo, useEffect } from 'react';
+import { Text } from 'components';
+import { useRecipesStoreContext } from 'context';
 import RecipeCard from '../RecipeCard';
 import SkeletonCard from '../SkeletonCard';
 import style from './RecipeList.module.scss';
@@ -12,13 +11,19 @@ type RecipeListPorps = {
 };
 
 const RecipeList: FC<RecipeListPorps> = ({ className }) => {
-  const { recipeListState, recipeList, cursorList, errorInfo } = useRecipesContext();
-  useFetchRecipeList();
+  const { isInitial, isLoading, isSuccess, isError, isEmpty, limit, recipes, error, getRecipes } =
+    useRecipesStoreContext();
 
-  if (recipeListState === 'init' || recipeListState === 'loading') {
+  useEffect(() => {
+    if (isInitial) {
+      getRecipes();
+    }
+  }, [isInitial, getRecipes]);
+
+  if (isLoading) {
     return (
       <div className={cn(className, style.section)}>
-        {Array.from({ length: cursorList.number })
+        {Array.from({ length: limit })
           .fill(10)
           .map((_, index) => {
             return <SkeletonCard key={index} className={style.item} />;
@@ -27,17 +32,17 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
     );
   }
 
-  if (recipeListState === 'loaded') {
+  if (isSuccess && !isEmpty) {
     return (
       <div className={cn(className, style.section)}>
-        {recipeList.map((recipe) => {
+        {recipes.map((recipe) => {
           return <RecipeCard key={recipe.id} recipe={recipe} className={style.item} />;
         })}
       </div>
     );
   }
 
-  if (recipeListState === 'empty') {
+  if (isSuccess && isEmpty) {
     return (
       <div className={cn(className, style.section, style['section--information'])}>
         <Text tag="h2" view="title-l" weight="700" align="center">
@@ -47,11 +52,11 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
     );
   }
 
-  if (recipeListState === 'fail') {
+  if (isError) {
     return (
       <div className={cn(className, style.section, style['section--information'])}>
         <Text tag="h2" view="title-l" weight="700" align="center">
-          {errorInfo?.code}, {errorInfo?.status}: <br /> {errorInfo?.message}
+          {error?.code}: <br /> {error?.message}
         </Text>
       </div>
     );

@@ -1,66 +1,82 @@
+import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import Loader from 'components/Loader';
-import Text from 'components/Text';
-import ArrowLeftIcon from 'components/icons/ArrowLeftIcon';
-import { ROUTS } from 'config/routs';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Text, Loader, ArrowLeftIcon, IconButton } from 'components';
+import { useRecipeStoreContext } from 'context/RecipeStoreContext';
 import Description from './components/Description';
 import Directions from './components/Directions';
 import Equipment from './components/Equipment';
 import Ingredients from './components/Ingredients';
 import Summary from './components/Summary';
-import useFetchRecipe from './hooks/useFetchRecipe';
+import Wrapper from './components/Wrapper';
 import style from './RecipePage.module.scss';
 
-const ResipePage: FC = () => {
+const RecipePage: FC = () => {
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const { recipe, fetchRecipe } = useFetchRecipe();
+  const { isInitial, isLoading, isError, isSuccess, recipe, error, getRecipe } = useRecipeStoreContext();
 
   useEffect(() => {
-    if (id) {
-      fetchRecipe(id);
+    if (isInitial && id) {
+      getRecipe(id);
     }
-  }, [id]);
+  }, [isInitial, id, getRecipe]);
 
-  if (recipe === null) {
+  const handleToBackPage = () => {
+    navigate(-1);
+  };
+
+  if (isLoading) {
     return (
-      <div className={style.wrapper}>
-        <Loader iconSize="l" className={style.loader} />
-      </div>
+      <Wrapper>
+        <div className={style.information}>
+          <Loader iconSize="l" className={style.loader} />
+        </div>
+      </Wrapper>
     );
   }
 
-  if (recipe) {
+  if (isError) {
     return (
-      <div className={style.wrapper}>
-        <div className={style.container}>
-          <div className={style.head}>
-            <Link to={ROUTS.INDEX}>
-              <ArrowLeftIcon width={32} height={32} color="accent" />
-            </Link>
-            <Text tag="h2" weight="700" view="title-xl">
-              {recipe.title}
-            </Text>
-          </div>
-          <Summary
-            className={style.summary}
-            alt={recipe.title}
-            image={recipe.image}
-            preparation={recipe.preparationMinutes}
-            ratings={recipe.aggregateLikes}
-            cooking={recipe.cookingMinutes}
-            servings={recipe.servings}
-          />
-          <Description className={style.description} text={recipe.summary} />
-          <div className={style.lists}>
-            <Ingredients ingredients={recipe.extendedIngredients} className={style['list-item']} />
-            <Equipment equipments={recipe.analyzedInstructions[0].steps} className={style['list-item']} />
-          </div>
-          <Directions stepList={recipe.analyzedInstructions[0].steps} />
+      <Wrapper>
+        <div className={style.information}>
+          <Text tag="h2" view="title-l" weight="700" align="center">
+            {error?.code}: <br /> {error?.message}
+          </Text>
         </div>
-      </div>
+      </Wrapper>
+    );
+  }
+
+  if (isSuccess && recipe !== null) {
+    return (
+      <Wrapper>
+        <div className={style.head}>
+          <IconButton onClick={handleToBackPage} className={style.button}>
+            <ArrowLeftIcon width={32} height={32} color="accent" />
+          </IconButton>
+          <Text tag="h2" weight="700" view="title-xl">
+            {recipe.title}
+          </Text>
+        </div>
+        <Summary
+          className={style.summary}
+          image={recipe.image}
+          alt={recipe.title}
+          preparation={recipe.preparationMinutes}
+          ratings={recipe.aggregateLikes}
+          cooking={recipe.cookingMinutes}
+          servings={recipe.servings}
+        />
+        <Description className={style.description} text={recipe.summary} />
+        <div className={style.lists}>
+          <Ingredients ingredients={recipe.extendedIngredients} className={style['list-item']} />
+          <Equipment equipments={recipe.equipments} className={style['list-item']} />
+        </div>
+        <Directions stepList={recipe.analyzedInstructions[0].steps} />
+      </Wrapper>
     );
   }
 };
 
-export default ResipePage;
+export default observer(RecipePage);

@@ -1,23 +1,28 @@
 import cn from 'classnames';
 import { FC, memo, useEffect, useMemo, useRef, useState } from 'react';
-import BaseButton from 'components/BaseButton';
-import BaseInput from 'components/BaseInput';
-import Text from 'components/Text';
-import ArrowDownIcon from 'components/icons/ArrowDownIcon';
+import { BaseButton, BaseInput,  ArrowDownIcon } from 'components';
 import style from './MultiDropdown.module.scss';
 
-export type MultiDropdownOption = {
-  key: string;
-  value: string;
+export type MultiDropdownOption<T> = {
+  key: T;
+  value: T;
 };
 
 export type MultiDropdownProps = {
   className?: string;
-  options: MultiDropdownOption[];
-  value: MultiDropdownOption[];
+  options: MultiDropdownOption<string>[];
+  value: MultiDropdownOption<string>[];
   disabled?: boolean;
-  onChange: (value: MultiDropdownOption[]) => void;
-  setTitle: (value: MultiDropdownOption[]) => string;
+  onChange: (value: MultiDropdownOption<string>[]) => void;
+  setTitle: (value: MultiDropdownOption<string>[]) => string;
+};
+
+export const initializeValue = (value: string): MultiDropdownOption<string>[] => {
+  if (!value) return [];
+  return value.split(',').map((string) => ({
+    key: string,
+    value: string,
+  }));
 };
 
 const MultiDropdown: FC<MultiDropdownProps> = ({
@@ -57,7 +62,7 @@ const MultiDropdown: FC<MultiDropdownProps> = ({
     setMultiInputValue(value);
   };
 
-  const handleSelectValue = (selectValue: MultiDropdownOption) => {
+  const handleSelectValue = (selectValue: MultiDropdownOption<string>) => {
     if (selectedKeys.has(selectValue.key)) {
       const newValue = value.filter(({ key }) => key !== selectValue.key);
       onChange(newValue);
@@ -97,7 +102,7 @@ const MultiDropdown: FC<MultiDropdownProps> = ({
         onFocus={handleToggleOptionList}
         placeholder={multiInputPlaceholder}
         disabled={disabled}
-        endIconSlot={<ArrowDownIcon color="secondary" />}
+        endSlot={<ArrowDownIcon color="secondary" />}
       />
       {toggle && options && options.length > 0 && !disabled && (
         <div className={style.list}>
@@ -115,7 +120,7 @@ const MultiDropdown: FC<MultiDropdownProps> = ({
                     data-option-index={index}
                     className={className}
                   >
-                    <Text view="p-xs">{option.value}</Text>
+                    {option.value}
                   </BaseButton>
                 );
               case !multiInputValue:
@@ -126,7 +131,7 @@ const MultiDropdown: FC<MultiDropdownProps> = ({
                     data-option-index={index}
                     className={className}
                   >
-                    <Text view="p-xs">{option.value}</Text>
+                    {option.value}
                   </BaseButton>
                 );
               default:

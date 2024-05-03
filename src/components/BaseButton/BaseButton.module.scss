@@ -7,16 +7,25 @@
   align-items: center;
   justify-content: center;
   border: none;
+  gap: 0 $space-xxs;
   border-radius: $border-radius-m;
   padding: $space-s $space-l;
   color: $button-primary-text;
   background-color: $button-primary-bg;
 
+  &--m {
+    padding: $space-s $space-l;
+  }
+
+  &--l {
+    padding: $space-m $space-xl;
+  }
+
   &:active {
     background-color: $button-primary-bg-active;
   }
 
-  .disabled {
+  &--disabled {
     cursor: default;
     pointer-events: none;
     background-color: $button-primary-bg-disabled;
