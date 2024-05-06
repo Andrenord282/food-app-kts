@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV_MODE=development webpack serve --env mode=development",
-    "build": "cross-env NODE_ENV=production webpack --env mode=production",
+    "build": "cross-env NODE_ENV_MODE=production webpack --env mode=production",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\""
   },
   "devDependencies": {
