@@ -5,6 +5,7 @@ import BaseLayout from './layouts/BaseLayout';
 import NotFoundPage from './pages/NotFoundPage';
 import RecipePage from './pages/RecipePage';
 import RecipesPage from './pages/RecipesPage';
+import AuthPage from './pages/AuthPage';
 import style from './App.module.scss';
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
                 </RecipeStoreProvider>
               }
             />
+            <Route path={ROUTS.AUTH} element={<AuthPage />} />
             <Route path={ROUTS.NOT_FOUND} element={<NotFoundPage />} />
           </Route>
         </Routes>

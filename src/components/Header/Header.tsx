@@ -22,7 +22,7 @@ const Header: FC = () => {
           <Link to={ROUTS.FAVORITE} className={style.favorite}>
             <FavoriteIcon width={18} height={18} color="accent" />
           </Link>
-          <Link to={ROUTS.PROFILE}>
+          <Link to={ROUTS.AUTH}>
             <ProfileIcon width={24} height={24} color="accent" />
           </Link>
         </div>

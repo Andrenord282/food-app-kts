@@ -3,5 +3,6 @@ export const ROUTS = {
   RECIPE: '/recipe/:id',
   FAVORITE: '/favorite',
   PROFILE: '/profile',
+  AUTH: '/auth',
   NOT_FOUND: '*',
 };
