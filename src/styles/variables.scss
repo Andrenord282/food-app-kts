@@ -12,6 +12,7 @@ $rust-light-extra: rgba(181, 70, 15, 0.33);
 $peru-tan: #872d01;
 $alto: #ec8f61;
 $spun-pearl: #afadb5;
+$red-light: #f54d4d;
 
 $app-primary-bg: $albescent-white;
 
@@ -27,6 +28,7 @@ $text-primary-color: $black;
 $text-primary-disabled-color: $black-light;
 $text-secondary-color: $spun-pearl;
 $text-accent-color: $rust;
+$text-error-color: $red-light;
 
 $loader-primary-color: $rust;
 $loader-secondary-color: $white;
@@ -37,7 +39,7 @@ $component-primary-bg: $white;
 $component-primary-bg-disabled: $white-light;
 
 $input-primary-placeholder: $spun-pearl;
-$input-primary-border: $rust;
+$input-primary-border: $rust-light-extra;
 $input-primary-border-hover: $rust;
 $input-primary-border-active: $rust;
 

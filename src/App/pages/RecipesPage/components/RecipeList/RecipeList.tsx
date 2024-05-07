@@ -16,7 +16,7 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
 
   useEffect(() => {
     if (isInitial) {
-      // getRecipes();
+      getRecipes();
     }
   }, [isInitial, getRecipes]);
 
