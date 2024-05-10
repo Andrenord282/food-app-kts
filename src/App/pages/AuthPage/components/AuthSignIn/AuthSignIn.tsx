@@ -3,15 +3,15 @@ import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 import { BaseButton, FormInput } from 'components';
 import { rootStore } from 'store';
-import useFormSignUp from './hooks/useFormSignUp';
-import style from './AuthSignUp.module.scss';
+import useFormSignIn from './hooks/useFormSignIn';
+import style from './AuthSignIn.module.scss';
 
-type AuthSignUpProps = {
+type AuthSignInProps = {
   className?: string;
 };
 
-const AuthSignUp: FC<AuthSignUpProps> = ({ className }) => {
-  const { register, handleSubmit, onSubmit, errors, formValidate } = useFormSignUp();
+const AuthSignIn: FC<AuthSignInProps> = ({ className }) => {
+  const { register, handleSubmit, onSubmit, errors, formValidate } = useFormSignIn();
   const { isLoading } = rootStore.authorization;
 
   return (
@@ -28,16 +28,6 @@ const AuthSignUp: FC<AuthSignUpProps> = ({ className }) => {
           className={style.item}
         />
         <FormInput
-          name="user-name"
-          register={register}
-          validation={formValidate['user-name']}
-          error={errors && errors['user-name']}
-          type="text"
-          label="Enter your name"
-          placeholder="your name"
-          className={style.item}
-        />
-        <FormInput
           name="user-password"
           register={register}
           validation={formValidate['user-password']}
@@ -48,21 +38,12 @@ const AuthSignUp: FC<AuthSignUpProps> = ({ className }) => {
           placeholder="your password"
           className={style.item}
         />
-        <FormInput
-          name="confirm-password"
-          register={register}
-          validation={formValidate['confirm-password']}
-          error={errors['confirm-password']}
-          label="Repeat your password"
-          type="password"
-          autoComplete="new-password"
-          placeholder="repeat password"
-          className={style.item}
-        />
       </div>
-      <BaseButton disabled={isLoading} loading={isLoading}>Registration</BaseButton>
+      <BaseButton disabled={isLoading} loading={isLoading}>
+        Enter
+      </BaseButton>
     </form>
   );
 };
 
-export default observer(AuthSignUp);
+export default observer(AuthSignIn);

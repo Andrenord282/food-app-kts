@@ -13,12 +13,19 @@
   color: $button-primary-text;
   background-color: $button-primary-bg;
 
+  &--s {
+    height: 36px;
+    padding: $space-xxs $space-xs;
+  }
+
   &--m {
-    padding: $space-s $space-l;
+    height: 46px;
+    padding: $space-xs $space-m;
   }
 
   &--l {
-    padding: $space-m $space-xl;
+    height: 52px;
+    padding: $space-s $space-l;
   }
 
   &:active {

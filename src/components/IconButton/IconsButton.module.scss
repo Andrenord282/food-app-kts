@@ -1,6 +1,7 @@
 @import "styles/variables.scss";
 
 .button {
+  $this: &;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -9,22 +10,55 @@
   border-radius: $border-radius-m;
   padding: $space-xxs;
   color: $button-primary-text;
-  background-color: $button-primary-bg;
   overflow: hidden;
 
-  &:active {
-    background-color: $button-primary-bg-active;
+  &--padding-none {
+    padding: 0;
   }
 
-  &--disabled {
+  &--padding-l {
+    padding: $space-xxs;
+  }
+
+  &--primary {
+    color: $button-accent-text;
+    background-color: transparent;
+
+    @media (hover: hover) {
+      &:hover:not(:disabled) {
+        background-color: transparent;
+      }
+    }
+
+    &:active {
+      background-color: transparent;
+    }
+  }
+
+  &--accent {
+    color: $button-primary-text;
+    background-color: $button-primary-bg;
+
+    @media (hover: hover) {
+      &:hover:not(:disabled) {
+        background-color: $button-primary-bg-hover;
+      }
+    }
+
+    &:active {
+      background-color: $button-primary-bg-active;
+    }
+  }
+
+  &--disabled#{$this}--primary {
+    cursor: default;
+    pointer-events: none;
+    background-color: transparent;
+  }
+
+  &--disabled#{$this}--accent {
     cursor: default;
     pointer-events: none;
     background-color: $button-primary-bg-disabled;
-  }
-
-  @media (hover: hover) {
-    &:hover:not(:disabled) {
-      background-color: $button-primary-bg-hover;
-    }
   }
 }

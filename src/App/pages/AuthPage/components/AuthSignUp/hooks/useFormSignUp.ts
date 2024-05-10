@@ -1,5 +1,7 @@
 import { FormEventHandler } from 'react';
 import { useForm, SubmitHandler, FieldValues, UseFormRegister, FieldErrors } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { rootStore } from 'store';
 
 type AuthFormSignUp = {
   'user-email': AuthFormSignUpValidation | string;
@@ -7,6 +9,11 @@ type AuthFormSignUp = {
   'user-password': AuthFormSignUpValidation | string;
   'confirm-password': AuthFormSignUpValidation | string;
 };
+
+export enum SignUpResponse {
+  success = 'success',
+  emailExists = 'auth/email-already-in-use',
+}
 
 type AuthFormSignUpValidation = {
   required: string;
@@ -38,6 +45,7 @@ const useFormSignUp = (): UseFormSignUp<AuthFormSignUp> => {
     setError,
     watch,
   } = useForm<AuthFormSignUp>();
+  const navigate = useNavigate();
 
   const formValidate = {
     'user-email': {
@@ -73,8 +81,22 @@ const useFormSignUp = (): UseFormSignUp<AuthFormSignUp> => {
     },
   };
 
-  const onSubmit: SubmitHandler<AuthFormSignUp> = (data) => {
-    console.log(data)
+  const onSubmit: SubmitHandler<AuthFormSignUp> = async (data) => {
+    const response = await rootStore.authorization.signUp({
+      displayName: data['user-name'] as string,
+      email: data['user-email'] as string,
+      password: data['user-password'] as string,
+    });
+
+    if (response.code === SignUpResponse.success) {
+      navigate('/');
+      return;
+    }
+
+    if (response.code === SignUpResponse.emailExists) {
+      setError('user-email', { message: 'email already in use' });
+      return;
+    }
   };
 
   return {

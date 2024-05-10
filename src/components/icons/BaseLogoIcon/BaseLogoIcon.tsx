@@ -1,17 +1,9 @@
 import { FC, memo } from 'react';
 import { IconProps } from '../Icon';
 
-const BaseLogoIcon: FC<IconProps> = ({ className, width = 24, height = 24, ...props }) => {
+const BaseLogoIcon: FC<IconProps> = ({ width, height}) => {
   return (
-    <svg
-      className={className}
-      width={width}
-      height={height}
-      viewBox="0 0 36 36"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
+    <>
       <g clipPath="url(#clip0_508_1449)">
         <path
           d="M17.8585 0.506165C27.5209 0.506165 35.352 8.33833 35.352 18C35.352 27.6628 27.5209 35.4938 17.8585 35.4938C8.19684 35.4938 0.364685 27.6628 0.364685 18C0.364685 8.33833 8.19684 0.506165 17.8585 0.506165Z"
@@ -46,7 +38,7 @@ const BaseLogoIcon: FC<IconProps> = ({ className, width = 24, height = 24, ...pr
           <rect width={width} height={height} fill="white" />
         </clipPath>
       </defs>
-    </svg>
+    </>
   );
 };
 

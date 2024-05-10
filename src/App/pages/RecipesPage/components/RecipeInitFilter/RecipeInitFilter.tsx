@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { IconButton, SearchIcon } from 'components';
+import { IconButton, Icon, SearchIcon } from 'components';
 import { useRecipesStoreContext } from 'context';
 
 type RecipeInitFilterProps = {
@@ -14,8 +14,16 @@ const RecipeInitFilter: FC<RecipeInitFilterProps> = ({ className }) => {
   };
 
   return (
-    <IconButton disabled={isLoading} loading={isLoading} onClick={handleInitFilter} className={className}>
-      <SearchIcon />
+    <IconButton
+      variant="accent"
+      disabled={isLoading}
+      loading={isLoading}
+      onClick={handleInitFilter}
+      className={className}
+    >
+      <Icon>
+        <SearchIcon color="secondary" />
+      </Icon>
     </IconButton>
   );
 };
