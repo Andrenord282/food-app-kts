@@ -1,28 +1,40 @@
 import cn from 'classnames';
+import { observer } from 'mobx-react-lite';
 import { FC, memo, useCallback } from 'react';
 import { useNavigate, generatePath } from 'react-router-dom';
-import { BaseButton, Text, WatchIcon } from 'components';
+import { BaseButton, IconButton, Text, WatchIcon, Icon, HeartIcon } from 'components';
 import { ROUTS } from 'config/routs';
+import { rootStore } from 'store/index';
 import { RecipeModel } from 'store/models/recipes/modelsClient';
 import style from './RecipeCard.module.scss';
 
 export type RecipeCardProps = {
   className?: string;
   recipe: RecipeModel;
+  saved: boolean;
 };
 
-const RecipeCard: FC<RecipeCardProps> = ({ className, recipe }) => {
+const RecipeCard: FC<RecipeCardProps> = ({ className, recipe, saved }) => {
   const { id, image, title, readyInMinutes, nutrition } = recipe;
   const composition = nutrition.ingredients.map(({ name }) => name).join(' + ');
   const nutritional = `${nutrition.nutrients[0].amount.toFixed()} ${nutrition.nutrients[0].unit}`;
+
   const navigate = useNavigate();
 
-  const handleClickCard = useCallback(() => {
+  const handleOpenDetails = useCallback(() => {
     navigate(generatePath(ROUTS.RECIPE, { id }));
   }, [id, navigate]);
 
+  const handleAddRecipeToSavedList = useCallback(() => {
+    rootStore.user.addRecipeToSavedList(id);
+  }, [id]);
+
+  const handleRemoveRecipeToSavedList = useCallback(() => {
+    rootStore.user.removeRecipeToSavedList(id);
+  }, [id]);
+
   return (
-    <div className={cn(className, style.card)} onClick={handleClickCard}>
+    <div className={cn(className, style.card)} onClick={handleOpenDetails}>
       <div className={style.head}>
         <img src={image} alt="img" className={style['img-item']} />
       </div>
@@ -43,7 +55,29 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe }) => {
             {nutritional}
           </Text>
         )}
-        <BaseButton>Save</BaseButton>
+        {saved && (
+          <IconButton
+            variant="accent"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRemoveRecipeToSavedList();
+            }}
+          >
+            <Icon viewBox="0 0 512.001 512.001" height={30} width={30}>
+              <HeartIcon />
+            </Icon>
+          </IconButton>
+        )}
+        {!saved && (
+          <BaseButton
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddRecipeToSavedList();
+            }}
+          >
+            Save
+          </BaseButton>
+        )}
       </div>
     </div>
   );

@@ -1,0 +1,24 @@
+@import "styles/global.scss";
+@import "styles/variables.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: $space-xxl;
+}
+
+.container {
+  @extend .container--m;
+}
+
+.information {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.loader {
+  margin: auto;
+}

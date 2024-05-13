@@ -12,20 +12,21 @@ type AuthFormSignUp = {
 
 export enum SignUpResponse {
   success = 'success',
+  nameExists = 'auth/name-already-in-use',
   emailExists = 'auth/email-already-in-use',
 }
 
 type AuthFormSignUpValidation = {
-  required: string;
-  pattern?: {
-    value: RegExp;
-    message: string;
-  };
-  minLength?: {
-    value: number;
-    message: string;
-  };
-  validate?: Record<string, (value: string) => string | boolean>;
+  // required: string;
+  // pattern?: {
+  //   value: RegExp;
+  //   message: string;
+  // };
+  // minLength?: {
+  //   value: number;
+  //   message: string;
+  // };
+  // validate?: Record<string, (value: string) => string | boolean>;
 };
 
 type UseFormSignUp<TFieldValues extends FieldValues> = {
@@ -95,6 +96,11 @@ const useFormSignUp = (): UseFormSignUp<AuthFormSignUp> => {
 
     if (response.code === SignUpResponse.emailExists) {
       setError('user-email', { message: 'email already in use' });
+      return;
+    }
+
+    if (response.code === SignUpResponse.nameExists) {
+      setError('user-name', { message: 'name already in use' });
       return;
     }
   };

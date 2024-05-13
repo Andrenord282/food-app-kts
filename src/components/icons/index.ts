@@ -5,6 +5,7 @@ export { default as ProfileIcon } from './ProfileIcon';
 export { default as ShopBasketIcon } from './ShopBasketIcon';
 export { default as SignInIcon } from './SignInIcon';
 export { default as SignOutIcon } from './SignOutIcon';
+export { default as HeartIcon } from './HeartIcon';
 
 export { default as SearchIcon } from './SearchIcon';
 export { default as LoaderIcon } from './LoaderIcon';

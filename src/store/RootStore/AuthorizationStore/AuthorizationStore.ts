@@ -1,3 +1,4 @@
+import { FirebaseError } from 'firebase/app';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -5,8 +6,10 @@ import {
   updateProfile,
   AuthError,
 } from 'firebase/auth';
+import { collection, query, where, getDocs, doc,  setDoc } from 'firebase/firestore';
 import { computed, makeAutoObservable, observable } from 'mobx';
-import { auth } from 'services/firebase/config';
+import { auth, db } from 'services/firebase/config';
+import { UserApi } from 'store/models/user';
 import { Meta, TLocalStore } from 'utils';
 
 type PrivateFields = '_meta';
@@ -52,12 +55,34 @@ export default class AuthorizationStore implements TLocalStore {
     return this._meta === Meta.error;
   }
 
+  private _usernameExists = async (displayName: string) => {
+    const q = query(collection(db, 'users'), where('displayName', '==', displayName));
+    const querySnapshot = await getDocs(q);
+    return !querySnapshot.empty;
+  };
+
+  private _createUser = async (uid: string, displayName: string) => {
+    const user: UserApi = {
+      uid,
+      displayName,
+      recipeSavedList: [],
+      recipeShoppingList: [],
+    };
+    const usersRef = collection(db, 'users');
+    await setDoc(doc(usersRef, uid), user);
+  };
+
   signUp = async ({ displayName, email, password }: SignUpData): Promise<AuthError | { code: string }> => {
     try {
       this._meta = Meta.loading;
+      const usernameExists = await this._usernameExists(displayName);
+      if (usernameExists) {
+        throw new FirebaseError('auth/name-already-in-use', 'name already in use');
+      }
       const response = await createUserWithEmailAndPassword(this._auth, email, password);
       const { user } = response;
       await updateProfile(user, { displayName });
+      await this._createUser(user.uid, displayName);
       this._meta = Meta.success;
       return { code: 'success' };
     } catch (error) {
