@@ -12,7 +12,7 @@ const ProfileNavigation: FC = () => {
 
   return (
     <div className={style.item}>
-      <Link to={ROUTS.FAVORITE} className={style.link}>
+      <Link to={ROUTS.RECIPES_SAVED} className={style.link}>
         <Icon width={17} height={17} viewBox="0 0 19 19">
           <FavoriteIcon color="accent" />
         </Icon>

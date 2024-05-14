@@ -1,0 +1,29 @@
+@import "styles/global.scss";
+@import "styles/variables.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: $space-xl;
+}
+
+
+.search {
+  @extend .container--m;
+  margin-bottom: $space-l;
+}
+
+.filters {
+  @extend .container--m;
+  margin-bottom: $space-xxl;
+}
+
+.list {
+  @extend .container--m;
+  margin-bottom: $space-xxl;
+}
+
+.pagination {
+  margin-top: auto;
+}

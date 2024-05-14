@@ -2,8 +2,8 @@ import { AxiosError } from 'axios';
 import { IReactionDisposer, action, computed, makeAutoObservable, observable, reaction, runInAction } from 'mobx';
 import { ErrorResponse } from 'services/axios';
 import { rootStore, IntervalStore, SpoonacularApiStore } from 'store';
+import { RecipeClient } from 'store/models/recipe';
 import { FilterRecipes, FilterRecipesSchema, RecipeApi, RecipeParamRequest } from 'store/models/recipes/modelsApi';
-import { RecipeModel } from 'store/models/recipes/modelsClient';
 import { normalizeRecipe } from 'store/models/recipes/utils';
 import {
   CollectionModel,
@@ -18,11 +18,12 @@ type PrivateFields = '_meta' | '_offset' | '_total' | '_limit' | '_filter' | '_r
 const RECIPES_LIMIT = 9;
 
 export default class RecipesStore implements TLocalStore {
+  
   private readonly _apiStore = new SpoonacularApiStore();
 
   private _meta: Meta = Meta.initial;
 
-  private _recipes: CollectionModel<number, RecipeModel> = getInitialCollectionModel();
+  private _recipes: CollectionModel<number, RecipeClient> = getInitialCollectionModel();
 
   private _error: ErrorResponse | null = null;
 
@@ -69,8 +70,8 @@ export default class RecipesStore implements TLocalStore {
     });
   }
 
-  get recipes(): RecipeModel[] {
-    return linearizeCollection<number, RecipeModel>(this._recipes);
+  get recipes(): RecipeClient[] {
+    return linearizeCollection<number, RecipeClient>(this._recipes);
   }
 
   get meta(): Meta {
@@ -169,7 +170,7 @@ export default class RecipesStore implements TLocalStore {
       const { results } = data;
 
       runInAction(() => {
-        this._recipes = normalizeCollection<number, RecipeApi, RecipeModel>(
+        this._recipes = normalizeCollection<number, RecipeApi, RecipeClient>(
           results,
           (element) => element.id,
           normalizeRecipe,

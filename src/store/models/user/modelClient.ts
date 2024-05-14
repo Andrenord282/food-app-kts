@@ -1,6 +1,6 @@
 export type UserClient = {
   uid: string;
   userName: string;
-  recipeSavedList: Set<number>;
+  recipeIdSavedList: Set<number>;
   recipeShoppingList: Set<string>;
 };

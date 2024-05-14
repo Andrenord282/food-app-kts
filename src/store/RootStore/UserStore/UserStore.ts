@@ -1,9 +1,18 @@
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
-import { computed, makeObservable, observable, runInAction, toJS } from 'mobx';
+import {
+  doc,
+  collection,
+  setDoc,
+  getDoc,
+  deleteDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+} from 'firebase/firestore';
+import { computed, makeObservable, observable, runInAction } from 'mobx';
 import { auth, db } from 'services/firebase/config';
+import { RecipeClient, RecipeApi, normalizeRecipeApi } from 'store/models/recipe';
 import { UserApi, UserClient, normalizeUser } from 'store/models/user';
-import { Meta } from 'utils';
 
 type PrivateFields = '_userState' | '_user';
 
@@ -13,16 +22,10 @@ enum UserState {
   identified = 'identified',
 }
 
-class UserStore {
+export default class UserStore {
   private _auth = auth;
   private _userState: UserState = UserState.initial;
-
-  private _user: UserClient = {
-    uid: '',
-    userName: '',
-    recipeSavedList: new Set(),
-    recipeShoppingList: new Set(),
-  };
+  private _user: UserClient | null = null;
 
   constructor() {
     this._eventListeningUserAuthorization();
@@ -32,7 +35,7 @@ class UserStore {
       userInitial: computed,
       userUnknown: computed,
       userIdentified: computed,
-      recipeSavedList: computed,
+      recipeIdSavedList: computed,
     });
   }
 
@@ -48,8 +51,12 @@ class UserStore {
     return this._userState === UserState.identified;
   }
 
-  get recipeSavedList(): Set<number> {
-    return this._user.recipeSavedList;
+  get userUid(): string {
+    return this._user?.uid || '';
+  }
+
+  get recipeIdSavedList(): Set<number> {
+    return this._user?.recipeIdSavedList || new Set();
   }
 
   private _initProfile = async (uid: string) => {
@@ -71,34 +78,58 @@ class UserStore {
       }
 
       this._userState = UserState.unknown;
-      this._user = {
-        uid: '',
-        userName: '',
-        recipeSavedList: new Set(),
-        recipeShoppingList: new Set(),
-      };
+      this._user = null;
     });
   };
 
-  addRecipeToSavedList = async (recipeId: number) => {
-    try {
-      const userRef = doc(db, 'users', this._user.uid);
-      await updateDoc(userRef, {
-        recipeSavedList: arrayUnion(recipeId),
-      });
-      this._user.recipeSavedList.add(recipeId);
-    } catch (error) {}
+  private _addRecipeIdToSavedList = async (userUid: string, id: number) => {
+    const docRef = doc(db, 'users', userUid);
+    await updateDoc(docRef, {
+      recipeIdSavedList: arrayUnion(id),
+    });
+    this._user?.recipeIdSavedList.add(id);
   };
 
-  removeRecipeToSavedList = async (recipeId: number) => {
+  private _addRecipeToSavedList = async (userUid: string, recipe: RecipeApi) => {
+    const docRef = doc(db, `users`, userUid);
+    const collectionRef = collection(docRef, 'recipeSavedList');
+    await setDoc(doc(collectionRef, String(recipe.id)), recipe);
+  };
+
+  private _removeRecipeIdToSavedList = async (userUid: string, id: number) => {
+    const docRef = doc(db, 'users', userUid);
+    await updateDoc(docRef, {
+      recipeIdSavedList: arrayRemove(id),
+    });
+    this._user?.recipeIdSavedList.delete(id);
+  };
+
+  private _removeRecipeToSavedList = async (userUid: string, id: number) => {
+    const docRef = doc(db, `users/${userUid}/recipeSavedList`, String(id));
+    await deleteDoc(docRef);
+  };
+
+  addRecipeToSavedList = async (recipe: RecipeClient) => {
     try {
-      const userRef = doc(db, 'users', this._user.uid);
-      await updateDoc(userRef, {
-        recipeSavedList: arrayRemove(recipeId),
-      });
-      this._user.recipeSavedList.delete(recipeId);
-    } catch (error) {}
+      if (this._user === null) {
+        return;
+      }
+      await this._addRecipeIdToSavedList(this._user.uid, recipe.id);
+      await this._addRecipeToSavedList(this._user.uid, normalizeRecipeApi(recipe));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  removeRecipeToSavedList = async (recipe: RecipeClient) => {
+    try {
+      if (this._user === null) {
+        return;
+      }
+      await this._removeRecipeIdToSavedList(this._user.uid, recipe.id);
+      await this._removeRecipeToSavedList(this._user.uid, recipe.id);
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
-
-export default UserStore;

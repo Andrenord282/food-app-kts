@@ -6,7 +6,7 @@ import {
   updateProfile,
   AuthError,
 } from 'firebase/auth';
-import { collection, query, where, getDocs, doc,  setDoc } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, setDoc } from 'firebase/firestore';
 import { computed, makeAutoObservable, observable } from 'mobx';
 import { auth, db } from 'services/firebase/config';
 import { UserApi } from 'store/models/user';
@@ -65,7 +65,7 @@ export default class AuthorizationStore implements TLocalStore {
     const user: UserApi = {
       uid,
       displayName,
-      recipeSavedList: [],
+      recipeIdSavedList: [],
       recipeShoppingList: [],
     };
     const usersRef = collection(db, 'users');

@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ROUTS } from 'config/routs';
-import { RecipesStoreProvider, RecipeStoreProvider } from 'context';
+import { RecipesStoreProvider, RecipeStoreProvider, RecipeSavedListProvider } from 'context';
 import BaseLayout from './layouts/BaseLayout';
 import AuthPage from './pages/AuthPage';
 import NotFoundPage from './pages/NotFoundPage';
 import RecipePage from './pages/RecipePage';
 import RecipesPage from './pages/RecipesPage';
+import RecipesSavedPage from './pages/RecipesSavedPage';
 import style from './App.module.scss';
 
 const App = () => {
@@ -28,6 +29,14 @@ const App = () => {
                 <RecipeStoreProvider>
                   <RecipePage />
                 </RecipeStoreProvider>
+              }
+            />
+            <Route
+              path={ROUTS.RECIPES_SAVED}
+              element={
+                <RecipeSavedListProvider>
+                  <RecipesSavedPage />
+                </RecipeSavedListProvider>
               }
             />
             <Route path={ROUTS.AUTH} element={<AuthPage />} />

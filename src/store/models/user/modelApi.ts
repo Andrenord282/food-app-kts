@@ -1,6 +1,6 @@
 export type UserApi = {
   uid: string;
   displayName: string;
-  recipeSavedList: number[];
+  recipeIdSavedList: number[];
   recipeShoppingList: string[];
 };

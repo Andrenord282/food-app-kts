@@ -3,7 +3,7 @@ import { parse, stringify } from 'qs';
 
 type PrivateFields = '_params' | '_search' | '_initSearch' | '_updateSearch';
 
-class QueryParamsStore {
+export default class QueryParamsStore {
   private _params: qs.ParsedQs = {};
 
   private _search: string = '';
@@ -48,5 +48,3 @@ class QueryParamsStore {
     this._updateSearch(search);
   }
 }
-
-export default QueryParamsStore;

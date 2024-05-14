@@ -10,4 +10,7 @@ export { default as MultiSelect } from './MultiSelect';
 export { default as IconButton } from './IconButton';
 export { default as Loader } from './Loader';
 export { default as Pagination } from './Pagination';
+export { default as RecipeCard } from './RecipeCard';
+export { default as RecipeSkeletonCard } from './RecipeSkeletonCard';
+export { default as InfiniteScroll } from './InfiniteScroll';
 export * from './icons';

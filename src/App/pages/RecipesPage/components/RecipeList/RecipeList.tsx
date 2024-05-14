@@ -1,11 +1,9 @@
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
-import { Text } from 'components';
+import { Text, RecipeCard, RecipeSkeletonCard } from 'components';
 import { useRecipesStoreContext } from 'context';
 import { rootStore } from 'store';
-import RecipeCard from '../RecipeCard';
-import SkeletonCard from '../SkeletonCard';
 import style from './RecipeList.module.scss';
 
 type RecipeListPorps = {
@@ -15,7 +13,7 @@ type RecipeListPorps = {
 const RecipeList: FC<RecipeListPorps> = ({ className }) => {
   const { isInitial, isLoading, isSuccess, isError, isEmpty, limit, recipes, error, getRecipes } =
     useRecipesStoreContext();
-  const recipeSavedList = rootStore.user.recipeSavedList;
+  const recipeIdSavedList = rootStore.user.recipeIdSavedList;
 
   useEffect(() => {
     if (isInitial) {
@@ -29,7 +27,7 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
         {Array.from({ length: limit })
           .fill(10)
           .map((_, index) => {
-            return <SkeletonCard key={index} className={style.item} />;
+            return <RecipeSkeletonCard key={index} className={style.item} />;
           })}
       </div>
     );
@@ -40,7 +38,12 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
       <div className={cn(className, style.section)}>
         {recipes.map((recipe) => {
           return (
-            <RecipeCard key={recipe.id} saved={recipeSavedList.has(recipe.id)} recipe={recipe} className={style.item} />
+            <RecipeCard
+              key={recipe.id}
+              saved={recipeIdSavedList.has(recipe.id)}
+              recipe={recipe}
+              className={style.item}
+            />
           );
         })}
       </div>
