@@ -1,4 +1,4 @@
-export { default as RecipesStore } from './RecipesStore';
+export { default as RecipesOverviewListStore } from './RecipesOverviewListStore';
 export { default as RecipeSearchStore } from './RecipeSearchStore';
 export { default as RecipeFilterStore } from './RecipeFilterStore';
 export { default as RecipeSavedListStore } from './RecipeSavedListStore';

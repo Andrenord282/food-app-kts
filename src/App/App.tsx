@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ROUTS } from 'config/routs';
-import { RecipesStoreProvider, RecipeStoreProvider, RecipeSavedListProvider } from 'context';
+import { RecipesOverviewListProvider, RecipeStoreProvider, RecipeSavedListProvider } from 'context';
 import BaseLayout from './layouts/BaseLayout';
 import AuthPage from './pages/AuthPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -18,9 +18,9 @@ const App = () => {
             <Route
               index
               element={
-                <RecipesStoreProvider>
+                <RecipesOverviewListProvider>
                   <RecipesPage />
-                </RecipesStoreProvider>
+                </RecipesOverviewListProvider>
               }
             />
             <Route

@@ -4,7 +4,7 @@ import { FC, useState, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Text, SingleSelect, IconButton, BaseCrossIcon } from 'components';
 import { SingleSelectValue } from 'components/SingleSelect';
-import { useRecipesStoreContext } from 'context';
+import { useRecipesOverviewList } from 'context';
 import { RecipeSearchStore } from 'store';
 import { useLocalStore } from 'utils';
 import style from './RecipeSearch.module.scss';
@@ -17,7 +17,7 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isLoading, isSuccess, isError, isEmpty, searchValue, searchOptions, setSearchValue, resetSearchOptions } =
     useLocalStore(() => new RecipeSearchStore('query'));
-  const { setFilter } = useRecipesStoreContext();
+  const { setFilter } = useRecipesOverviewList();
   const [toggle, setToggle] = useState<boolean>(false);
   const [selected, setSelected] = useState<SingleSelectValue<number, string> | null>(null);
   const [value, setValue] = useState<string>(searchValue);

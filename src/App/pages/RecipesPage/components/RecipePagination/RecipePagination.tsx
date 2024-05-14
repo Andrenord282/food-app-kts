@@ -1,7 +1,7 @@
 import { FC, memo, useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Pagination } from 'components';
-import { useRecipesStoreContext } from 'context';
+import { useRecipesOverviewList } from 'context';
 
 type RecipePagination = {
   className?: string;
@@ -9,7 +9,7 @@ type RecipePagination = {
 
 const RecipePagination: FC<RecipePagination> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { page, limit, total } = useRecipesStoreContext();
+  const { page, limit, total } = useRecipesOverviewList();
   const totalPages = useMemo(() => Math.ceil(total / limit), [total, limit]);
   const isStartPage = useMemo(() => page === 1, [page]);
   const isEndPage = useMemo(() => page === totalPages, [totalPages, page]);

@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
 import { Text, RecipeCard, RecipeSkeletonCard } from 'components';
-import { useRecipesStoreContext } from 'context';
+import { useRecipesOverviewList } from 'context';
 import { rootStore } from 'store';
 import style from './RecipeList.module.scss';
 
@@ -11,8 +11,8 @@ type RecipeListPorps = {
 };
 
 const RecipeList: FC<RecipeListPorps> = ({ className }) => {
-  const { isInitial, isLoading, isSuccess, isError, isEmpty, limit, recipes, error, getRecipes } =
-    useRecipesStoreContext();
+  const { isInitial, isLoading, isSuccess, isError, isEmpty, limit, list, error, getRecipes } =
+    useRecipesOverviewList();
   const recipeIdSavedList = rootStore.user.recipeIdSavedList;
 
   useEffect(() => {
@@ -36,14 +36,9 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
   if (isSuccess && !isEmpty) {
     return (
       <div className={cn(className, style.section)}>
-        {recipes.map((recipe) => {
+        {list.map((item) => {
           return (
-            <RecipeCard
-              key={recipe.id}
-              saved={recipeIdSavedList.has(recipe.id)}
-              recipe={recipe}
-              className={style.item}
-            />
+            <RecipeCard key={item.id} saved={recipeIdSavedList.has(item.id)} recipe={item} className={style.item} />
           );
         })}
       </div>

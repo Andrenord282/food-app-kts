@@ -13,17 +13,16 @@ import {
 } from 'store/models/shared';
 import { Meta, TLocalStore } from 'utils';
 
-type PrivateFields = '_meta' | '_offset' | '_total' | '_limit' | '_filter' | '_recipes' | '_error' | '_page';
+type PrivateFields = '_meta' | '_offset' | '_total' | '_limit' | '_filter' | '_list' | '_error' | '_page';
 
 const RECIPES_LIMIT = 9;
 
-export default class RecipesStore implements TLocalStore {
-  
+export default class RecipesOverviewListStore implements TLocalStore {
   private readonly _apiStore = new SpoonacularApiStore();
 
   private _meta: Meta = Meta.initial;
 
-  private _recipes: CollectionModel<number, RecipeClient> = getInitialCollectionModel();
+  private _list: CollectionModel<number, RecipeClient> = getInitialCollectionModel();
 
   private _error: ErrorResponse | null = null;
 
@@ -44,17 +43,17 @@ export default class RecipesStore implements TLocalStore {
   private readonly _intervalStore = new IntervalStore();
 
   constructor() {
-    makeAutoObservable<RecipesStore, PrivateFields>(this, {
+    makeAutoObservable<RecipesOverviewListStore, PrivateFields>(this, {
       _meta: observable,
       _offset: observable,
       _limit: observable,
       _filter: observable.ref,
-      _recipes: observable.ref,
+      _list: observable.ref,
       _error: observable.ref,
       _page: observable,
       _total: observable,
       meta: computed,
-      recipes: computed,
+      list: computed,
       limit: computed,
       error: computed,
       page: computed,
@@ -70,8 +69,8 @@ export default class RecipesStore implements TLocalStore {
     });
   }
 
-  get recipes(): RecipeClient[] {
-    return linearizeCollection<number, RecipeClient>(this._recipes);
+  get list(): RecipeClient[] {
+    return linearizeCollection<number, RecipeClient>(this._list);
   }
 
   get meta(): Meta {
@@ -121,7 +120,7 @@ export default class RecipesStore implements TLocalStore {
   }
 
   get isEmpty(): boolean {
-    return this._meta === Meta.success && this._recipes.order.length === 0;
+    return this._meta === Meta.success && this._list.order.length === 0;
   }
 
   private _initRequestParam() {
@@ -164,13 +163,13 @@ export default class RecipesStore implements TLocalStore {
     try {
       const { resetPage = false } = option;
       this._meta = Meta.loading;
-      this._recipes = getInitialCollectionModel();
+      this._list = getInitialCollectionModel();
       if (resetPage) this.updatePage(1);
       const { data } = await this._request();
       const { results } = data;
 
       runInAction(() => {
-        this._recipes = normalizeCollection<number, RecipeApi, RecipeClient>(
+        this._list = normalizeCollection<number, RecipeApi, RecipeClient>(
           results,
           (element) => element.id,
           normalizeRecipe,

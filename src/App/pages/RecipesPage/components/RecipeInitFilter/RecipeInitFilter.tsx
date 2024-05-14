@@ -1,13 +1,13 @@
 import { FC } from 'react';
 import { IconButton, Icon, SearchIcon } from 'components';
-import { useRecipesStoreContext } from 'context';
+import { useRecipesOverviewList } from 'context';
 
 type RecipeInitFilterProps = {
   className?: string;
 };
 
 const RecipeInitFilter: FC<RecipeInitFilterProps> = ({ className }) => {
-  const { isLoading, getRecipes } = useRecipesStoreContext();
+  const { isLoading, getRecipes } = useRecipesOverviewList();
 
   const handleInitFilter = () => {
     getRecipes({ resetPage: true });
