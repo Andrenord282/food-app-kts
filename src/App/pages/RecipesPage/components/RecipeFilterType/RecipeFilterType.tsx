@@ -1,7 +1,6 @@
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { FC, useCallback, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { ArrowDownIcon, IconButton, MultiSelect } from 'components';
 import { MultiSelectValue } from 'components/MultiSelect';
 import { RecipeFilterStore } from 'store';
@@ -14,7 +13,6 @@ type RecipeFilterTypePorps = {
 };
 
 const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
   const { filterOptions, filterSelected, updateFilter } = useLocalStore(() => new RecipeFilterStore('type', types));
   const [toggle, setToggle] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
@@ -32,12 +30,8 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
   const handleChangeSelect = useCallback(
     (selected: MultiSelectValue<string, string>[]) => {
       updateFilter(selected);
-      // selected.length === 0
-      //   ? searchParams.delete('type')
-      //   : searchParams.set('type', selected.map(({ value }) => value).join(','));
-      // setSearchParams(searchParams);
     },
-    [updateFilter, searchParams, setSearchParams],
+    [updateFilter],
   );
 
   const handleChangeValue = useCallback((value: string) => {

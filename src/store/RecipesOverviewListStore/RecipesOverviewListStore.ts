@@ -138,12 +138,21 @@ export default class RecipesOverviewListStore implements TLocalStore {
     return await this._apiStore.getRecipes(param);
   }
 
-  private readonly _queryTypeReaction: IReactionDisposer = reaction(
+  private readonly _queryRecipeTypeReaction: IReactionDisposer = reaction(
     () => rootStore.query.getParam('type'),
-    async (type) => {
+    (type) => {
       this._filter.type = type as string;
     },
   );
+
+  private readonly _queryRecipeQueryReaction: IReactionDisposer = reaction(
+    () => rootStore.query.getParam('query'),
+    async (query) => {
+      this._filter.query = query as string;
+      await this.getRecipes({ resetPage: true });
+    },
+  );
+
   private readonly _queryPageReaction: IReactionDisposer = reaction(
     () => rootStore.query.getParam('page'),
     async (page) => {

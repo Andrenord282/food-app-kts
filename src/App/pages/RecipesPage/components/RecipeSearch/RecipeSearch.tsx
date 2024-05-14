@@ -1,10 +1,8 @@
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { FC, useState, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { Text, SingleSelect, IconButton, BaseCrossIcon } from 'components';
 import { SingleSelectValue } from 'components/SingleSelect';
-import { useRecipesOverviewList } from 'context';
 import { RecipeSearchStore } from 'store';
 import { useLocalStore } from 'utils';
 import style from './RecipeSearch.module.scss';
@@ -14,10 +12,17 @@ type RecipeSearchProps = {
 };
 
 const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const { isLoading, isSuccess, isError, isEmpty, searchValue, searchOptions, setSearchValue, resetSearchOptions } =
-    useLocalStore(() => new RecipeSearchStore('query'));
-  const { setFilter } = useRecipesOverviewList();
+  const {
+    isLoading,
+    isSuccess,
+    isError,
+    isEmpty,
+    searchValue,
+    searchOptions,
+    updateSearchValue,
+    resetSearchOptions,
+    selectSearchValue,
+  } = useLocalStore(() => new RecipeSearchStore('query'));
   const [toggle, setToggle] = useState<boolean>(false);
   const [selected, setSelected] = useState<SingleSelectValue<number, string> | null>(null);
   const [value, setValue] = useState<string>(searchValue);
@@ -30,36 +35,26 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
     (selected: SingleSelectValue<number, string>) => {
       setValue(selected.value);
       setSelected(selected);
-
-      setFilter('query', selected.value);
       resetSearchOptions();
-
-      searchParams.set('query', selected.value);
-      searchParams.delete('page');
-      setSearchParams(searchParams);
+      selectSearchValue(selected.value);
     },
-    [searchParams, setSearchParams, setFilter, resetSearchOptions],
+    [resetSearchOptions, selectSearchValue],
   );
 
   const handleResetSelect = useCallback(() => {
-    setSelected(null);
     setValue('');
-
+    setSelected(null);
     resetSearchOptions();
-    setFilter('query', '');
+    selectSearchValue('');
     setToggle(false);
-
-    searchParams.delete('query');
-    searchParams.delete('page');
-    setSearchParams(searchParams);
-  }, [searchParams, setSearchParams, setFilter, resetSearchOptions]);
+  }, [resetSearchOptions, selectSearchValue]);
 
   const handleChangeValue = useCallback(
     (value: string) => {
       setValue(value);
-      setSearchValue(value);
+      updateSearchValue(value);
     },
-    [setSearchValue],
+    [updateSearchValue],
   );
 
   const handleChangeToggle = useCallback(

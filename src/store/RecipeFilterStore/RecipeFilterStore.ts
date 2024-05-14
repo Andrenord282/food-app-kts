@@ -23,7 +23,7 @@ export default class RecipeFilterStore implements TLocalStore {
 
   constructor(name: string, options: FilterItem<string, string>[]) {
     this._filterName = name;
-    this._filterValue = rootStore.query.getParam(this._filterName);
+    this._filterValue = rootStore.query.getParam(this._filterName)?.replace(/\+/g, ' ');
     this._filterOptions = options;
     this._filterSelected = this._initFilterSelected(this._filterValue);
 
@@ -44,7 +44,7 @@ export default class RecipeFilterStore implements TLocalStore {
 
   get filterValue(): string {
     if (!this._filterValue) return '';
-    return this._filterValue.split(',').join(', ');
+    return this._filterValue;
   }
 
   get filterOptions(): FilterItem<string, string>[] {
@@ -77,8 +77,9 @@ export default class RecipeFilterStore implements TLocalStore {
   };
 
   private _setFilterValue = (selected: FilterItem<string, string>[]) => {
-    this._filterValue = selected.map(({ value }) => value).join(', ');
+    this._filterValue = selected.map(({ value }) => value).join(',');
     rootStore.query.updateParam({ key: this._filterName, value: this._filterValue });
+    rootStore.query.updateParam({ key: 'page', value: '' });
   };
 
   destroy(): void {}

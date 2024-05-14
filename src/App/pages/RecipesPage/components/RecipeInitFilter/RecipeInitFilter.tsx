@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 import { IconButton, Icon, SearchIcon } from 'components';
 import { useRecipesOverviewList } from 'context';
@@ -28,4 +29,4 @@ const RecipeInitFilter: FC<RecipeInitFilterProps> = ({ className }) => {
   );
 };
 
-export default RecipeInitFilter;
+export default observer(RecipeInitFilter);

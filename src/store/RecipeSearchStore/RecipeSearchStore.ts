@@ -26,7 +26,7 @@ export default class RecipeSearchStore implements TLocalStore {
 
   constructor(name: string) {
     this._searchName = name;
-    this._searchValue = rootStore.query.getParam(name) || '';
+    this._searchValue = rootStore.query.getParam(name)?.replace(/\+/g, ' ') || '';
 
     makeAutoObservable<RecipeSearchStore, PrivateFields>(this, {
       _meta: observable,
@@ -43,7 +43,7 @@ export default class RecipeSearchStore implements TLocalStore {
       searchOptions: computed,
       searchValue: computed,
       getSearchRecipe: action,
-      setSearchValue: action,
+      updateSearchValue: action,
       resetSearchOptions: action,
     });
   }
@@ -92,6 +92,12 @@ export default class RecipeSearchStore implements TLocalStore {
     return await this._apiStore.getSearchRecipe(param);
   }
 
+  private _setSearchValue = (value: string) => {
+    this._searchValue = value;
+    rootStore.query.updateParam({ key: this._searchName, value: this._searchValue });
+    rootStore.query.updateParam({ key: 'page', value: '' });
+  };
+
   getSearchRecipe = async () => {
     try {
       this._meta = Meta.loading;
@@ -119,7 +125,11 @@ export default class RecipeSearchStore implements TLocalStore {
     }
   };
 
-  setSearchValue = (value: string) => {
+  selectSearchValue = async (value: string) => {
+    this._setSearchValue(value);
+  };
+
+  updateSearchValue = (value: string) => {
     this._searchValue = value;
 
     this._intervalStore.startTimeout(async () => {

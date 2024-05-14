@@ -1,14 +1,14 @@
 import { FC, memo, useCallback, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { Pagination } from 'components';
 import { useRecipesOverviewList } from 'context';
+import { rootStore } from 'store/index';
+import { observer } from 'mobx-react-lite';
 
 type RecipePagination = {
   className?: string;
 };
 
 const RecipePagination: FC<RecipePagination> = ({ className }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
   const { page, limit, total } = useRecipesOverviewList();
   const totalPages = useMemo(() => Math.ceil(total / limit), [total, limit]);
   const isStartPage = useMemo(() => page === 1, [page]);
@@ -40,13 +40,9 @@ const RecipePagination: FC<RecipePagination> = ({ className }) => {
     }, []);
   }, [page, totalPages]);
 
-  const handleChangePage = useCallback(
-    (page: number) => {
-      searchParams.set('page', String(page));
-      setSearchParams(searchParams);
-    },
-    [searchParams, setSearchParams],
-  );
+  const handleChangePage = useCallback((page: number) => {
+    rootStore.query.updateParam({ key: 'page', value: String(page) });
+  }, []);
 
   return (
     <Pagination
@@ -60,4 +56,4 @@ const RecipePagination: FC<RecipePagination> = ({ className }) => {
   );
 };
 
-export default memo(RecipePagination);
+export default observer(RecipePagination);
