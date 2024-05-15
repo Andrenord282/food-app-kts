@@ -2,10 +2,13 @@ import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Header, Loader } from 'components';
+import { useQueryParamsStoreInit } from 'store/RootStore/hooks';
 import { rootStore } from 'store/index';
 import style from './BaseLayout.module.scss';
 
 const BaseLayout: FC = () => {
+  useQueryParamsStoreInit();
+
   if (rootStore.user.userInitial) {
     return (
       <div className={style.wrapper}>

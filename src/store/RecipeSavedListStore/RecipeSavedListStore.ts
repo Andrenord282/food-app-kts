@@ -35,9 +35,9 @@ export default class RecipeSavedListStore implements TLocalStore {
 
   private _limit = RECIPES_LIMIT;
 
-  private _cursorItem: QueryDocumentSnapshot<DocumentData, DocumentData> | null = null;
-
   private _total: number = 0;
+
+  private _cursor: QueryDocumentSnapshot<DocumentData, DocumentData> | null = null;
 
   constructor() {
     makeAutoObservable<RecipeSavedListStore, PrivateFields>(this, {
@@ -87,43 +87,55 @@ export default class RecipeSavedListStore implements TLocalStore {
   private async _request(): Promise<{
     total: number;
     list: RecipeApi[];
-    cursorItem: QueryDocumentSnapshot<DocumentData, DocumentData>;
+    cursor: QueryDocumentSnapshot<DocumentData, DocumentData>;
   }> {
     const list: RecipeApi[] = [];
     const collectionRef = collection(db, `users/${this._userUid}/recipeSavedList`);
 
-    if (this._cursorItem === null) {
-      const q = query(collectionRef, orderBy('createdAt', 'desc'), limit(this._limit));
+    if (this._cursor === null) {
+      const q = query(collectionRef, orderBy('createdAt', 'desc'), limit(this._page * this._limit));
+
       const querySnapshot = await getDocs(q);
+
       querySnapshot.forEach((doc) => {
         list.push(doc.data() as RecipeApi);
       });
+
       const total = (await getCountFromServer(query(collectionRef, orderBy('createdAt', 'desc')))).data().count;
-      const cursorItem = querySnapshot.docs[querySnapshot.docs.length - 1];
+      const cursor = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+      rootStore.query.updateParam({ key: 'page', value: String(this._page) });
 
       return {
         total,
         list,
-        cursorItem,
+        cursor,
       };
     }
 
-    const q = query(collectionRef, orderBy('createdAt', 'desc'), startAfter(this._cursorItem), limit(this._limit));
+    const q = query(collectionRef, orderBy('createdAt', 'desc'), startAfter(this._cursor), limit(this._limit));
+
     const querySnapshot = await getDocs(q);
+
     querySnapshot.forEach((doc) => {
       list.push(doc.data() as RecipeApi);
     });
-    const total = (await getCountFromServer(query(collectionRef, orderBy('createdAt', 'desc')))).data().count;
-    const cursorItem = querySnapshot.docs[querySnapshot.docs.length - 1];
 
-    return { total, list, cursorItem };
+    const total = (await getCountFromServer(query(collectionRef, orderBy('createdAt', 'desc')))).data().count;
+    const cursor = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    console.log(this._page + 1)
+
+    rootStore.query.updateParam({ key: 'page', value: String(this._page + 1) });
+
+    return { total, list, cursor };
   }
 
   getList = async (option: { resetPage?: boolean } = {}) => {
     try {
       const { resetPage = false } = option;
       this._meta = Meta.loading;
-      const { total, list, cursorItem } = await this._request();
+      const { total, list, cursor } = await this._request();
       runInAction(() => {
         const newItems = normalizeCollection<number, RecipeApi, RecipeClient>(
           list,
@@ -132,7 +144,7 @@ export default class RecipeSavedListStore implements TLocalStore {
         );
         this._list.entities = { ...this._list.entities, ...newItems.entities };
         this._list.order = [...this._list.order, ...newItems.order];
-        this._cursorItem = cursorItem;
+        this._cursor = cursor;
         this._total = total;
         this._meta = Meta.success;
       });

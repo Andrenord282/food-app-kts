@@ -1,7 +1,7 @@
 import { action, makeObservable, observable } from 'mobx';
 import { parse, stringify } from 'qs';
 
-type PrivateFields = '_params' | '_search' | '_initSearch';
+type PrivateFields = '_params' | '_search';
 
 export default class QueryParamsStore {
   private _params: qs.ParsedQs = {};
@@ -9,13 +9,10 @@ export default class QueryParamsStore {
   private _search: string = '';
 
   constructor() {
-    this._search = window.location.search;
-    this._initSearch(this._search);
-
     makeObservable<QueryParamsStore, PrivateFields>(this, {
       _params: observable.ref,
       _search: observable,
-      _initSearch: action,
+      initSearch: action,
       updateParam: action,
     });
   }
@@ -24,8 +21,8 @@ export default class QueryParamsStore {
     return this._params[key] as string;
   }
 
-  private _initSearch(search: string) {
-    search = search.startsWith('?') ? search.slice(1) : search;
+  initSearch(search: string) {
+    search = search.startsWith('?') ? window.location.search.slice(1) : search;
 
     if (this._search !== search) {
       this._search = search;
@@ -42,6 +39,6 @@ export default class QueryParamsStore {
     this._search = stringify(params, { addQueryPrefix: true });
     this._params = parse(this._search.replace(/\?/g, ''));
     const url = decodeURIComponent(`${window.location.pathname}${this._search}${window.location.hash}`);
-    window.history.pushState({}, '', url);
+    window.history.replaceState({}, '', url);
   }
 }
