@@ -78,8 +78,6 @@ export default class RecipeFilterStore implements TLocalStore {
 
   private _setFilterValue = (selected: FilterItem<string, string>[]) => {
     this._filterValue = selected.map(({ value }) => value).join(',');
-    rootStore.query.updateParam({ key: this._filterName, value: this._filterValue });
-    rootStore.query.updateParam({ key: 'page', value: '' });
   };
 
   destroy(): void {}

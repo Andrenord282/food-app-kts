@@ -24,7 +24,7 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
     selectSearchValue,
   } = useLocalStore(() => new RecipeSearchStore('query'));
   const [toggle, setToggle] = useState<boolean>(false);
-  const [selected, setSelected] = useState<SingleSelectValue<number, string> | null>(null);
+  const [selected, setSelected] = useState<SingleSelectValue<number | string, string> | null>(null);
   const [value, setValue] = useState<string>(searchValue);
 
   const handleTitle = useCallback(() => {
@@ -32,7 +32,7 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
   }, [value]);
 
   const handleChangeSelect = useCallback(
-    (selected: SingleSelectValue<number, string>) => {
+    (selected: SingleSelectValue<number | string, string>) => {
       setValue(selected.value);
       setSelected(selected);
       resetSearchOptions();

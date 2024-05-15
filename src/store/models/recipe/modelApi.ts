@@ -13,6 +13,8 @@ export type RecipeApi = {
   image: string;
   title: string;
   readyInMinutes: number;
+  dishTypes: string[];
+  cuisines: string[];
   nutrition: NutritionApi;
   createdAt: FieldValue;
 };

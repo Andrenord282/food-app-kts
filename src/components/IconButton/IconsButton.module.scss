@@ -61,4 +61,8 @@
     pointer-events: none;
     background-color: $button-primary-bg-disabled;
   }
+
+  & svg {
+    flex-shrink: 0;
+  }
 }

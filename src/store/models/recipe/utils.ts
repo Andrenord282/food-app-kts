@@ -8,6 +8,8 @@ export const normalizeRecipeClient = (from: RecipeApi): RecipeClient => {
     title: from.title,
     readyInMinutes: from.readyInMinutes,
     nutrition: from.nutrition,
+    cuisines: from.cuisines,
+    dishTypes: from.dishTypes,
   };
 };
 
@@ -18,6 +20,8 @@ export const normalizeRecipeApi = (from: RecipeClient): RecipeApi => {
     title: from.title,
     readyInMinutes: from.readyInMinutes,
     nutrition: from.nutrition,
+    cuisines: from.cuisines,
+    dishTypes: from.dishTypes,
     createdAt: serverTimestamp(),
   };
 };

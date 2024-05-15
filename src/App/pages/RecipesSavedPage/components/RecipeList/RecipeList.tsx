@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { FC, useCallback, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Text, RecipeCard, RecipeSkeletonCard, InfiniteScroll } from 'components';
 import { useRecipeSavedListContext } from 'context/RecipeSavedListContext';
 import { rootStore } from 'store';
@@ -11,7 +12,8 @@ type RecipeListPorps = {
 };
 
 const RecipeList: FC<RecipeListPorps> = ({ className }) => {
-  const { isInitial, isLoading, isSuccess, isEmpty, list, limit, total, getList } = useRecipeSavedListContext();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { isInitial, isLoading, isSuccess, isEmpty, list, limit, page, total, getList } = useRecipeSavedListContext();
   const recipeIdSavedList = rootStore.user.recipeIdSavedList;
 
   useEffect(() => {
@@ -21,16 +23,22 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
   }, [isInitial, getList]);
 
   const handleUpdateList = useCallback(() => {
-    getList();
-  }, [getList]);
+    searchParams.set('page', String(page + 1));
+    setSearchParams(searchParams);
+  }, [page, searchParams, setSearchParams]);
 
   if (isLoading) {
     return (
-      <div className={cn(className, style.section)}>
+      <div className={cn(className, style.list)}>
         {list.length > 0 &&
           list.map((item) => {
             return (
-              <RecipeCard key={item.id} saved={recipeIdSavedList.has(item.id)} recipe={item} className={style.item} />
+              <RecipeCard
+                key={item.id}
+                saved={recipeIdSavedList.has(item.id)}
+                recipe={item}
+                className={style.item}
+              />
             );
           })}
         {Array.from({ length: limit })
@@ -45,10 +53,15 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
   if (isSuccess && !isEmpty) {
     return (
       <>
-        <div className={cn(className, style.section)}>
+        <div className={cn(className, style.list)}>
           {list.map((item) => {
             return (
-              <RecipeCard key={item.id} saved={recipeIdSavedList.has(item.id)} recipe={item} className={style.item} />
+              <RecipeCard
+                key={item.id}
+                saved={recipeIdSavedList.has(item.id)}
+                recipe={item}
+                className={style.item}
+              />
             );
           })}
         </div>
@@ -59,7 +72,7 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
 
   if (isSuccess && isEmpty) {
     return (
-      <div className={cn(className, style.section, style['section--information'])}>
+      <div className={cn(className, style.information)}>
         <Text tag="h2" view="title-l" weight="700" align="center">
           No saved recipes
         </Text>

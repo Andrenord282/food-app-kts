@@ -16,8 +16,10 @@
   @include for-large-desktop-down {
     justify-content: space-between;
   }
+  
   @include for-mobile-down {
     justify-content: center;
+    gap: $space-xl $space-xl;
   }
 }
 

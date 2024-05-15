@@ -65,7 +65,6 @@ export default class RecipesOverviewListStore implements TLocalStore {
       isEmpty: computed,
       getRecipes: action,
       updatePage: action,
-      setFilter: action,
     });
   }
 
@@ -123,7 +122,7 @@ export default class RecipesOverviewListStore implements TLocalStore {
     return this._meta === Meta.success && this._list.order.length === 0;
   }
 
-  private _initRequestParam() {
+  private _initRequestParam(): RecipeParamRequest {
     const param: RecipeParamRequest = {
       offset: this._offset,
       number: this._limit,
@@ -140,8 +139,11 @@ export default class RecipesOverviewListStore implements TLocalStore {
 
   private readonly _queryRecipeTypeReaction: IReactionDisposer = reaction(
     () => rootStore.query.getParam('type'),
-    (type) => {
+    async (type) => {
       this._filter.type = type as string;
+      if (!type) {
+        await this.getRecipes({ resetPage: true });
+      }
     },
   );
 
@@ -194,13 +196,9 @@ export default class RecipesOverviewListStore implements TLocalStore {
     }
   };
 
-  setFilter = (key: keyof FilterRecipes, type: string) => {
-    this._filter[key as keyof FilterRecipes] = type;
-
-    if (key === 'query') {
-      this.getRecipes({ resetPage: true });
-    }
-  };
-
-  destroy(): void {}
+  destroy(): void {
+    this._queryRecipeTypeReaction();
+    this._queryRecipeQueryReaction();
+    this._queryPageReaction();
+  }
 }

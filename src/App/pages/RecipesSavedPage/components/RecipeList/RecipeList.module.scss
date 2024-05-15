@@ -1,23 +1,25 @@
 @import "styles/variables.scss";
 @import "styles/mixins.scss";
 
-.section {
+.information {
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.list {
   display: flex;
   flex-wrap: wrap;
   gap: $space-special-xxl $space-extra-xxl;
   margin-bottom: $space-m;
 
-  &--information {
-    align-items: center;
-    justify-content: center;
-    min-height: 80vh;
-  }
-
   @include for-large-desktop-down {
     justify-content: space-between;
   }
+  
   @include for-mobile-down {
     justify-content: center;
+    gap: $space-xl $space-xl;
   }
 }
 
