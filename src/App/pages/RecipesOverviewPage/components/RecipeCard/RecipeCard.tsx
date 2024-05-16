@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC, memo, useCallback } from 'react';
+import { FC, memo, useCallback, useState } from 'react';
 import { useNavigate, generatePath } from 'react-router-dom';
 import { BaseButton, IconButton, Text, WatchIcon, Icon, HeartIcon } from 'components';
 import { ROUTS } from 'config/routs';
@@ -15,21 +15,25 @@ export type RecipeCardProps = {
 
 const RecipeCard: FC<RecipeCardProps> = ({ className, recipe, saved }) => {
   const { id, image, title, readyInMinutes, nutrition } = recipe;
+  const [startAction, setStartAction] = useState<boolean>(false);
   const composition = nutrition.ingredients.map(({ name }) => name).join(' + ');
   const nutritional = `${nutrition.nutrients[0].amount.toFixed()} ${nutrition.nutrients[0].unit}`;
-
   const navigate = useNavigate();
 
   const handleOpenDetails = useCallback(() => {
     navigate(generatePath(ROUTS.RECIPE, { id }));
   }, [id, navigate]);
 
-  const handleAddRecipeToSavedList = useCallback(() => {
-    rootStore.user.addRecipeToSavedList(recipe);
+  const handleAddRecipeToSavedList = useCallback(async () => {
+    setStartAction(true);
+    await rootStore.user.addRecipeToSavedList(recipe);
+    setStartAction(false);
   }, [recipe]);
 
-  const handleRemoveRecipeToSavedList = useCallback(() => {
-    rootStore.user.removeRecipeToSavedList(recipe);
+  const handleRemoveRecipeToSavedList = useCallback(async () => {
+    setStartAction(true);
+    await rootStore.user.removeRecipeToSavedList(recipe);
+    setStartAction(false);
   }, [recipe]);
 
   return (
@@ -56,7 +60,10 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe, saved }) => {
         )}
         {saved && (
           <IconButton
+            loading={startAction}
             variant="accent"
+            height={30}
+            width={30}
             onClick={(e) => {
               e.stopPropagation();
               handleRemoveRecipeToSavedList();
@@ -69,6 +76,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe, saved }) => {
         )}
         {!saved && (
           <BaseButton
+            loading={startAction}
             onClick={(e) => {
               e.stopPropagation();
               handleAddRecipeToSavedList();

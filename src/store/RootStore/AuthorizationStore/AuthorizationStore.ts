@@ -7,12 +7,12 @@ import {
   AuthError,
 } from 'firebase/auth';
 import { collection, query, where, getDocs, doc, setDoc } from 'firebase/firestore';
-import { computed, makeAutoObservable, observable } from 'mobx';
+import { action, computed, makeAutoObservable, observable } from 'mobx';
 import { auth, db } from 'services/firebase/config';
 import { UserApi } from 'store/models/user';
 import { Meta, TLocalStore } from 'utils';
 
-type PrivateFields = '_meta';
+type PrivateFields = '_auth' | '_meta';
 
 type SignUpData = {
   displayName: string;
@@ -31,11 +31,15 @@ export default class AuthorizationStore implements TLocalStore {
 
   constructor() {
     makeAutoObservable<AuthorizationStore, PrivateFields>(this, {
+      _auth: observable,
       _meta: observable,
       isLoading: computed,
       isInitial: computed,
       isSuccess: computed,
       isError: computed,
+      signUp: action,
+      signIn: action,
+      signOut: action,
     });
   }
 

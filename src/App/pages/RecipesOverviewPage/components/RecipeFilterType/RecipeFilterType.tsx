@@ -35,6 +35,7 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
       updateFilter(selected);
       const updatedSelect = selected.map(({ value }) => value).join(',');
       updatedSelect ? searchParams.set('type', updatedSelect) : searchParams.delete('type');
+      searchParams.delete('page-overview');
       setSearchParams(searchParams);
     },
     [updateFilter, searchParams, setSearchParams],
@@ -43,6 +44,7 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
   const handleResetSelect = useCallback(() => {
     updateFilter([]);
     searchParams.delete('type');
+    searchParams.delete('page-overview');
     setSearchParams(searchParams);
   }, [updateFilter, searchParams, setSearchParams]);
 
@@ -68,7 +70,7 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
       matchStartString
       className={cn(className)}
       endSlot={
-        selected.length > 0 ? (
+        selected.length > 0 && !toggle ? (
           <IconButton onClick={handleResetSelect}>
             <BaseCrossIcon />
           </IconButton>

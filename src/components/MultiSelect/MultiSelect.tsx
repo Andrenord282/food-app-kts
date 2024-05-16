@@ -1,6 +1,5 @@
 import cn from 'classnames';
-import { observer } from 'mobx-react-lite';
-import { FC, ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
+import { FC, ReactNode, memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import { Text, LoaderIcon, BaseButton, BaseInput } from 'components';
 import style from './MultiSelect.module.scss';
 
@@ -144,4 +143,4 @@ const MultiSelect: FC<MultiSelectProps> = ({
   );
 };
 
-export default observer(MultiSelect);
+export default memo(MultiSelect);

@@ -12,6 +12,7 @@ type BaseButtonProps = PropsWithChildren<
     size?: BaseButtonSize;
     loading?: boolean;
     loadingText?: string;
+    loadingHiddenText?: boolean;
   }
 >;
 

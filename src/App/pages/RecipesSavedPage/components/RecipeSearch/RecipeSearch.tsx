@@ -15,16 +15,16 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
 
   const handleResetValue = useCallback(() => {
     setValue('');
-    searchParams.delete('query');
-    searchParams.delete('page');
+    searchParams.delete('query-saved');
+    searchParams.delete('page-saved');
     setSearchParams(searchParams);
   }, [searchParams, setSearchParams]);
 
   const handleChangeValue = useCallback(
     (value: string) => {
       setValue(value);
-      searchParams.set('query', value);
-      searchParams.delete('page');
+      searchParams.set('query-saved', value);
+      searchParams.delete('page-saved');
       setSearchParams(searchParams);
     },
     [searchParams, setSearchParams],

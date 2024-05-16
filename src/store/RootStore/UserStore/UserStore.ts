@@ -1,20 +1,11 @@
 import { onAuthStateChanged } from 'firebase/auth';
-import {
-  doc,
-  collection,
-  setDoc,
-  getDoc,
-  deleteDoc,
-  updateDoc,
-  arrayUnion,
-  arrayRemove,
-} from 'firebase/firestore';
-import { computed, makeObservable, observable, runInAction } from 'mobx';
+import { doc, collection, setDoc, getDoc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 import { auth, db } from 'services/firebase/config';
 import { RecipeClient, RecipeApi, normalizeRecipeApi } from 'store/models/recipe';
 import { UserApi, UserClient, normalizeUser } from 'store/models/user';
 
-type PrivateFields = '_userState' | '_user';
+type PrivateFields = '_auth' | '_userState' | '_user' | '_addRecipeIdToSavedList' | '_removeRecipeIdToSavedList';
 
 enum UserState {
   initial = 'initial',
@@ -28,14 +19,18 @@ export default class UserStore {
   private _user: UserClient | null = null;
 
   constructor() {
-    this._eventListeningUserAuthorization();
     makeObservable<UserStore, PrivateFields>(this, {
+      _auth: observable,
       _userState: observable,
       _user: observable,
       userInitial: computed,
       userUnknown: computed,
       userIdentified: computed,
+      userUid: computed,
       recipeIdSavedList: computed,
+      _addRecipeIdToSavedList: action,
+      _removeRecipeIdToSavedList: action,
+      eventListeningUserAuthorization: action,
     });
   }
 
@@ -64,7 +59,7 @@ export default class UserStore {
     return (await getDoc(userRef)).data() as UserApi;
   };
 
-  private _eventListeningUserAuthorization = () => {
+  eventListeningUserAuthorization = () => {
     onAuthStateChanged(this._auth, async (user) => {
       if (user) {
         const { uid } = user;
@@ -87,7 +82,9 @@ export default class UserStore {
     await updateDoc(docRef, {
       recipeIdSavedList: arrayUnion(id),
     });
-    this._user?.recipeIdSavedList.add(id);
+    runInAction(() => {
+      this._user?.recipeIdSavedList.add(id);
+    });
   };
 
   private _addRecipeToSavedList = async (userUid: string, recipe: RecipeApi) => {
@@ -101,7 +98,9 @@ export default class UserStore {
     await updateDoc(docRef, {
       recipeIdSavedList: arrayRemove(id),
     });
-    this._user?.recipeIdSavedList.delete(id);
+    runInAction(() => {
+      this._user?.recipeIdSavedList.delete(id);
+    });
   };
 
   private _removeRecipeToSavedList = async (userUid: string, id: number) => {

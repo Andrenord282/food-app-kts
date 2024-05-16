@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { IconButton, Icon, SearchIcon } from 'components';
 import { useRecipesOverviewList } from 'context';
 
@@ -8,11 +8,11 @@ type RecipeInitFilterProps = {
 };
 
 const RecipeInitFilter: FC<RecipeInitFilterProps> = ({ className }) => {
-  const { isLoading, getRecipes } = useRecipesOverviewList();
+  const { isLoading, getList } = useRecipesOverviewList();
 
-  const handleInitFilter = () => {
-    getRecipes({ resetPage: true });
-  };
+  const handleInitFilter = useCallback(() => {
+    getList({ resetPage: true });
+  }, [getList]);
 
   return (
     <IconButton

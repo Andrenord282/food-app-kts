@@ -52,7 +52,7 @@ const SingleSelect: FC<SingleSelectProps> = ({
   }, [selected, setTitle]);
 
   const filteredOptions = useMemo(() => {
-    if (filterActive) {
+    if (filterActive && value) {
       const str = value.toLowerCase();
       if (matchStartString) {
         return options.filter((option) => option.value.toLowerCase().indexOf(str) === 0);

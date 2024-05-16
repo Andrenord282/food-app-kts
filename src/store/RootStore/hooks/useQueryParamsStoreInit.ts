@@ -5,6 +5,6 @@ import { rootStore } from 'store';
 export const useQueryParamsStoreInit = () => {
   const { search } = useLocation();
   useEffect(() => {
-     rootStore.query.initSearch(search);
-  }, [search]);
+    rootStore.query.initSearch(search);
+  });
 };

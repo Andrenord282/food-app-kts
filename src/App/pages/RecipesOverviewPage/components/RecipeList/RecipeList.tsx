@@ -1,9 +1,10 @@
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
-import { Text, RecipeCard, RecipeSkeletonCard } from 'components';
+import { Text, RecipeSkeletonCard } from 'components';
 import { useRecipesOverviewList } from 'context';
 import { rootStore } from 'store';
+import RecipeCard from '../RecipeCard';
 import style from './RecipeList.module.scss';
 
 type RecipeListPorps = {
@@ -11,17 +12,17 @@ type RecipeListPorps = {
 };
 
 const RecipeList: FC<RecipeListPorps> = ({ className }) => {
-  const { isInitial, isLoading, isSuccess, isError, isEmpty, limit, list, error, getRecipes } =
-    useRecipesOverviewList();
+  const { isInitial, isLoading, isSuccess, isError, isEmpty, limit, list, error, getList } = useRecipesOverviewList();
   const recipeIdSavedList = rootStore.user.recipeIdSavedList;
+  const userInitial = rootStore.user.userInitial;
 
   useEffect(() => {
     if (isInitial) {
-      getRecipes();
+      getList();
     }
-  }, [isInitial, getRecipes]);
+  }, [isInitial, getList]);
 
-  if (isLoading) {
+  if (isLoading || userInitial) {
     return (
       <div className={cn(className, style.section)}>
         {Array.from({ length: limit })
@@ -33,7 +34,7 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
     );
   }
 
-  if (isSuccess && !isEmpty) {
+  if (isSuccess && !isEmpty && !userInitial) {
     return (
       <div className={cn(className, style.section)}>
         {list.map((item) => {

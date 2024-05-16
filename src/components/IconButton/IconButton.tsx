@@ -12,6 +12,8 @@ type IconButtonProps = PropsWithChildren<
     className?: string;
     loading?: boolean;
     padding?: IconButtonPadding;
+    height?: number;
+    width?: number;
   }
 >;
 
@@ -22,6 +24,8 @@ const IconButton: FC<IconButtonProps> = ({
   className,
   padding = 'l',
   children,
+  height = 24,
+  width = 24,
   onClick,
   ...props
 }) => {
@@ -34,7 +38,7 @@ const IconButton: FC<IconButtonProps> = ({
         [style['button--disabled']]: disabled,
       })}
     >
-      {loading && <LoaderIcon width={24} height={24} />}
+      {loading && <LoaderIcon width={width} height={height} />}
       {!loading && children}
     </button>
   );

@@ -12,6 +12,11 @@
   margin-bottom: $space-special-xl;
 }
 
+.navigate {
+  @extend .container--m;
+  margin-bottom: $space-special-xl;
+}
+
 .search {
   @extend .container--m;
   margin-bottom: $space-l;

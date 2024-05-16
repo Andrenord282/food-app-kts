@@ -8,6 +8,12 @@ export type RecipeClient = {
   nutrition: NutritionClient;
 };
 
+export type FilterRecipeOverviewList = {
+  query: string;
+  type: string;
+  cuisine: string;
+};
+
 export type FilterRecipeSaveList = {
   title: string;
   type: string;
@@ -20,6 +26,11 @@ export type FilterRecipeSaveSchema<T, U> = {
   type: { key: U; value: T }[];
   orderName: T;
   orderType: T;
+};
+
+export type FilterItem<U, T> = {
+  key: U;
+  value: T;
 };
 
 type NutritionClient = {

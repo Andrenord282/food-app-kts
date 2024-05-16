@@ -1,9 +1,9 @@
 import { AxiosError } from 'axios';
 import { IReactionDisposer, action, computed, makeAutoObservable, observable, reaction, runInAction } from 'mobx';
 import { ErrorResponse } from 'services/axios';
-import { rootStore, IntervalStore, SpoonacularApiStore } from 'store';
-import { RecipeClient } from 'store/models/recipe';
-import { FilterRecipes, FilterRecipesSchema, RecipeApi, RecipeParamRequest } from 'store/models/recipes/modelsApi';
+import { rootStore, SpoonacularApiStore } from 'store';
+import { RecipeClient, FilterRecipeOverviewList } from 'store/models/recipe';
+import { RecipeApi, RecipeParamRequest } from 'store/models/recipes/modelsApi';
 import { normalizeRecipe } from 'store/models/recipes/utils';
 import {
   CollectionModel,
@@ -13,7 +13,7 @@ import {
 } from 'store/models/shared';
 import { Meta, TLocalStore } from 'utils';
 
-type PrivateFields = '_meta' | '_offset' | '_total' | '_limit' | '_filter' | '_list' | '_error' | '_page';
+type PrivateFields = '_meta' | '_offset' | '_total' | '_limit' | '_filterList' | '_list' | '_error' | '_page';
 
 const RECIPES_LIMIT = 9;
 
@@ -26,7 +26,9 @@ export default class RecipesOverviewListStore implements TLocalStore {
 
   private _error: ErrorResponse | null = null;
 
-  private _page: number = rootStore.query.getParam('page') ? Number(rootStore.query.getParam('page')) : 1;
+  private _page: number = rootStore.query.getParam('page-overview')
+    ? Number(rootStore.query.getParam('page-overview'))
+    : 1;
 
   private _limit = RECIPES_LIMIT;
 
@@ -34,20 +36,18 @@ export default class RecipesOverviewListStore implements TLocalStore {
 
   private _total: number = 0;
 
-  private _filter: FilterRecipes = {
+  private _filterList: FilterRecipeOverviewList = {
     query: rootStore.query.getParam('query'),
     type: rootStore.query.getParam('type'),
     cuisine: rootStore.query.getParam('cuisine'),
   };
-
-  private readonly _intervalStore = new IntervalStore();
 
   constructor() {
     makeAutoObservable<RecipesOverviewListStore, PrivateFields>(this, {
       _meta: observable,
       _offset: observable,
       _limit: observable,
-      _filter: observable.ref,
+      _filterList: observable.ref,
       _list: observable.ref,
       _error: observable.ref,
       _page: observable,
@@ -57,13 +57,13 @@ export default class RecipesOverviewListStore implements TLocalStore {
       limit: computed,
       error: computed,
       page: computed,
-      filter: computed,
+      total: computed,
       isLoading: computed,
       isInitial: computed,
       isSuccess: computed,
       isError: computed,
       isEmpty: computed,
-      getRecipes: action,
+      getList: action,
       updatePage: action,
     });
   }
@@ -92,16 +92,6 @@ export default class RecipesOverviewListStore implements TLocalStore {
     return this._total;
   }
 
-  get filter(): FilterRecipesSchema<string, string> {
-    return {
-      query: !this._filter.query ? '' : this._filter.query,
-      type: !this._filter.type ? [] : this._filter.type.split(',').map((string) => ({ key: string, value: string })),
-      cuisine: !this._filter.cuisine
-        ? []
-        : this._filter.cuisine.split(',').map((string) => ({ key: string, value: string })),
-    };
-  }
-
   get isLoading(): boolean {
     return this._meta === Meta.loading;
   }
@@ -126,7 +116,7 @@ export default class RecipesOverviewListStore implements TLocalStore {
     const param: RecipeParamRequest = {
       offset: this._offset,
       number: this._limit,
-      ...this._filter,
+      ...this._filterList,
     };
 
     return param;
@@ -140,27 +130,31 @@ export default class RecipesOverviewListStore implements TLocalStore {
   private readonly _queryRecipeTypeReaction: IReactionDisposer = reaction(
     () => rootStore.query.getParam('type'),
     async (type) => {
-      this._filter.type = type as string;
-      if (!type) {
-        await this.getRecipes({ resetPage: true });
-      }
+      this._filterList.type = type as string;
+    },
+  );
+
+  private readonly _queryRecipeCuisineReaction: IReactionDisposer = reaction(
+    () => rootStore.query.getParam('cuisine'),
+    async (cuisine) => {
+      this._filterList.cuisine = cuisine as string;
     },
   );
 
   private readonly _queryRecipeQueryReaction: IReactionDisposer = reaction(
     () => rootStore.query.getParam('query'),
     async (query) => {
-      this._filter.query = query as string;
-      await this.getRecipes({ resetPage: true });
+      this._filterList.query = query as string;
+      await this.getList({ resetPage: true });
     },
   );
 
   private readonly _queryPageReaction: IReactionDisposer = reaction(
-    () => rootStore.query.getParam('page'),
+    () => rootStore.query.getParam('page-overview'),
     async (page) => {
       if (page) {
         this.updatePage(Number(page));
-        await this.getRecipes();
+        await this.getList();
       }
     },
   );
@@ -170,11 +164,12 @@ export default class RecipesOverviewListStore implements TLocalStore {
     this._offset = page * this._limit - this._limit;
   };
 
-  getRecipes = async (option: { resetPage?: boolean } = {}) => {
+  getList = async (option: { resetPage?: boolean } = {}) => {
     try {
       const { resetPage = false } = option;
       this._meta = Meta.loading;
       this._list = getInitialCollectionModel();
+
       if (resetPage) this.updatePage(1);
       const { data } = await this._request();
       const { results } = data;
@@ -197,6 +192,7 @@ export default class RecipesOverviewListStore implements TLocalStore {
   };
 
   destroy(): void {
+    this._queryRecipeCuisineReaction();
     this._queryRecipeTypeReaction();
     this._queryRecipeQueryReaction();
     this._queryPageReaction();

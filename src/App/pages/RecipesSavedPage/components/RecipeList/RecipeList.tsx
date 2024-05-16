@@ -2,9 +2,10 @@ import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { FC, useCallback, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Text, RecipeCard, RecipeSkeletonCard, InfiniteScroll } from 'components';
+import { Text, RecipeSkeletonCard, InfiniteScroll } from 'components';
 import { useRecipeSavedListContext } from 'context/RecipeSavedListContext';
 import { rootStore } from 'store';
+import RecipeCard from '../RecipeCard';
 import style from './RecipeList.module.scss';
 
 type RecipeListPorps = {
@@ -23,7 +24,7 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
   }, [isInitial, getList]);
 
   const handleUpdateList = useCallback(() => {
-    searchParams.set('page', String(page + 1));
+    searchParams.set('page-saved', String(page + 1));
     setSearchParams(searchParams);
   }, [page, searchParams, setSearchParams]);
 
@@ -32,14 +33,12 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
       <div className={cn(className, style.list)}>
         {list.length > 0 &&
           list.map((item) => {
-            return (
-              <RecipeCard
-                key={item.id}
-                saved={recipeIdSavedList.has(item.id)}
-                recipe={item}
-                className={style.item}
-              />
-            );
+            if (recipeIdSavedList.has(item.id)) {
+              return (
+                <RecipeCard key={item.id} saved={recipeIdSavedList.has(item.id)} recipe={item} className={style.item} />
+              );
+            }
+            return null;
           })}
         {Array.from({ length: limit })
           .fill(10)
@@ -54,16 +53,20 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
     return (
       <>
         <div className={cn(className, style.list)}>
-          {list.map((item) => {
-            return (
-              <RecipeCard
-                key={item.id}
-                saved={recipeIdSavedList.has(item.id)}
-                recipe={item}
-                className={style.item}
-              />
-            );
-          })}
+          {list.length > 0 &&
+            list.map((item) => {
+              if (recipeIdSavedList.has(item.id)) {
+                return (
+                  <RecipeCard
+                    key={item.id}
+                    saved={recipeIdSavedList.has(item.id)}
+                    recipe={item}
+                    className={style.item}
+                  />
+                );
+              }
+              return null;
+            })}
         </div>
         <InfiniteScroll onVisible={handleUpdateList} isActive={list.length !== total} />
       </>

@@ -31,7 +31,16 @@ import {
 } from 'store/models/shared';
 import { Meta, TLocalStore } from 'utils';
 
-type PrivateFields = '_meta' | '_list' | '_filterList' | '_page' | '_limit' | '_total' | '_cursor' | '_updatePage';
+type PrivateFields =
+  | '_userUid'
+  | '_meta'
+  | '_list'
+  | '_filterList'
+  | '_page'
+  | '_limit'
+  | '_total'
+  | '_cursor'
+  | '_updatePage';
 const RECIPES_LIMIT = 9;
 
 export default class RecipeSavedListStore implements TLocalStore {
@@ -43,7 +52,7 @@ export default class RecipeSavedListStore implements TLocalStore {
 
   private _list: CollectionModel<number, RecipeClient> = getInitialCollectionModel();
 
-  private _page: number = rootStore.query.getParam('page') ? Number(rootStore.query.getParam('page')) : 1;
+  private _page: number = rootStore.query.getParam('page-saved') ? Number(rootStore.query.getParam('page-saved')) : 1;
 
   private _limit = RECIPES_LIMIT;
 
@@ -52,7 +61,7 @@ export default class RecipeSavedListStore implements TLocalStore {
   private _cursor: QueryDocumentSnapshot<DocumentData, DocumentData> | null = null;
 
   private _filterList: FilterRecipeSaveList = {
-    title: rootStore.query.getParam('query') || '',
+    title: rootStore.query.getParam('query-saved') || '',
     type: rootStore.query.getParam('type') || '',
     orderName: rootStore.query.getParam('order-name'),
     orderType: rootStore.query.getParam('order-type'),
@@ -60,13 +69,14 @@ export default class RecipeSavedListStore implements TLocalStore {
 
   constructor() {
     makeAutoObservable<RecipeSavedListStore, PrivateFields>(this, {
+      _userUid: observable,
       _meta: observable,
       _list: observable,
       _page: observable,
       _limit: observable,
       _total: observable,
       _cursor: observable,
-      _filterList: observable,
+      _filterList: observable.ref,
       isInitial: computed,
       isLoading: computed,
       isSuccess: computed,
@@ -75,6 +85,7 @@ export default class RecipeSavedListStore implements TLocalStore {
       limit: computed,
       page: computed,
       total: computed,
+      filterList: computed,
       _updatePage: action,
       getList: action,
     });
@@ -198,7 +209,7 @@ export default class RecipeSavedListStore implements TLocalStore {
   }
 
   private readonly _queryPageReaction: IReactionDisposer = reaction(
-    () => rootStore.query.getParam('page'),
+    () => rootStore.query.getParam('page-saved'),
     async (page) => {
       if (page) {
         this._updatePage(Number(page));
@@ -208,7 +219,7 @@ export default class RecipeSavedListStore implements TLocalStore {
   );
 
   private readonly _queryNameReaction: IReactionDisposer = reaction(
-    () => rootStore.query.getParam('query'),
+    () => rootStore.query.getParam('query-saved'),
     async (query) => {
       this._intervalStore.startTimeout(async () => {
         this._filterList.title = query;
@@ -221,9 +232,6 @@ export default class RecipeSavedListStore implements TLocalStore {
     () => rootStore.query.getParam('type'),
     async (type) => {
       this._filterList.type = type;
-      if (!type) {
-        await this.getList({ resetPage: true });
-      }
     },
   );
 
@@ -274,5 +282,11 @@ export default class RecipeSavedListStore implements TLocalStore {
     }
   };
 
-  destroy(): void {}
+  destroy(): void {
+    this._queryPageReaction();
+    this._queryNameReaction();
+    this._queryTypeReaction();
+    this._queryOrderNameReaction();
+    this._queryOrderTypeReaction();
+  }
 }

@@ -1,14 +1,16 @@
-import { FC, memo, useCallback, useMemo } from 'react';
+import { observer } from 'mobx-react-lite';
+import { FC, useCallback, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Pagination } from 'components';
 import { useRecipesOverviewList } from 'context';
-import { rootStore } from 'store/index';
-import { observer } from 'mobx-react-lite';
 
 type RecipePagination = {
+  scrollHeight?: number;
   className?: string;
 };
 
-const RecipePagination: FC<RecipePagination> = ({ className }) => {
+const RecipePagination: FC<RecipePagination> = ({ scrollHeight = 0, className }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { page, limit, total } = useRecipesOverviewList();
   const totalPages = useMemo(() => Math.ceil(total / limit), [total, limit]);
   const isStartPage = useMemo(() => page === 1, [page]);
@@ -40,9 +42,16 @@ const RecipePagination: FC<RecipePagination> = ({ className }) => {
     }, []);
   }, [page, totalPages]);
 
-  const handleChangePage = useCallback((page: number) => {
-    rootStore.query.updateParam({ key: 'page', value: String(page) });
-  }, []);
+  const handleChangePage = useCallback(
+    (page: number) => {
+      searchParams.set('page-overview', String(page));
+      setSearchParams(searchParams);
+      setTimeout(() => {
+        window.scrollTo({ top: scrollHeight, behavior: 'smooth' });
+      }, 0);
+    },
+    [scrollHeight, searchParams, setSearchParams],
+  );
 
   return (
     <Pagination

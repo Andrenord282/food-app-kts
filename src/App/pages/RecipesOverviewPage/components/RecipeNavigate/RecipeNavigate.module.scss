@@ -43,7 +43,7 @@
 
 .buttom {
   flex-shrink: 0;
-
+  
   @include for-mobile-small-down {
     margin-left: auto;
   }

@@ -7,7 +7,7 @@ import { normalizeSearchRecipe } from 'store/models/recipes/utils';
 import { normalizeArray } from 'store/models/shared';
 import { Meta, TLocalStore } from 'utils';
 
-type PrivateFields = '_meta' | '_searchName' | '_searchValue' | '_searchOptions' | '_isEmpty';
+type PrivateFields = '_meta' | '_searchName' | '_searchValue' | '_searchOptions' | '_isEmpty' | '_setSearchValue';
 
 export default class RecipeSearchStore implements TLocalStore {
   private readonly _apiStore = new SpoonacularApiStore();
@@ -26,7 +26,6 @@ export default class RecipeSearchStore implements TLocalStore {
 
   constructor(name: string) {
     this._searchName = name;
-    this._searchValue = rootStore.query.getParam(name)?.replace(/\+/g, ' ') || '';
 
     makeAutoObservable<RecipeSearchStore, PrivateFields>(this, {
       _meta: observable,
@@ -42,9 +41,11 @@ export default class RecipeSearchStore implements TLocalStore {
       isEmpty: computed,
       searchOptions: computed,
       searchValue: computed,
+      _setSearchValue: action,
       getSearchRecipe: action,
       updateSearchValue: action,
       resetSearchOptions: action,
+      selectSearchValue: action,
     });
   }
 
@@ -77,6 +78,7 @@ export default class RecipeSearchStore implements TLocalStore {
   }
 
   get searchValue(): string {
+    // if (!this._searchValue) return rootStore.query.getParam(this._searchName);
     return this._searchValue;
   }
 
@@ -94,8 +96,6 @@ export default class RecipeSearchStore implements TLocalStore {
 
   private _setSearchValue = (value: string) => {
     this._searchValue = value;
-    rootStore.query.updateParam({ key: this._searchName, value: this._searchValue });
-    rootStore.query.updateParam({ key: 'page', value: '' });
   };
 
   getSearchRecipe = async () => {
@@ -125,7 +125,7 @@ export default class RecipeSearchStore implements TLocalStore {
     }
   };
 
-  selectSearchValue = async (value: string) => {
+  selectSearchValue = (value: string) => {
     this._setSearchValue(value);
   };
 

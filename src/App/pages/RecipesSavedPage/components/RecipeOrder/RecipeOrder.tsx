@@ -38,7 +38,7 @@ const RecipeOrder: FC<RecipeOrderProps> = ({ className }) => {
         setSelected(null);
       }
       const updatedSelect = select.value === 'order by title' ? 'title' : 'createdAt';
-      searchParams.delete('page');
+      searchParams.delete('page-saved');
       searchParams.set('order-name', updatedSelect);
       setSearchParams(searchParams);
     },
@@ -48,7 +48,7 @@ const RecipeOrder: FC<RecipeOrderProps> = ({ className }) => {
   const handleCangeType = useCallback(() => {
     const updatedType = type === 'asc' ? 'desc' : 'asc';
     setType(updatedType);
-    searchParams.delete('page');
+    searchParams.delete('page-saved');
     searchParams.set('order-type', updatedType);
     setSearchParams(searchParams);
   }, [type, searchParams, setSearchParams]);
@@ -57,7 +57,7 @@ const RecipeOrder: FC<RecipeOrderProps> = ({ className }) => {
     setValue('');
     setSelected(null);
     setToggle(false);
-    searchParams.delete('page');
+    searchParams.delete('page-saved');
     searchParams.delete('order-name');
     searchParams.delete('order-type');
     setSearchParams(searchParams);

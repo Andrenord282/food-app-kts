@@ -7,15 +7,15 @@ import { MultiSelectValue } from 'components/MultiSelect';
 import { RecipeFilterStore } from 'store';
 import { useLocalStore } from 'utils';
 import { types } from './config';
-import style from './RecipeFilterType.module.scss';
+import style from './RecipeFilterCuisine.module.scss';
 
-type RecipeFilterTypePorps = {
+type RecipeFilterCuisinePorps = {
   className?: string;
 };
 
-const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
+const RecipeFilterCuisine: FC<RecipeFilterCuisinePorps> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { filterOptions, filterSelected, updateFilter } = useLocalStore(() => new RecipeFilterStore('type', types));
+  const { filterOptions, filterSelected, updateFilter } = useLocalStore(() => new RecipeFilterStore('cuisine', types));
   const [toggle, setToggle] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
   const options = useMemo(() => filterOptions, [filterOptions]);
@@ -34,7 +34,8 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
     (selected: MultiSelectValue<string, string>[]) => {
       updateFilter(selected);
       const updatedSelect = selected.map(({ value }) => value).join(',');
-      updatedSelect ? searchParams.set('type', updatedSelect) : searchParams.delete('type');
+      updatedSelect ? searchParams.set('cuisine', updatedSelect) : searchParams.delete('cuisine');
+      searchParams.delete('page-overview');
       setSearchParams(searchParams);
     },
     [updateFilter, searchParams, setSearchParams],
@@ -42,7 +43,8 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
 
   const handleResetSelect = useCallback(() => {
     updateFilter([]);
-    searchParams.delete('type');
+    searchParams.delete('cuisine');
+    searchParams.delete('page-overview');
     setSearchParams(searchParams);
   }, [updateFilter, searchParams, setSearchParams]);
 
@@ -51,7 +53,7 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
   }, []);
 
   const handleTitle = useCallback(() => {
-    return selected.length === 0 ? 'Categories' : selected.map(({ value }) => value).join(', ');
+    return selected.length === 0 ? 'Cuisine' : selected.map(({ value }) => value).join(', ');
   }, [selected]);
 
   return (
@@ -64,7 +66,7 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
       onChangeValue={handleChangeValue}
       onChangeSelect={handleChangeSelect}
       setTitle={handleTitle}
-      helperText={toggle ? 'you can choose multiple categories' : ''}
+      helperText={toggle ? 'you can choose multiple cuisines' : ''}
       matchStartString
       className={cn(className)}
       endSlot={
@@ -86,4 +88,4 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
   );
 };
 
-export default observer(RecipeFilterType);
+export default observer(RecipeFilterCuisine);
