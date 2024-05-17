@@ -4,6 +4,7 @@
   "main": "index.js",
   "repository": "https://github.com/Andrenord282/food-app-kts.git",
   "author": "stohelitskii <andrenord282@gmail.com>",
+  "homepage": ".",
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV_MODE=development webpack serve --env mode=development",

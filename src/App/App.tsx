@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { Suspense, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Loader, PrivateRoute } from 'components';
 import { ROUTS } from 'config/routs';
@@ -27,7 +27,7 @@ const App = () => {
   }, []);
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className={style.app}>
         {rootStore.user.userInitial ? (
           <Loader className={style.loader} />
@@ -77,7 +77,7 @@ const App = () => {
         )}
         <ToastContainer />
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 

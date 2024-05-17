@@ -1,4 +1,14 @@
-import { doc, collection, setDoc, getDoc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import {
+  doc,
+  collection,
+  setDoc,
+  getDoc,
+  deleteDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  DocumentData,
+} from 'firebase/firestore';
 import { db } from 'services/firebase/config';
 import { RecipeApi, RecipeIngredientListApi } from 'store/models/recipe';
 import { UserApi } from 'store/models/user';
@@ -55,8 +65,18 @@ class FirebaseProfileApi {
   };
 
   initProfile = async (uid: string) => {
+    let requestTry = 3;
     const userRef = doc(db, 'users', uid);
-    return (await getDoc(userRef)).data() as UserApi;
+    let profile: DocumentData | undefined;
+    while (requestTry !== 0) {
+      const response = await getDoc(userRef);
+      if (response.exists()) {
+        profile = response.data();
+        break;
+      }
+      requestTry--;
+    }
+    return profile as UserApi;
   };
 
   saveToSavedList = async (userUid: string, recipe: RecipeApi) => {
