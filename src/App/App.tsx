@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Loader, PrivateRoute } from 'components';
@@ -32,7 +32,7 @@ const App = () => {
         {rootStore.user.userInitial ? (
           <Loader className={style.loader} />
         ) : (
-          <>
+          <Suspense fallback={<Loader className={style.loader} />}>
             <Routes>
               <Route path={ROUTS.INDEX} element={<BaseLayout />}>
                 <Route
@@ -73,7 +73,7 @@ const App = () => {
                 <Route path={ROUTS.NOT_FOUND} element={<NotFoundPage />} />
               </Route>
             </Routes>
-          </>
+          </Suspense>
         )}
         <ToastContainer />
       </div>
