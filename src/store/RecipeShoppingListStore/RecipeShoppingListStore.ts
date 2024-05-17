@@ -1,5 +1,5 @@
 import { collection, getDocs } from 'firebase/firestore';
-import { IReactionDisposer, action, computed, makeAutoObservable, observable, reaction, runInAction } from 'mobx';
+import { action, computed, makeAutoObservable, observable, runInAction } from 'mobx';
 import { db } from 'services/firebase/config';
 import { RecipeIngredientListClient, normalizeRecipeIngredientListClient } from 'store/models/recipe';
 import {

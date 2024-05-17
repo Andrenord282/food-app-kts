@@ -13,7 +13,7 @@ type SignInData = {
 
 export default class AuthorizationStore implements TLocalStore {
   private _meta: Meta = Meta.initial;
-  private _fireBaseAuthApi = firebaseAuthApi;
+  private readonly _fireBaseAuthApi = firebaseAuthApi;
 
   constructor() {
     makeAutoObservable<AuthorizationStore, PrivateFields>(this, {

@@ -10,7 +10,7 @@ import { collection, query, where, getDocs, doc, setDoc } from 'firebase/firesto
 import { auth, db } from 'services/firebase/config';
 import { SignInData, SignUpData, UserApi } from 'store/models/user';
 
-class FireBaseAuthApi {
+class FirebaseAuthApi {
   private _auth = auth;
 
   private _usernameExists = async (displayName: string) => {
@@ -68,6 +68,6 @@ class FireBaseAuthApi {
   };
 }
 
-const fireBaseApi = new FireBaseAuthApi();
+const firebaseAuthApi = new FirebaseAuthApi();
 
-export default fireBaseApi;
+export default firebaseAuthApi;

@@ -1,20 +1,6 @@
-import {
-  collection,
-  query,
-  orderBy,
-  startAfter,
-  limit,
-  getDocs,
-  DocumentData,
-  QueryDocumentSnapshot,
-  getCountFromServer,
-  where,
-  QueryFieldFilterConstraint,
-  QueryOrderByConstraint,
-  OrderByDirection,
-} from 'firebase/firestore';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { IReactionDisposer, action, computed, makeAutoObservable, observable, reaction, runInAction } from 'mobx';
-import { db } from 'services/firebase/config';
+import { firebaseSavedList } from 'services/firebase';
 import { IntervalStore, rootStore } from 'store';
 import {
   FilterRecipeSaveList,
@@ -45,6 +31,8 @@ const RECIPES_LIMIT = 9;
 
 export default class RecipeSavedListStore implements TLocalStore {
   private readonly _intervalStore = new IntervalStore();
+
+  private readonly _firebaseSavedList = firebaseSavedList;
 
   private _userUid = rootStore.user.userUid;
 
@@ -146,62 +134,18 @@ export default class RecipeSavedListStore implements TLocalStore {
     };
   }
 
-  private _initRequestParam(): (QueryFieldFilterConstraint | QueryOrderByConstraint)[] {
-    const param: (QueryFieldFilterConstraint | QueryOrderByConstraint)[] = [];
-    const title = this._filterList.title
-      ? this._filterList.title.charAt(0).toUpperCase() + this._filterList.title.slice(1)
-      : '';
-    const type = this._filterList.type ? this._filterList.type.split(',') : null;
-    const orderName = this._filterList.orderName;
-    const orderType = this._filterList.orderType;
-
-    title ? param.push(where('title', '>=', title)) : null;
-    title ? param.push(where('title', '<', title + '\uf8ff')) : null;
-    type ? param.push(where('dishTypes', 'array-contains-any', type)) : null;
-    orderName && orderType ? param.push(orderBy(orderName, orderType as OrderByDirection)) : null;
-
-    return param;
-  }
-
   private async _request(): Promise<{
     total: number;
     list: RecipeApi[];
     cursor: QueryDocumentSnapshot<DocumentData, DocumentData>;
   }> {
-    const list: RecipeApi[] = [];
-    const collectionRef = collection(db, `users/${this._userUid}/recipeSavedList`);
-    const param = this._initRequestParam();
-
-    const total = (await getCountFromServer(query(collectionRef, ...param))).data().count;
-
-    if (this._cursor === null) {
-      const q = query(collectionRef, ...param, limit(this._page * this._limit));
-
-      const querySnapshot = await getDocs(q);
-
-      querySnapshot.forEach((doc) => {
-        list.push(doc.data() as RecipeApi);
-      });
-
-      const cursor = querySnapshot.docs[querySnapshot.docs.length - 1];
-      return {
-        total,
-        list,
-        cursor,
-      };
-    }
-
-    const q = query(collectionRef, ...param, startAfter(this._cursor), limit(this._limit));
-
-    const querySnapshot = await getDocs(q);
-
-    querySnapshot.forEach((doc) => {
-      list.push(doc.data() as RecipeApi);
-    });
-
-    const cursor = querySnapshot.docs[querySnapshot.docs.length - 1];
-
-    return { total, list, cursor };
+    return await this._firebaseSavedList.getList(
+      this._cursor,
+      this._userUid,
+      this._filterList,
+      this._page,
+      this._limit,
+    );
   }
 
   private _updatePage(page: number) {
