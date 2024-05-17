@@ -3,7 +3,7 @@ import { FC, memo, useCallback, useState } from 'react';
 import { Bounce, toast } from 'react-toastify';
 import { Text, IngredientIcon, BaseButton, DelayButton } from 'components';
 import { rootStore } from 'store';
-import { ExtendedIngredientModel } from 'store/models/recipes/modelsClient';
+import { ExtendedIngredientClient } from 'store/models/recipe';
 import style from './Ingredients.module.scss';
 
 type IngredientsProps = {
@@ -12,7 +12,7 @@ type IngredientsProps = {
   title: string;
   servings: number;
   className?: string;
-  ingredients: ExtendedIngredientModel[];
+  ingredients: ExtendedIngredientClient[];
 };
 
 const Ingredients: FC<IngredientsProps> = ({ saved, id, title, className, ingredients, servings }) => {

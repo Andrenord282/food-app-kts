@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { FC, ReactNode, createContext, useContext, useMemo } from 'react';
 import { ErrorResponse } from 'services/axios';
 import { RecipeStore } from 'store';
-import { RecipeDetailModel } from 'store/models/recipes/modelsClient';
+import { RecipeDetailsClient } from 'store/models/recipe';
 import { useLocalStore } from 'utils';
 
 type RecipeStoreContextTypes = {
@@ -10,7 +10,7 @@ type RecipeStoreContextTypes = {
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
-  recipe: RecipeDetailModel | null;
+  recipe: RecipeDetailsClient | null;
   error: ErrorResponse | null;
   getRecipe: (id: string) => Promise<void>;
 };

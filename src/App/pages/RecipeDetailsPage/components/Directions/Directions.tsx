@@ -1,11 +1,11 @@
 import { FC, memo } from 'react';
 import { Text } from 'components';
-import { StepInstructionModel } from 'store/models/recipes/modelsClient';
+import { StepInstructionClient } from 'store/models/recipe';
 
 import style from './Directions.module.scss';
 
 type DirectionsProps = {
-  stepList: StepInstructionModel[];
+  stepList: StepInstructionClient[];
 };
 
 const Directions: FC<DirectionsProps> = ({ stepList }) => {

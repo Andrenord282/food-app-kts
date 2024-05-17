@@ -1,9 +1,7 @@
 import { AxiosError } from 'axios';
 import { action, computed, makeAutoObservable, observable, runInAction } from 'mobx';
 import { rootStore, IntervalStore, SpoonacularApiStore } from 'store';
-import { RecipeSearchOptionApi, RecipeSearchParamRequest } from 'store/models/recipes/recipeSearchApi';
-import { RecipeSearchOptionModel } from 'store/models/recipes/recipeSearchClient';
-import { normalizeSearchRecipe } from 'store/models/recipes/utils';
+import { RecipeSearchOptionApi, RecipeSearchParamRequestApi, RecipeSearchOptionClient,  normalizeSearchRecipeClient } from 'store/models/recipe';
 import { normalizeArray } from 'store/models/shared';
 import { Meta, TLocalStore } from 'utils';
 
@@ -20,7 +18,7 @@ export default class RecipeSearchStore implements TLocalStore {
 
   private _searchValue = '';
 
-  private _searchOptions: RecipeSearchOptionModel[] = [];
+  private _searchOptions: RecipeSearchOptionClient[] = [];
 
   private _isEmpty: boolean = false;
 
@@ -73,7 +71,7 @@ export default class RecipeSearchStore implements TLocalStore {
     return this._isEmpty;
   }
 
-  get searchOptions(): RecipeSearchOptionModel[] {
+  get searchOptions(): RecipeSearchOptionClient[] {
     return this._searchOptions;
   }
 
@@ -83,7 +81,7 @@ export default class RecipeSearchStore implements TLocalStore {
   }
 
   private _initRequestParam() {
-    const param: RecipeSearchParamRequest = {
+    const param: RecipeSearchParamRequestApi = {
       [this._searchName]: this._searchValue,
     };
     return param;
@@ -113,7 +111,7 @@ export default class RecipeSearchStore implements TLocalStore {
 
         this._searchOptions = [
           { key: new Date().getMilliseconds(), value: this._searchValue },
-          ...normalizeArray<RecipeSearchOptionApi, RecipeSearchOptionModel>(data, normalizeSearchRecipe),
+          ...normalizeArray<RecipeSearchOptionApi, RecipeSearchOptionClient>(data, normalizeSearchRecipeClient),
         ];
         this._isEmpty = false;
         this._meta = Meta.success;

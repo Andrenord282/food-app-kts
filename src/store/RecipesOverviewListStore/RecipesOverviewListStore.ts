@@ -2,9 +2,7 @@ import { AxiosError } from 'axios';
 import { IReactionDisposer, action, computed, makeAutoObservable, observable, reaction, runInAction } from 'mobx';
 import { ErrorResponse } from 'services/axios';
 import { rootStore, SpoonacularApiStore } from 'store';
-import { RecipeClient, FilterRecipeOverviewList } from 'store/models/recipe';
-import { RecipeApi, RecipeParamRequest } from 'store/models/recipes/modelsApi';
-import { normalizeRecipe } from 'store/models/recipes/utils';
+import { RecipeApi, RecipeClient, FilterRecipeOverviewList, normalizeRecipeClient, RecipeOverviewListRequestApi } from 'store/models/recipe';
 import {
   CollectionModel,
   getInitialCollectionModel,
@@ -112,8 +110,8 @@ export default class RecipesOverviewListStore implements TLocalStore {
     return this._meta === Meta.success && this._list.order.length === 0;
   }
 
-  private _initRequestParam(): RecipeParamRequest {
-    const param: RecipeParamRequest = {
+  private _initRequestParam(): RecipeOverviewListRequestApi {
+    const param: RecipeOverviewListRequestApi = {
       offset: this._offset,
       number: this._limit,
       ...this._filterList,
@@ -178,7 +176,7 @@ export default class RecipesOverviewListStore implements TLocalStore {
         this._list = normalizeCollection<number, RecipeApi, RecipeClient>(
           results,
           (element) => element.id,
-          normalizeRecipe,
+          normalizeRecipeClient,
         );
         this._total = data.totalResults;
         this._meta = Meta.success;

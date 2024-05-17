@@ -1,11 +1,15 @@
 import { FirebaseError } from 'firebase/app';
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, collection, setDoc, getDoc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 import { firebaseProfileApi } from 'services/firebase';
-import { auth, db } from 'services/firebase/config';
-import { RecipeClient, RecipeApi, normalizeRecipeApi, RecipeIngredientListClient } from 'store/models/recipe';
-import { UserApi, UserClient, normalizeUser } from 'store/models/user';
+import { auth } from 'services/firebase/config';
+import {
+  RecipeClient,
+  normalizeRecipeApi,
+  RecipeIngredientListClient,
+  normalizeRecipeIngredientListApi,
+} from 'store/models/recipe';
+import { UserClient, normalizeUser } from 'store/models/user';
 
 type PrivateFields = '_auth' | '_userState' | '_user';
 
@@ -134,7 +138,10 @@ export default class UserStore {
       if (this._user === null) {
         return { state: 'error', message: 'You need to log in or register.' };
       }
-      await this._firebaseProfileApi.saveToShoppingList(this._user.uid, recipeingredients);
+      await this._firebaseProfileApi.saveToShoppingList(
+        this._user.uid,
+        normalizeRecipeIngredientListApi(recipeingredients),
+      );
       runInAction(() => {
         this._user?.recipeIdShoppingList.add(recipeingredients.id);
       });
