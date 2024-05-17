@@ -18,8 +18,8 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
   const recipeIdSavedList = rootStore.user.recipeIdSavedList;
 
   const isEmpty = useMemo(() => {
-    return recipeIdSavedList.size === 0;
-  }, [recipeIdSavedList.size]);
+    return recipeIdSavedList.size === 0 || list.length === 0;
+  }, [recipeIdSavedList.size, list.length]);
 
   useEffect(() => {
     if (isInitial) {
