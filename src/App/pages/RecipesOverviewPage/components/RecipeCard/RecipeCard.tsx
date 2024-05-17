@@ -55,9 +55,9 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe, saved }) => {
     setStartAction(false);
   }, [recipe]);
 
-  const handleRemoveRecipeToSavedList = useCallback(async () => {
+  const handleRemoveRecipeFromSavedList = useCallback(async () => {
     setStartAction(true);
-    const response = await rootStore.user.removeRecipeToSavedList(recipe);
+    const response = await rootStore.user.removeRecipeFromSavedList(recipe);
     if (response.state === 'success') {
       toast.info(response.message, {
         position: 'bottom-right',
@@ -115,7 +115,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe, saved }) => {
             width={30}
             onClick={(e) => {
               e.stopPropagation();
-              handleRemoveRecipeToSavedList();
+              handleRemoveRecipeFromSavedList();
             }}
           >
             <Icon viewBox="0 0 512.001 512.001" height={30} width={30}>

@@ -3,10 +3,23 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { doc, collection, setDoc, getDoc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 import { auth, db } from 'services/firebase/config';
-import { RecipeClient, RecipeApi, normalizeRecipeApi } from 'store/models/recipe';
+import { RecipeClient, RecipeApi, normalizeRecipeApi, RecipeIngredientList } from 'store/models/recipe';
 import { UserApi, UserClient, normalizeUser } from 'store/models/user';
 
-type PrivateFields = '_auth' | '_userState' | '_user' | '_addRecipeIdToSavedList' | '_removeRecipeIdToSavedList';
+type PrivateFields =
+  | '_auth'
+  | '_userState'
+  | '_user'
+  | '_addRecipeIdToSavedList'
+  | '_removeRecipeIdFromSavedList'
+  | '_addRecipeIdToShoppingList'
+  | '_removeRecipeIdFromShoppingList';
+
+type UserActionResponse = {
+  state: 'error' | 'success';
+  code?: string;
+  message?: string;
+};
 
 enum UserState {
   initial = 'initial',
@@ -29,8 +42,11 @@ export default class UserStore {
       userIdentified: computed,
       userUid: computed,
       recipeIdSavedList: computed,
+      recipeIdShoppingList: computed,
       _addRecipeIdToSavedList: action,
-      _removeRecipeIdToSavedList: action,
+      _removeRecipeIdFromSavedList: action,
+      _addRecipeIdToShoppingList: action,
+      _removeRecipeIdFromShoppingList: action,
       eventListeningUserAuthorization: action,
     });
   }
@@ -53,6 +69,10 @@ export default class UserStore {
 
   get recipeIdSavedList(): Set<number> {
     return this._user?.recipeIdSavedList || new Set();
+  }
+
+  get recipeIdShoppingList(): Set<number> {
+    return this._user?.recipeIdShoppingList || new Set();
   }
 
   private _initProfile = async (uid: string) => {
@@ -94,7 +114,7 @@ export default class UserStore {
     await setDoc(doc(collectionRef, String(recipe.id)), recipe);
   };
 
-  private _removeRecipeIdToSavedList = async (userUid: string, id: number) => {
+  private _removeRecipeIdFromSavedList = async (userUid: string, id: number) => {
     const docRef = doc(db, 'users', userUid);
     await updateDoc(docRef, {
       recipeIdSavedList: arrayRemove(id),
@@ -104,14 +124,43 @@ export default class UserStore {
     });
   };
 
-  private _removeRecipeToSavedList = async (userUid: string, id: number) => {
+  private _removeRecipeFromSavedList = async (userUid: string, id: number) => {
     const docRef = doc(db, `users/${userUid}/recipeSavedList`, String(id));
     await deleteDoc(docRef);
   };
 
-  addRecipeToSavedList = async (
-    recipe: RecipeClient,
-  ): Promise<{ state: 'error' | 'success'; code?: string; message?: string }> => {
+  private _addRecipeToShoppingList = async (userUid: string, recipeingredients: RecipeIngredientList) => {
+    const docRef = doc(db, `users`, userUid);
+    const collectionRef = collection(docRef, 'recipeShoppingList');
+    await setDoc(doc(collectionRef, String(recipeingredients.id)), recipeingredients);
+  };
+
+  private _addRecipeIdToShoppingList = async (userUid: string, id: number) => {
+    const docRef = doc(db, 'users', userUid);
+    await updateDoc(docRef, {
+      recipeIdShoppingList: arrayUnion(id),
+    });
+    runInAction(() => {
+      this._user?.recipeIdShoppingList.add(id);
+    });
+  };
+
+  private _removeRecipeFromShoppingList = async (userUid: string, id: number) => {
+    const docRef = doc(db, `users/${userUid}/recipeShoppingList`, String(id));
+    await deleteDoc(docRef);
+  };
+
+  private _removeRecipeIdFromShoppingList = async (userUid: string, id: number) => {
+    const docRef = doc(db, 'users', userUid);
+    await updateDoc(docRef, {
+      recipeIdShoppingList: arrayRemove(id),
+    });
+    runInAction(() => {
+      this._user?.recipeIdShoppingList.delete(id);
+    });
+  };
+
+  addRecipeToSavedList = async (recipe: RecipeClient): Promise<UserActionResponse> => {
     try {
       if (this._user === null) {
         return { state: 'error', message: 'You need to log in or register.' };
@@ -127,14 +176,46 @@ export default class UserStore {
     }
   };
 
-  removeRecipeToSavedList = async (recipe: RecipeClient) => {
+  removeRecipeFromSavedList = async (recipe: RecipeClient): Promise<UserActionResponse> => {
     try {
       if (this._user === null) {
         return { state: 'error', message: 'You need to log in or register.' };
       }
-      await this._removeRecipeIdToSavedList(this._user.uid, recipe.id);
-      await this._removeRecipeToSavedList(this._user.uid, recipe.id);
+      await this._removeRecipeIdFromSavedList(this._user.uid, recipe.id);
+      await this._removeRecipeFromSavedList(this._user.uid, recipe.id);
       return { state: 'success', message: 'The recipe has been removed from the saved list' };
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        return { state: 'error', code: error.code, message: error.message };
+      }
+      return { state: 'error', message: 'Unexpected error' };
+    }
+  };
+
+  addRecipeToShoppingList = async (recipeingredients: RecipeIngredientList): Promise<UserActionResponse> => {
+    try {
+      if (this._user === null) {
+        return { state: 'error', message: 'You need to log in or register.' };
+      }
+      await this._addRecipeIdToShoppingList(this._user.uid, recipeingredients.id);
+      await this._addRecipeToShoppingList(this._user.uid, recipeingredients);
+      return { state: 'success', message: 'Recipe has been added to the shopping list' };
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        return { state: 'error', code: error.code, message: error.message };
+      }
+      return { state: 'error', message: 'Unexpected error' };
+    }
+  };
+
+  removeRecipeToShoppingList = async (recipeingredients: RecipeIngredientList): Promise<UserActionResponse> => {
+    try {
+      if (this._user === null) {
+        return { state: 'error', message: 'You need to log in or register.' };
+      }
+      await this._removeRecipeFromShoppingList(this._user.uid, recipeingredients.id);
+      await this._removeRecipeIdFromShoppingList(this._user.uid, recipeingredients.id);
+      return { state: 'success', message: 'The recipe has been removed from the shopping list' };
     } catch (error) {
       if (error instanceof FirebaseError) {
         return { state: 'error', code: error.code, message: error.message };

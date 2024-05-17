@@ -1,16 +1,5 @@
-@import "styles/global.scss";
+@import "styles/mixins.scss";
 @import "styles/variables.scss";
-
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  padding: $space-xxl;
-}
-
-.container {
-  @extend .container--m;
-}
 
 .loader {
   margin: auto;
@@ -19,9 +8,12 @@
 .head {
   display: flex;
   align-items: center;
-  margin-bottom: $space-xxl;
   gap: 0 $space-m;
   margin-bottom: $space-xxl;
+
+  @include for-mobile-down {
+    margin-bottom: $space-m;
+  }
 }
 
 .button {
@@ -36,12 +28,26 @@
   }
 }
 
+.title {
+  @include for-mobile-down {
+    font-size: 24px;
+  }
+}
+
 .summary {
   margin-bottom: $space-xxl;
+
+  @include for-mobile-down {
+    margin-bottom: $space-m;
+  }
 }
 
 .description {
   margin-bottom: $space-xxl;
+
+  @include for-mobile-down {
+    margin-bottom: $space-m;
+  }
 }
 
 .lists {
@@ -50,10 +56,24 @@
   justify-content: space-between;
   margin-bottom: $space-xxl;
   gap: 0 $space-xl;
+
+  @include for-mobile-down {
+    margin-bottom: $space-m;
+  }
+
+  @include for-desktop-down {
+    flex-direction: column;
+    align-items: center;
+    gap: $space-xl 0;
+  }
 }
 
 .list-item {
   width: 45%;
+
+  @include for-desktop-down {
+    width: 100%;
+  }
 }
 
 .information {

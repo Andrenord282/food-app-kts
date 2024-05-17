@@ -9,7 +9,7 @@ import { rootStore } from 'store';
 import BaseLayout from './layouts/BaseLayout';
 import AuthPage from './pages/AuthPage';
 import NotFoundPage from './pages/NotFoundPage';
-import RecipePage from './pages/RecipePage';
+import RecipeDetailsPage from './pages/RecipeDetailsPage';
 import RecipesOverviewPage from './pages/RecipesOverviewPage';
 import RecipesSavedPage from './pages/RecipesSavedPage';
 import style from './App.module.scss';
@@ -41,7 +41,7 @@ const App = () => {
                   path={ROUTS.RECIPE}
                   element={
                     <RecipeStoreProvider>
-                      <RecipePage />
+                      <RecipeDetailsPage />
                     </RecipeStoreProvider>
                   }
                 />

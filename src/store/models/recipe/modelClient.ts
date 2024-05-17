@@ -33,6 +33,17 @@ export type FilterItem<U, T> = {
   value: T;
 };
 
+export type RecipeIngredientList = {
+  id: number;
+  title: string;
+  ingredients: RecipeIngredientListItem[];
+};
+
+type RecipeIngredientListItem = {
+  original: string;
+  completed: boolean;
+};
+
 type NutritionClient = {
   nutrients: NutrientClient[];
   ingredients: IngredientClient[];

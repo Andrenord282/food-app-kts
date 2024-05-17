@@ -1,5 +1,6 @@
 export type {
   RecipeClient,
+  RecipeIngredientList,
   FilterRecipeOverviewList,
   FilterRecipeSaveList,
   FilterItem,

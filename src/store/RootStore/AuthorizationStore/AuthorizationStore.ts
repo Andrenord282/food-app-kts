@@ -70,7 +70,7 @@ export default class AuthorizationStore implements TLocalStore {
       uid,
       displayName,
       recipeIdSavedList: [],
-      recipeShoppingList: [],
+      recipeIdShoppingList: [],
     };
     const usersRef = collection(db, 'users');
     await setDoc(doc(usersRef, uid), user);

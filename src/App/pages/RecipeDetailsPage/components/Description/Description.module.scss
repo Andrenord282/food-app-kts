@@ -1,7 +1,12 @@
 @import "styles/variables.scss";
+@import "styles/mixins.scss";
 
 .section {
   padding: $space-special-xl;
   background-color: $rust-light-extra;
   border-radius: $border-radius-m;
+
+  @include for-mobile-down {
+    padding: $space-l;
+  }
 }

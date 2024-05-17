@@ -1,0 +1,42 @@
+@import "styles/variables.scss";
+@import "styles/mixins.scss";
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  margin-bottom: $space-xl;
+
+  @include for-mobile-down {
+    margin-bottom: $space-m;
+  }
+}
+
+.title {
+  width: 100%;
+}
+
+.buttom {
+  max-width: max-content;
+}
+
+.body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-xl;
+}
+
+.item {
+  width: 100%;
+  flex-basis: 45%;
+  display: flex;
+  gap: 0 $space-m;
+
+  & svg {
+    flex-shrink: 0;
+  }
+
+  @include for-mobile-down {
+    flex-basis: 100%;
+  }
+}

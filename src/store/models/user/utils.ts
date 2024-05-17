@@ -6,6 +6,6 @@ export const normalizeUser = (from: UserApi): UserClient => {
     uid: from.uid,
     userName: from.displayName,
     recipeIdSavedList: new Set(from.recipeIdSavedList),
-    recipeShoppingList: new Set(from.recipeShoppingList),
+    recipeIdShoppingList: new Set(from.recipeIdShoppingList),
   };
 };

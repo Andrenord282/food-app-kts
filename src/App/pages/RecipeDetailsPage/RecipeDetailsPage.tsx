@@ -3,18 +3,20 @@ import { FC, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Text, Loader, ArrowLeftIcon, IconButton } from 'components';
 import { useRecipeStoreContext } from 'context';
+import { rootStore } from 'store';
 import Description from './components/Description';
 import Directions from './components/Directions';
 import Equipment from './components/Equipment';
 import Ingredients from './components/Ingredients';
 import Summary from './components/Summary';
 import Wrapper from './components/Wrapper';
-import style from './RecipePage.module.scss';
+import style from './RecipeDetailsPage.module.scss';
 
-const RecipePage: FC = () => {
+const RecipeDetailsPage: FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { isInitial, isLoading, isError, isSuccess, recipe, error, getRecipe } = useRecipeStoreContext();
+  const recipeIdShoppingList = rootStore.user.recipeIdShoppingList;
 
   useEffect(() => {
     if (isInitial && id) {
@@ -55,7 +57,7 @@ const RecipePage: FC = () => {
           <IconButton onClick={handleToBackPage} className={style.button}>
             <ArrowLeftIcon width={32} height={32} color="accent" />
           </IconButton>
-          <Text tag="h2" weight="700" view="title-xl">
+          <Text className={style.title} tag="h2" weight="700" view="title-xl">
             {recipe.title}
           </Text>
         </div>
@@ -66,11 +68,17 @@ const RecipePage: FC = () => {
           preparation={recipe.preparationMinutes}
           ratings={recipe.aggregateLikes}
           cooking={recipe.cookingMinutes}
-          servings={recipe.servings}
         />
         <Description className={style.description} text={recipe.summary} />
         <div className={style.lists}>
-          <Ingredients ingredients={recipe.extendedIngredients} className={style['list-item']} />
+          <Ingredients
+            saved={recipeIdShoppingList.has(Number(id))}
+            id={recipe.id}
+            title={recipe.title}
+            servings={recipe.servings}
+            ingredients={recipe.extendedIngredients}
+            className={style['list-item']}
+          />
           <Equipment equipments={recipe.equipments} className={style['list-item']} />
         </div>
         <Directions stepList={recipe.analyzedInstructions[0].steps} />
@@ -79,4 +87,4 @@ const RecipePage: FC = () => {
   }
 };
 
-export default observer(RecipePage);
+export default observer(RecipeDetailsPage);

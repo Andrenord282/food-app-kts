@@ -10,12 +10,11 @@ type SummaryProps = {
   preparation: number;
   ratings: number;
   cooking: number;
-  servings: number;
 };
 
-const Summary: FC<SummaryProps> = ({ className, alt, image, preparation, ratings, cooking, servings }) => {
+const Summary: FC<SummaryProps> = ({ className, alt, image, preparation, ratings, cooking }) => {
   return (
-    <div className={cn(className, style.section)}>
+    <div className={cn(className, style.block)}>
       <div className={style.img}>
         <img src={image} alt={alt} />
       </div>
@@ -24,7 +23,6 @@ const Summary: FC<SummaryProps> = ({ className, alt, image, preparation, ratings
         <SummaryItem className={style.item} title="Cooking" text={`${Math.max(cooking, 0)} minutes`} />
         <SummaryItem className={style.item} title="Total" text={`${Math.max(preparation + cooking, 0)} minutes`} />
         <SummaryItem className={style.item} title="Ratings" text={`${ratings} likes`} />
-        <SummaryItem className={style.item} title="Servings" text={`${servings} servings`} />
       </div>
     </div>
   );

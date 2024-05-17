@@ -26,9 +26,9 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe }) => {
     navigate(generatePath(ROUTS.RECIPE, { id }));
   }, [id, navigate]);
 
-  const handleRemoveRecipeToSavedList = useCallback(async () => {
+  const handleRemoveRecipeFromSavedList = useCallback(async () => {
     setStartLoading(true);
-    const response = await rootStore.user.removeRecipeToSavedList(recipe);
+    const response = await rootStore.user.removeRecipeFromSavedList(recipe);
     setStartAction((prevAction) => !prevAction);
     setStartLoading(false);
     if (response.state === 'success') {
@@ -94,7 +94,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe }) => {
             e.stopPropagation();
             handlerDelayAction();
           }}
-          handlerDelay={handleRemoveRecipeToSavedList}
+          handlerDelay={handleRemoveRecipeFromSavedList}
         >
           Remove
         </DelayButton>
