@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { FC, memo, useCallback, useState } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useNavigate, generatePath } from 'react-router-dom';
 import { Bounce, toast } from 'react-toastify';
 import { BaseButton, IconButton, Text, WatchIcon, Icon, HeartIcon } from 'components';
@@ -88,7 +89,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe, saved }) => {
   return (
     <div className={cn(className, style.card)} onClick={handleOpenDetails}>
       <div className={style.head}>
-        <img src={image} alt="img" className={style['img-item']} />
+        <LazyLoadImage src={image} className={style['img-item']}/>
       </div>
       <div className={style.body}>
         <Text className={style['cooking-time']} tag="span" view="p-xxs" color="secondary" weight="500">
