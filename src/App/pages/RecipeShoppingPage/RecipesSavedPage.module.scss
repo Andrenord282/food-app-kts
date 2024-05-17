@@ -7,6 +7,9 @@
   flex-direction: column;
   flex-grow: 1;
   padding: $space-xl 0;
+}
+
+.container {
   @extend .container--m;
 }
 
