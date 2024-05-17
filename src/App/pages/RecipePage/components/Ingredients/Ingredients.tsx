@@ -1,7 +1,6 @@
 import cn from 'classnames';
 import { FC, memo } from 'react';
-import Text from 'components/Text';
-import IngredientIcon from 'components/icons/IngredientIcon';
+import { Text, IngredientIcon } from 'components';
 import { ExtendedIngredientModel } from 'store/models/recipes/modelsClient';
 import style from './Ingredients.module.scss';
 
@@ -11,7 +10,6 @@ type IngredientsProps = {
 };
 
 const Ingredients: FC<IngredientsProps> = ({ className, ingredients }) => {
-
   return (
     <div className={cn(className, style.list)}>
       <Text view="p-l" weight="600" className={style.title}>

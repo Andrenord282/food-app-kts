@@ -27,7 +27,7 @@ export default class RecipeSearchStore implements TLocalStore {
   constructor(name: string) {
     this._searchName = name;
     this._searchValue = rootStore.query.getParam(name) || '';
-    
+
     makeAutoObservable<RecipeSearchStore, PrivateFields>(this, {
       _meta: observable,
       _searchName: observable,

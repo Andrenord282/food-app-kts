@@ -44,7 +44,7 @@ const Text: FC<TextProps> = ({
   children,
 }) => {
   const TagName = tagMap[tag] || (tagMap.p as ElementType);
-  
+
   const inlineStyle = useMemo((): CSSProperties => {
     const style: CSSProperties = {};
 

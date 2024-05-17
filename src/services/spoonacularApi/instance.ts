@@ -28,7 +28,6 @@ class SpoonacularApi {
   };
 }
 
-
 const spoonacularApi = new SpoonacularApi();
 
 export default spoonacularApi;

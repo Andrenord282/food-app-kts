@@ -144,7 +144,6 @@ export default class RecipesStore implements TLocalStore {
       this._filter.type = type as string;
     },
   );
-
   private readonly _queryPageReaction: IReactionDisposer = reaction(
     () => rootStore.query.getParam('page'),
     async (page) => {

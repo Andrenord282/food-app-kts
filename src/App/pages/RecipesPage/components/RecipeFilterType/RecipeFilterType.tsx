@@ -32,10 +32,10 @@ const RecipeFilterType: FC<RecipeFilterTypePorps> = ({ className }) => {
   const handleChangeSelect = useCallback(
     (selected: MultiSelectValue<string, string>[]) => {
       updateFilter(selected);
-      selected.length === 0
-        ? searchParams.delete('type')
-        : searchParams.set('type', selected.map(({ value }) => value).join(','));
-      setSearchParams(searchParams);
+      // selected.length === 0
+      //   ? searchParams.delete('type')
+      //   : searchParams.set('type', selected.map(({ value }) => value).join(','));
+      // setSearchParams(searchParams);
     },
     [updateFilter, searchParams, setSearchParams],
   );

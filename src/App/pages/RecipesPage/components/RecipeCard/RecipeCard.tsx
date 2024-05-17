@@ -1,9 +1,7 @@
 import cn from 'classnames';
 import { FC, memo, useCallback } from 'react';
 import { useNavigate, generatePath } from 'react-router-dom';
-import BaseButton from 'components/BaseButton';
-import Text from 'components/Text';
-import WatchIcon from 'components/icons/WatchIcon';
+import { BaseButton, Text, WatchIcon } from 'components';
 import { ROUTS } from 'config/routs';
 import { RecipeModel } from 'store/models/recipes/modelsClient';
 import style from './RecipeCard.module.scss';
@@ -45,9 +43,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe }) => {
             {nutritional}
           </Text>
         )}
-        <BaseButton>
-          Save
-        </BaseButton>
+        <BaseButton>Save</BaseButton>
       </div>
     </div>
   );

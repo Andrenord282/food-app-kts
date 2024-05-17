@@ -1,7 +1,6 @@
 import { FC } from 'react';
-import IconButton from 'components/IconButton';
-import { SearchIcon } from 'components/icons';
-import { useRecipesStoreContext } from 'context/RecipesStoreContext';
+import { IconButton, SearchIcon } from 'components';
+import { useRecipesStoreContext } from 'context';
 
 type RecipeInitFilterProps = {
   className?: string;

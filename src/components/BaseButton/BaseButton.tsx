@@ -30,7 +30,7 @@ const BaseButton: FC<BaseButtonProps> = ({
       disabled={disabled}
       onClick={!disabled ? onClick : undefined}
       className={cn(className, style.button, style[`button--${size}`], {
-        [style['button--disabled']]: disabled,
+        [style['button--d']]: disabled,
       })}
       {...props}
     >
