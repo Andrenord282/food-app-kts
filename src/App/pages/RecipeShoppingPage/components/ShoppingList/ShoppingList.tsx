@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
-import { FC, useCallback, useEffect, useState } from 'react';
-import { ShoppingItemSkeleton } from 'components';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { ShoppingItemSkeleton, Text } from 'components';
 import { useRecipeShoppingListContext } from 'context';
 import { rootStore } from 'store/index';
 import { RecipeIngredientListClient } from 'store/models/recipe';
@@ -12,9 +12,13 @@ type ShoppingListProps = {
 };
 
 const ShoppingList: FC<ShoppingListProps> = () => {
-  const { isInitial, isLoading, isSuccess, isEmpty, list: listFromStore, getList } = useRecipeShoppingListContext();
+  const { isInitial, isLoading, isSuccess, list: listFromStore, getList } = useRecipeShoppingListContext();
   const recipeIdShoppingList = rootStore.user.recipeIdShoppingList;
   const [list, setList] = useState<RecipeIngredientListClient[]>([]);
+
+  const isEmpty = useMemo(() => {
+    return recipeIdShoppingList.size === 0;
+  }, [recipeIdShoppingList.size]);
 
   const handleUpdateList = useCallback(
     (newItem: RecipeIngredientListClient) => {
@@ -71,7 +75,13 @@ const ShoppingList: FC<ShoppingListProps> = () => {
   }
 
   if (isSuccess && isEmpty) {
-    return <div>isEmpty</div>;
+    return (
+      <div className={style.information}>
+        <Text tag="h2" view="title-l" weight="700" align="center">
+          No recipes to shopping
+        </Text>
+      </div>
+    );
   }
 };
 

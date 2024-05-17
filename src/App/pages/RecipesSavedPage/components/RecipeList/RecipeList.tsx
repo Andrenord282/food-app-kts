@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useCallback, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Text, RecipeSkeletonCard, InfiniteScroll } from 'components';
 import { useRecipeSavedListContext } from 'context/RecipeSavedListContext';
@@ -14,8 +14,12 @@ type RecipeListPorps = {
 
 const RecipeList: FC<RecipeListPorps> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isInitial, isLoading, isSuccess, isEmpty, list, limit, page, total, getList } = useRecipeSavedListContext();
+  const { isInitial, isLoading, isSuccess, list, limit, page, total, getList } = useRecipeSavedListContext();
   const recipeIdSavedList = rootStore.user.recipeIdSavedList;
+
+  const isEmpty = useMemo(() => {
+    return recipeIdSavedList.size === 0;
+  }, [recipeIdSavedList.size]);
 
   useEffect(() => {
     if (isInitial) {

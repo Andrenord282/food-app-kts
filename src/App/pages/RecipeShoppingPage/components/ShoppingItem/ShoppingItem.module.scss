@@ -51,6 +51,8 @@
 }
 
 .check {
+  flex-shrink: 0;
+  
   &--disabled {
     color: $text-accent-color;
     background-color: $component-primary-bg;

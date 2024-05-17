@@ -1,6 +1,12 @@
 @import "styles/variables.scss";
 @import "styles/mixins.scss";
 
+.information {
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
 .item {
   &:not(:last-child) {
     margin-bottom: $space-l;

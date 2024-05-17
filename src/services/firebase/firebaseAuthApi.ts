@@ -16,7 +16,7 @@ class FirebaseAuthApi {
   private _usernameExists = async (displayName: string) => {
     const q = query(collection(db, 'users'), where('displayName', '==', displayName));
     const querySnapshot = await getDocs(q);
-    if (querySnapshot.empty) {
+    if (!querySnapshot.empty) {
       throw new FirebaseError('auth/name-already-in-use', 'name already in use');
     }
     return !querySnapshot.empty;

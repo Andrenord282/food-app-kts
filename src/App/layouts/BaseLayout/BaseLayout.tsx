@@ -1,4 +1,3 @@
-import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Header } from 'components';
@@ -15,4 +14,4 @@ const BaseLayout: FC = () => {
   );
 };
 
-export default observer(BaseLayout);
+export default BaseLayout;

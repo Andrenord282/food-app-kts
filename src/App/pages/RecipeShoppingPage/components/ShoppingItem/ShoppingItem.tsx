@@ -111,7 +111,7 @@ const ShoppingItem: FC<ShoppingItemProps> = ({ className, recipe, handleUpdateLi
           return (
             <div key={item.original} className={style.item}>
               <CheckBox
-                className={cn({ [style['check--disabled']]: starCompleteLoading })}
+                className={cn(style.check, { [style['check--disabled']]: starCompleteLoading })}
                 disabled={starCompleteLoading}
                 loading={starCompleteLoading && originalCompleting === item.original}
                 checked={item.completed}
