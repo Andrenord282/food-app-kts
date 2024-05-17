@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { FC, ReactNode, memo, useCallback, useEffect, useMemo, useRef } from 'react';
+import { CSSTransition } from 'react-transition-group';
 import { Text, LoaderIcon, BaseButton, BaseInput, Icon } from 'components';
 import style from './MultiSelect.module.scss';
 
@@ -130,23 +131,34 @@ const MultiSelect: FC<MultiSelectProps> = ({
           {helperText}
         </Text>
       )}
-      {toggle && filteredOptions.length > 0 && !disabled && (
-        <div className={cn(style.list, style[`list--${optionStyle}`])}>
-          {filteredOptions.map(({ key, value }) => {
-            return (
-              <BaseButton
-                key={key}
-                onClick={() => handleSelectValue({ key, value })}
-                className={cn(style.item, {
-                  [style['item--selected']]: selectedKeys.has(key),
-                })}
-              >
-                {value}
-              </BaseButton>
-            );
-          })}
-        </div>
-      )}
+      <div className={style['wrapper-list']}>
+        <CSSTransition
+          in={toggle && !disabled}
+          timeout={300}
+          mountOnEnter
+          unmountOnExit
+          classNames={{
+            enterActive: style['enter--active'],
+            exitActive: style['exit--active'],
+          }}
+        >
+          <div className={cn(style.list, style[`list--${optionStyle}`])}>
+            {filteredOptions.map(({ key, value }) => {
+              return (
+                <BaseButton
+                  key={key}
+                  onClick={() => handleSelectValue({ key, value })}
+                  className={cn(style.item, {
+                    [style['item--selected']]: selectedKeys.has(key),
+                  })}
+                >
+                  {value}
+                </BaseButton>
+              );
+            })}
+          </div>
+        </CSSTransition>
+      </div>
     </div>
   );
 };

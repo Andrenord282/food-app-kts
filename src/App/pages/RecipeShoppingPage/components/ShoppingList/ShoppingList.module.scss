@@ -1,5 +1,6 @@
 @import "styles/variables.scss";
 @import "styles/mixins.scss";
+@import "styles/animations.scss";
 
 .information {
   align-items: center;
@@ -7,8 +8,21 @@
   min-height: 80vh;
 }
 
+.list {
+  width: 100%;
+  max-width: 475px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
 .item {
   &:not(:last-child) {
     margin-bottom: $space-l;
+  }
+}
+
+.exit {
+  &--active {
+    animation: fadeInTranslateToRight 0.3s forwards;
   }
 }

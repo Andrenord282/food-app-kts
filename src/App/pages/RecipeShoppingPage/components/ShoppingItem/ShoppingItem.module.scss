@@ -2,7 +2,7 @@
 @import "styles/mixins.scss";
 
 .block {
-  max-width: 475px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -52,7 +52,7 @@
 
 .check {
   flex-shrink: 0;
-  
+
   &--disabled {
     color: $text-accent-color;
     background-color: $component-primary-bg;

@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { FC, ReactNode, memo, useCallback, useEffect, useMemo, useRef } from 'react';
+import { CSSTransition } from 'react-transition-group';
 import { Text, LoaderIcon, BaseButton, BaseInput, Icon } from 'components';
 import style from './SingleSelect.module.scss';
 
@@ -122,25 +123,36 @@ const SingleSelect: FC<SingleSelectProps> = ({
           {helperText}
         </Text>
       )}
-      {toggle && filteredOptions.length > 0 && !disabled && (
-        <div className={cn(style.list, style[`list--${optionStyle}`])}>
-          {filteredOptions.map(({ key, value }) => {
-            const isSelected = cn(style.item, {
-              [style['item--selected']]: key === selected?.key,
-            });
+      <div className={style['wrapper-list']}>
+        <CSSTransition
+          in={filteredOptions.length > 0 && toggle && !disabled}
+          timeout={300}
+          mountOnEnter
+          unmountOnExit
+          classNames={{
+            enterActive: style['enter--active'],
+            exitActive: style['exit--active'],
+          }}
+        >
+          <div className={cn(style.list, style[`list--${optionStyle}`])}>
+            {filteredOptions.map(({ key, value }) => {
+              const isSelected = cn(style.item, {
+                [style['item--selected']]: key === selected?.key,
+              });
 
-            return (
-              <BaseButton
-                key={key}
-                onClick={() => handleSelectValue({ key, value })}
-                className={cn(isSelected, style.item)}
-              >
-                {value}
-              </BaseButton>
-            );
-          })}
-        </div>
-      )}
+              return (
+                <BaseButton
+                  key={key}
+                  onClick={() => handleSelectValue({ key, value })}
+                  className={cn(isSelected, style.item)}
+                >
+                  {value}
+                </BaseButton>
+              );
+            })}
+          </div>
+        </CSSTransition>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { ShoppingItemSkeleton, Text } from 'components';
 import { useRecipeShoppingListContext } from 'context';
 import { rootStore } from 'store/index';
@@ -43,7 +44,7 @@ const ShoppingList: FC<ShoppingListProps> = () => {
 
   if (isLoading) {
     return (
-      <div className={''}>
+      <div className={style.list}>
         {Array.from({ length: 10 })
           .fill(10)
           .map((_, index) => {
@@ -55,22 +56,24 @@ const ShoppingList: FC<ShoppingListProps> = () => {
 
   if (isSuccess && !isEmpty) {
     return (
-      <div>
-        {list.length > 0 &&
-          list.map((recipe) => {
-            if (recipeIdShoppingList.has(recipe.id)) {
-              return (
-                <ShoppingItem
-                  handleUpdateList={handleUpdateList}
-                  className={style.item}
-                  key={recipe.id}
-                  recipe={recipe}
-                />
-              );
-            }
-            return null;
-          })}
-      </div>
+      <TransitionGroup className={style.list}>
+        {list.map((recipe) => {
+          if (recipeIdShoppingList.has(recipe.id)) {
+            return (
+              <CSSTransition
+                key={recipe.id}
+                timeout={300}
+                classNames={{
+                  exitActive: style['exit--active'],
+                }}
+              >
+                <ShoppingItem handleUpdateList={handleUpdateList} className={style.item} recipe={recipe} />
+              </CSSTransition>
+            );
+          }
+          return null;
+        })}
+      </TransitionGroup>
     );
   }
 
