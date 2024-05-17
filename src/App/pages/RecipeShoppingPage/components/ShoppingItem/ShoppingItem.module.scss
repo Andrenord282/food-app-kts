@@ -1,0 +1,62 @@
+@import "styles/variables.scss";
+@import "styles/mixins.scss";
+
+.block {
+  max-width: 475px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0 auto;
+}
+
+.head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: $space-xs $space-xs;
+  margin-bottom: $space-m;
+}
+
+.link {
+  text-align: left;
+  &:active {
+    color: $text-accent-color;
+  }
+
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      color: $text-accent-color;
+    }
+  }
+}
+
+.remove {
+  width: 100%;
+  max-width: 125px;
+  margin-left: auto;
+}
+
+.list {
+  margin-bottom: $space-m;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0 $space-xs;
+
+  &:not(:last-child) {
+    margin-bottom: $space-xxs;
+  }
+}
+
+.check {
+  &--disabled {
+    color: $text-accent-color;
+    background-color: $component-primary-bg;
+  }
+}
+
+.completed {
+  text-decoration: line-through;
+}

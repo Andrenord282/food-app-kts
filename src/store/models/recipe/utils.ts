@@ -1,6 +1,7 @@
 import { serverTimestamp } from 'firebase/firestore';
-import { RecipeApi } from './modelApi';
-import { RecipeClient } from './modelClient';
+import { RecipeApi, RecipeIngredientListApi } from './modelApi';
+import { RecipeClient, RecipeIngredientListClient } from './modelClient';
+
 export const normalizeRecipeClient = (from: RecipeApi): RecipeClient => {
   return {
     id: from.id,
@@ -23,5 +24,13 @@ export const normalizeRecipeApi = (from: RecipeClient): RecipeApi => {
     cuisines: from.cuisines,
     dishTypes: from.dishTypes,
     createdAt: serverTimestamp(),
+  };
+};
+
+export const normalizeRecipeIngredientListClient = (from: RecipeIngredientListApi): RecipeIngredientListClient => {
+  return {
+    id: from.id,
+    title: from.title,
+    ingredients: from.ingredients,
   };
 };

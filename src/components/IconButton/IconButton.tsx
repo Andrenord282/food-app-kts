@@ -2,6 +2,7 @@ import cn from 'classnames';
 import { ButtonHTMLAttributes, FC, PropsWithChildren, memo } from 'react';
 import LoaderIcon from 'components/icons/LoaderIcon';
 import style from './IconsButton.module.scss';
+import { Icon } from '..';
 
 type IconButtonVariant = 'primary' | 'accent';
 type IconButtonPadding = 'none' | 'l';
@@ -38,7 +39,11 @@ const IconButton: FC<IconButtonProps> = ({
         [style['button--disabled']]: disabled,
       })}
     >
-      {loading && <LoaderIcon width={width} height={height} />}
+      {loading && (
+        <Icon width={width} height={height} viewBox="0 0 16 16" className="loader-icon">
+          <LoaderIcon />
+        </Icon>
+      )}
       {!loading && children}
     </button>
   );

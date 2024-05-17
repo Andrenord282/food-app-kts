@@ -56,7 +56,7 @@ const Ingredients: FC<IngredientsProps> = ({ saved, id, title, className, ingred
 
   const handleRemoveRecipeFromShoppongList = useCallback(async () => {
     setStartRemoveLoading(true);
-    const response = await rootStore.user.removeRecipeToShoppingList({
+    const response = await rootStore.user.removeRecipeFromShoppingList({
       id,
       title,
       ingredients: ingredients.map(({ original }) => ({ original, completed: false })),

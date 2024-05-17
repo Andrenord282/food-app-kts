@@ -33,7 +33,7 @@ export type FilterItem<U, T> = {
   value: T;
 };
 
-export type RecipeIngredientList = {
+export type RecipeIngredientListClient = {
   id: number;
   title: string;
   ingredients: RecipeIngredientListItem[];

@@ -17,7 +17,7 @@ const ProfileNavigation: FC = () => {
           <FavoriteIcon color="accent" />
         </Icon>
       </Link>
-      <Link to={ROUTS.SHOP_BASKET} className={style.link}>
+      <Link to={ROUTS.RECIPES_SHOPPING} className={style.link}>
         <Icon width={22} height={22} viewBox="0 0 512 512">
           <ShopBasketIcon color="accent" />
         </Icon>

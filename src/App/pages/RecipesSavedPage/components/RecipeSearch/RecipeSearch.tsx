@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { FC, useState, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { BaseCrossIcon, BaseInput, IconButton, LoaderIcon } from 'components';
+import { BaseCrossIcon, BaseInput, Icon, IconButton, LoaderIcon } from 'components';
 import { useRecipeSavedListContext } from 'context/RecipeSavedListContext';
 
 type RecipeSearchProps = {
@@ -38,7 +38,9 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
       onChange={handleChangeValue}
       endSlot={
         isLoading ? (
-          <LoaderIcon width={40} height={40} />
+          <Icon width={40} height={40} viewBox="0 0 16 16" className="loader-icon">
+            <LoaderIcon />
+          </Icon>
         ) : (
           value && (
             <IconButton onClick={handleResetValue}>

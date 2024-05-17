@@ -4,12 +4,18 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Loader, PrivateRoute } from 'components';
 import { ROUTS } from 'config/routs';
-import { RecipesOverviewListProvider, RecipeStoreProvider, RecipeSavedListProvider } from 'context';
+import {
+  RecipesOverviewListProvider,
+  RecipeStoreProvider,
+  RecipeSavedListProvider,
+  RecipeShoppingListProvider,
+} from 'context';
 import { rootStore } from 'store';
 import BaseLayout from './layouts/BaseLayout';
 import AuthPage from './pages/AuthPage';
 import NotFoundPage from './pages/NotFoundPage';
 import RecipeDetailsPage from './pages/RecipeDetailsPage';
+import RecipeShoppingPage from './pages/RecipeShoppingPage';
 import RecipesOverviewPage from './pages/RecipesOverviewPage';
 import RecipesSavedPage from './pages/RecipesSavedPage';
 import style from './App.module.scss';
@@ -52,6 +58,14 @@ const App = () => {
                       <RecipeSavedListProvider>
                         <RecipesSavedPage />
                       </RecipeSavedListProvider>
+                    }
+                  />
+                  <Route
+                    path={ROUTS.RECIPES_SHOPPING}
+                    element={
+                      <RecipeShoppingListProvider>
+                        <RecipeShoppingPage />
+                      </RecipeShoppingListProvider>
                     }
                   />
                 </Route>

@@ -1,0 +1,15 @@
+@import "styles/global.scss";
+@import "styles/variables.scss";
+@import "styles/mixins.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: $space-xl 0;
+  @extend .container--m;
+}
+
+.list {
+  margin-bottom: $space-xxl;
+}

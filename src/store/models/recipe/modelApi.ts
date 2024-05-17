@@ -19,6 +19,17 @@ export type RecipeApi = {
   createdAt: FieldValue;
 };
 
+export type RecipeIngredientListApi = {
+  id: number;
+  title: string;
+  ingredients: RecipeIngredientListItem[];
+};
+
+type RecipeIngredientListItem = {
+  original: string;
+  completed: boolean;
+};
+
 type NutritionApi = {
   nutrients: NutrientApi[];
   ingredients: IngredientApi[];

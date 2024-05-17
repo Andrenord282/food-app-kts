@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { FC, ButtonHTMLAttributes, PropsWithChildren, memo, useEffect, CSSProperties, useMemo } from 'react';
-import { Text } from 'components';
+import { Icon, Text } from 'components';
 import LoaderIcon from 'components/icons/LoaderIcon';
 import { IntervalStore } from 'store';
 import { useLocalStore } from 'utils';
@@ -76,7 +76,11 @@ const DelayButton: FC<DelayButtonProps> = ({
         })}
         style={delayInlineStyle}
       ></div>
-      {loading && <LoaderIcon width={24} height={24} />}
+      {loading && (
+        <Icon width={24} height={24} viewBox="0 0 16 16" className="loader-icon">
+          <LoaderIcon />
+        </Icon>
+      )}
       {!delayActive && !loading && (
         <Text tag="span" view={`button-${size}`}>
           {children}

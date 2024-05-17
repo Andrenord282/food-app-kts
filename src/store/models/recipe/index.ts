@@ -1,10 +1,10 @@
 export type {
   RecipeClient,
-  RecipeIngredientList,
+  RecipeIngredientListClient,
   FilterRecipeOverviewList,
   FilterRecipeSaveList,
   FilterItem,
   FilterRecipeSaveSchema,
 } from './modelClient';
 export type { RecipeApi, RecipeListParamRequest } from './modelApi';
-export { normalizeRecipeClient, normalizeRecipeApi } from './utils';
+export { normalizeRecipeClient, normalizeRecipeApi, normalizeRecipeIngredientListClient } from './utils';

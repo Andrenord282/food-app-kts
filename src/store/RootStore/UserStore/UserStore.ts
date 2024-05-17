@@ -3,7 +3,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { doc, collection, setDoc, getDoc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 import { auth, db } from 'services/firebase/config';
-import { RecipeClient, RecipeApi, normalizeRecipeApi, RecipeIngredientList } from 'store/models/recipe';
+import { RecipeClient, RecipeApi, normalizeRecipeApi, RecipeIngredientListClient } from 'store/models/recipe';
 import { UserApi, UserClient, normalizeUser } from 'store/models/user';
 
 type PrivateFields =
@@ -129,7 +129,7 @@ export default class UserStore {
     await deleteDoc(docRef);
   };
 
-  private _addRecipeToShoppingList = async (userUid: string, recipeingredients: RecipeIngredientList) => {
+  private _addRecipeToShoppingList = async (userUid: string, recipeingredients: RecipeIngredientListClient) => {
     const docRef = doc(db, `users`, userUid);
     const collectionRef = collection(docRef, 'recipeShoppingList');
     await setDoc(doc(collectionRef, String(recipeingredients.id)), recipeingredients);
@@ -192,7 +192,7 @@ export default class UserStore {
     }
   };
 
-  addRecipeToShoppingList = async (recipeingredients: RecipeIngredientList): Promise<UserActionResponse> => {
+  addRecipeToShoppingList = async (recipeingredients: RecipeIngredientListClient): Promise<UserActionResponse> => {
     try {
       if (this._user === null) {
         return { state: 'error', message: 'You need to log in or register.' };
@@ -208,7 +208,7 @@ export default class UserStore {
     }
   };
 
-  removeRecipeToShoppingList = async (recipeingredients: RecipeIngredientList): Promise<UserActionResponse> => {
+  removeRecipeFromShoppingList = async (recipeingredients: RecipeIngredientListClient): Promise<UserActionResponse> => {
     try {
       if (this._user === null) {
         return { state: 'error', message: 'You need to log in or register.' };

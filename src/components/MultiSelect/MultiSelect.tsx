@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { FC, ReactNode, memo, useCallback, useEffect, useMemo, useRef } from 'react';
-import { Text, LoaderIcon, BaseButton, BaseInput } from 'components';
+import { Text, LoaderIcon, BaseButton, BaseInput, Icon } from 'components';
 import style from './MultiSelect.module.scss';
 
 export type MultiSelectValue<U, T> = {
@@ -115,7 +115,15 @@ const MultiSelect: FC<MultiSelectProps> = ({
         placeholder={title}
         onFocus={handleFocus}
         onChange={handleChangeValue}
-        endSlot={loading ? <LoaderIcon width={40} height={40} /> : endSlot}
+        endSlot={
+          loading ? (
+            <Icon width={40} height={40} viewBox="0 0 16 16" className="loader-icon">
+              <LoaderIcon />
+            </Icon>
+          ) : (
+            endSlot
+          )
+        }
       />
       {helperText && (
         <Text tag="span" view="p-xxs" className={style['helper-text']}>

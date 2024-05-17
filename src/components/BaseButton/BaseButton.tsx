@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { FC, ButtonHTMLAttributes, PropsWithChildren, memo } from 'react';
-import { Text } from 'components';
+import { Icon, Text } from 'components';
 import LoaderIcon from 'components/icons/LoaderIcon';
 import style from './BaseButton.module.scss';
 
@@ -35,7 +35,11 @@ const BaseButton: FC<BaseButtonProps> = ({
       })}
       {...props}
     >
-      {loading && <LoaderIcon width={24} height={24} />}
+      {loading && (
+        <Icon viewBox="0 0 16 16" className="loader-icon">
+          <LoaderIcon />
+        </Icon>
+      )}
       <Text tag="span" view={`button-${size}`}>
         {loading && loadingText ? loadingText : children}
       </Text>
