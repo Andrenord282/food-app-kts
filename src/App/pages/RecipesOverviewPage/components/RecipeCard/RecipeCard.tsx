@@ -17,7 +17,8 @@ export type RecipeCardProps = {
 
 const RecipeCard: FC<RecipeCardProps> = ({ className, recipe, saved }) => {
   const { id, image, title, readyInMinutes, nutrition } = recipe;
-  const [startAction, setStartAction] = useState<boolean>(false);
+  const [addLoading, setAddLoading] = useState<boolean>(false);
+  const [removeLoading, setRemoveLoading] = useState<boolean>(false);
   const composition = nutrition.ingredients.map(({ name }) => name).join(' + ');
   const nutritional = `${nutrition.nutrients[0].amount.toFixed()} ${nutrition.nutrients[0].unit}`;
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe, saved }) => {
   }, [id, navigate]);
 
   const handleAddRecipeToSavedList = useCallback(async () => {
-    setStartAction(true);
+    setAddLoading(true);
     const response = await rootStore.user.addRecipeToSavedList(recipe);
     if (response.state === 'success') {
       toast.info(response.message, {
@@ -53,11 +54,11 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe, saved }) => {
         transition: Bounce,
       });
     }
-    setStartAction(false);
+    setAddLoading(false);
   }, [recipe]);
 
   const handleRemoveRecipeFromSavedList = useCallback(async () => {
-    setStartAction(true);
+    setRemoveLoading(true);
     const response = await rootStore.user.removeRecipeFromSavedList(recipe);
     if (response.state === 'success') {
       toast.info(response.message, {
@@ -83,13 +84,13 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe, saved }) => {
         transition: Bounce,
       });
     }
-    setStartAction(false);
+    setRemoveLoading(false);
   }, [recipe]);
 
   return (
     <div className={cn(className, style.card)} onClick={handleOpenDetails}>
       <div className={style.head}>
-        <LazyLoadImage src={image} className={style['img-item']}/>
+        <LazyLoadImage src={image} className={style['img-item']} />
       </div>
       <div className={style.body}>
         <Text className={style['cooking-time']} tag="span" view="p-xxs" color="secondary" weight="500">
@@ -110,7 +111,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe, saved }) => {
         )}
         {saved && (
           <IconButton
-            loading={startAction}
+            loading={removeLoading}
             variant="accent"
             height={30}
             width={30}
@@ -126,7 +127,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe, saved }) => {
         )}
         {!saved && (
           <BaseButton
-            loading={startAction}
+            loading={addLoading}
             onClick={(e) => {
               e.stopPropagation();
               handleAddRecipeToSavedList();
