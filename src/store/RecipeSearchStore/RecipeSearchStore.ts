@@ -1,7 +1,12 @@
 import { AxiosError } from 'axios';
 import { action, computed, makeAutoObservable, observable, runInAction } from 'mobx';
 import { rootStore, IntervalStore, SpoonacularApiStore } from 'store';
-import { RecipeSearchOptionApi, RecipeSearchParamRequestApi, RecipeSearchOptionClient,  normalizeSearchRecipeClient } from 'store/models/recipe';
+import {
+  RecipeSearchOptionApi,
+  RecipeSearchParamRequestApi,
+  RecipeSearchOptionClient,
+  normalizeSearchRecipeClient,
+} from 'store/models/recipe';
 import { normalizeArray } from 'store/models/shared';
 import { Meta, TLocalStore } from 'utils';
 
@@ -24,6 +29,7 @@ export default class RecipeSearchStore implements TLocalStore {
 
   constructor(name: string) {
     this._searchName = name;
+    this._searchValue = rootStore.query.getParam(this._searchName) || '';
 
     makeAutoObservable<RecipeSearchStore, PrivateFields>(this, {
       _meta: observable,
@@ -76,7 +82,6 @@ export default class RecipeSearchStore implements TLocalStore {
   }
 
   get searchValue(): string {
-    // if (!this._searchValue) return rootStore.query.getParam(this._searchName);
     return this._searchValue;
   }
 

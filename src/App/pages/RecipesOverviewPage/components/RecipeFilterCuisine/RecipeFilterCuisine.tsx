@@ -35,7 +35,6 @@ const RecipeFilterCuisine: FC<RecipeFilterCuisinePorps> = ({ className }) => {
       updateFilter(selected);
       const updatedSelect = selected.map(({ value }) => value).join(',');
       updatedSelect ? searchParams.set('cuisine', updatedSelect) : searchParams.delete('cuisine');
-      searchParams.delete('page-overview');
       setSearchParams(searchParams);
     },
     [updateFilter, searchParams, setSearchParams],
@@ -44,7 +43,6 @@ const RecipeFilterCuisine: FC<RecipeFilterCuisinePorps> = ({ className }) => {
   const handleResetSelect = useCallback(() => {
     updateFilter([]);
     searchParams.delete('cuisine');
-    searchParams.delete('page-overview');
     setSearchParams(searchParams);
   }, [updateFilter, searchParams, setSearchParams]);
 

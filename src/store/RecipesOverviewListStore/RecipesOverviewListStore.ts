@@ -2,7 +2,13 @@ import { AxiosError } from 'axios';
 import { IReactionDisposer, action, computed, makeAutoObservable, observable, reaction, runInAction } from 'mobx';
 import { ErrorResponse } from 'services/axios';
 import { rootStore, SpoonacularApiStore } from 'store';
-import { RecipeApi, RecipeClient, FilterRecipeOverviewList, normalizeRecipeClient, RecipeOverviewListRequestApi } from 'store/models/recipe';
+import {
+  RecipeApi,
+  RecipeClient,
+  FilterRecipeOverviewList,
+  normalizeRecipeClient,
+  RecipeOverviewListRequestApi,
+} from 'store/models/recipe';
 import {
   CollectionModel,
   getInitialCollectionModel,
@@ -24,9 +30,7 @@ export default class RecipesOverviewListStore implements TLocalStore {
 
   private _error: ErrorResponse | null = null;
 
-  private _page: number = rootStore.query.getParam('page-overview')
-    ? Number(rootStore.query.getParam('page-overview'))
-    : 1;
+  private _page: number = rootStore.query.getParam('page') ? Number(rootStore.query.getParam('page')) : 1;
 
   private _limit = RECIPES_LIMIT;
 
@@ -35,9 +39,9 @@ export default class RecipesOverviewListStore implements TLocalStore {
   private _total: number = 0;
 
   private _filterList: FilterRecipeOverviewList = {
-    query: rootStore.query.getParam('query'),
-    type: rootStore.query.getParam('type'),
-    cuisine: rootStore.query.getParam('cuisine'),
+    query: rootStore.query.getParam('query') || '',
+    type: rootStore.query.getParam('type') || '',
+    cuisine: rootStore.query.getParam('cuisine') || '',
   };
 
   constructor() {
@@ -148,7 +152,7 @@ export default class RecipesOverviewListStore implements TLocalStore {
   );
 
   private readonly _queryPageReaction: IReactionDisposer = reaction(
-    () => rootStore.query.getParam('page-overview'),
+    () => rootStore.query.getParam('page'),
     async (page) => {
       if (page) {
         this.updatePage(Number(page));

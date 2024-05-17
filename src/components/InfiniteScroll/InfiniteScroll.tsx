@@ -37,7 +37,7 @@ const InfiniteScroll: FC<{ isActive: boolean; onVisible: () => void }> = ({ isAc
     return;
   }
 
-  return <div ref={scrollRef}>InfiniteScroll</div>;
+  return <div ref={scrollRef}></div>;
 };
 
 export default memo(InfiniteScroll);

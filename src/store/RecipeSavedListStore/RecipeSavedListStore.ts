@@ -25,6 +25,7 @@ type PrivateFields =
   | '_page'
   | '_limit'
   | '_total'
+  | '_isDirty'
   | '_cursor'
   | '_updatePage';
 const RECIPES_LIMIT = 9;
@@ -40,19 +41,21 @@ export default class RecipeSavedListStore implements TLocalStore {
 
   private _list: CollectionModel<number, RecipeClient> = getInitialCollectionModel();
 
-  private _page: number = rootStore.query.getParam('page-saved') ? Number(rootStore.query.getParam('page-saved')) : 1;
-
-  private _limit = RECIPES_LIMIT;
+  private _page: number = rootStore.query.getParam('page') ? Number(rootStore.query.getParam('page')) : 1;
 
   private _total: number = 0;
 
+  private _limit = RECIPES_LIMIT;
+
   private _cursor: QueryDocumentSnapshot<DocumentData, DocumentData> | null = null;
 
+  private _isDirty: boolean = false;
+
   private _filterList: FilterRecipeSaveList = {
-    title: rootStore.query.getParam('query-saved') || '',
+    title: rootStore.query.getParam('query') || '',
     type: rootStore.query.getParam('type') || '',
-    orderName: rootStore.query.getParam('order-name'),
-    orderType: rootStore.query.getParam('order-type'),
+    orderName: rootStore.query.getParam('order-name') || '',
+    orderType: rootStore.query.getParam('order-type') || 'asc',
   };
 
   constructor() {
@@ -65,14 +68,15 @@ export default class RecipeSavedListStore implements TLocalStore {
       _total: observable,
       _cursor: observable,
       _filterList: observable.ref,
+      _isDirty: observable,
       isInitial: computed,
       isLoading: computed,
       isSuccess: computed,
       isEmpty: computed,
       list: computed,
       limit: computed,
-      page: computed,
       total: computed,
+      page: computed,
       filterList: computed,
       _updatePage: action,
       getList: action,
@@ -103,18 +107,19 @@ export default class RecipeSavedListStore implements TLocalStore {
     return this._limit;
   }
 
-  get page(): number {
-    return this._page;
-  }
-
   get total(): number {
     return this._total;
+  }
+
+  get page(): number {
+    return this._page;
   }
 
   get filterList(): FilterRecipeSaveSchema<string, string> {
     const initOrderName = (value: string) => {
       if (value === 'title') return 'order by title';
       if (value === 'createdAt') return 'order by add';
+      if (!this._isDirty) return '';
       return '';
     };
 
@@ -153,7 +158,7 @@ export default class RecipeSavedListStore implements TLocalStore {
   }
 
   private readonly _queryPageReaction: IReactionDisposer = reaction(
-    () => rootStore.query.getParam('page-saved'),
+    () => rootStore.query.getParam('page'),
     async (page) => {
       if (page) {
         this._updatePage(Number(page));
@@ -163,7 +168,7 @@ export default class RecipeSavedListStore implements TLocalStore {
   );
 
   private readonly _queryNameReaction: IReactionDisposer = reaction(
-    () => rootStore.query.getParam('query-saved'),
+    () => rootStore.query.getParam('query'),
     async (query) => {
       this._intervalStore.startTimeout(async () => {
         this._filterList.title = query;
@@ -183,6 +188,7 @@ export default class RecipeSavedListStore implements TLocalStore {
     () => rootStore.query.getParam('order-name'),
     async (orderName) => {
       this._filterList.orderName = orderName || 'title';
+      this._isDirty = true;
       await this.getList({ resetPage: true });
     },
   );
@@ -191,7 +197,7 @@ export default class RecipeSavedListStore implements TLocalStore {
     () => rootStore.query.getParam('order-type'),
     async (orderType) => {
       if (orderType) {
-        this._filterList.orderType = orderType;
+        this._filterList.orderType = orderType || 'asc';
         await this.getList({ resetPage: true });
       }
     },
@@ -215,10 +221,10 @@ export default class RecipeSavedListStore implements TLocalStore {
           (element) => element.id,
           normalizeRecipeClient,
         );
+        this._total = total;
         this._list.entities = { ...this._list.entities, ...newItems.entities };
         this._list.order = [...this._list.order, ...newItems.order];
         this._cursor = cursor;
-        this._total = total;
         this._meta = Meta.success;
       });
     } catch (error) {

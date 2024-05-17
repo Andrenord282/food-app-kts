@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { FC, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { IconButton, Icon, SearchIcon } from 'components';
 import { useRecipesOverviewList } from 'context';
 
@@ -8,11 +9,14 @@ type RecipeInitFilterProps = {
 };
 
 const RecipeInitFilter: FC<RecipeInitFilterProps> = ({ className }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { isLoading, getList } = useRecipesOverviewList();
 
   const handleInitFilter = useCallback(() => {
+    searchParams.delete('page');
+    setSearchParams(searchParams);
     getList({ resetPage: true });
-  }, [getList]);
+  }, [searchParams, setSearchParams, getList]);
 
   return (
     <IconButton

@@ -44,7 +44,7 @@ const RecipePagination: FC<RecipePagination> = ({ scrollHeight = 0, className })
 
   const handleChangePage = useCallback(
     (page: number) => {
-      searchParams.set('page-overview', String(page));
+      searchParams.set('page', String(page));
       setSearchParams(searchParams);
       setTimeout(() => {
         window.scrollTo({ top: scrollHeight, behavior: 'smooth' });

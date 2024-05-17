@@ -14,7 +14,7 @@ type RecipeListPorps = {
 
 const RecipeList: FC<RecipeListPorps> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isInitial, isLoading, isSuccess, list, limit, page, total, getList } = useRecipeSavedListContext();
+  const { isInitial, isLoading, isSuccess, list, limit, total, page, getList } = useRecipeSavedListContext();
   const recipeIdSavedList = rootStore.user.recipeIdSavedList;
 
   const isEmpty = useMemo(() => {
@@ -28,7 +28,7 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
   }, [isInitial, getList]);
 
   const handleUpdateList = useCallback(() => {
-    searchParams.set('page-saved', String(page + 1));
+    searchParams.set('page', String(page + 1));
     setSearchParams(searchParams);
   }, [page, searchParams, setSearchParams]);
 
@@ -72,7 +72,10 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
               return null;
             })}
         </div>
-        <InfiniteScroll onVisible={handleUpdateList} isActive={list.length !== total} />
+        <InfiniteScroll
+          onVisible={handleUpdateList}
+          isActive={list.length < recipeIdSavedList.size && list.length !== total}
+        />
       </>
     );
   }

@@ -41,7 +41,7 @@ export default class RecipeFilterStore implements TLocalStore {
   }
 
   get filterValue(): string {
-    if (!this._filterValue) return rootStore.query.getParam(this._filterName);
+    if (!this._filterValue) return rootStore.query.getParam(this._filterName) || '';
     return this._filterValue;
   }
 

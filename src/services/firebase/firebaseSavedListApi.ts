@@ -7,8 +7,8 @@ import {
   getDocs,
   DocumentData,
   QueryDocumentSnapshot,
-  getCountFromServer,
   where,
+  getCountFromServer,
   QueryFieldFilterConstraint,
   QueryOrderByConstraint,
   OrderByDirection,
@@ -23,7 +23,6 @@ class FirebaseSavedListApi {
     const type = filterList.type ? filterList.type.split(',') : null;
     const orderName = filterList.orderName;
     const orderType = filterList.orderType;
-
     title ? param.push(where('title', '>=', title)) : null;
     title ? param.push(where('title', '<', title + '\uf8ff')) : null;
     type ? param.push(where('dishTypes', 'array-contains-any', type)) : null;
@@ -46,7 +45,6 @@ class FirebaseSavedListApi {
     const list: RecipeApi[] = [];
     const collectionRef = collection(db, `users/${userUid}/recipeSavedList`);
     const param = this._initRequestParam(filterList);
-
     const total = (await getCountFromServer(query(collectionRef, ...param))).data().count;
 
     if (cursor === null) {

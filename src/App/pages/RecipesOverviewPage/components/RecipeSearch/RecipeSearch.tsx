@@ -22,7 +22,7 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
     updateSearchValue,
     resetSearchOptions,
     selectSearchValue,
-  } = useLocalStore(() => new RecipeSearchStore('query-overview'));
+  } = useLocalStore(() => new RecipeSearchStore('query'));
   const [toggle, setToggle] = useState<boolean>(false);
   const [selected, setSelected] = useState<SingleSelectValue<number | string, string> | null>(null);
   const [value, setValue] = useState<string>(searchValue);
@@ -37,8 +37,8 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
       setSelected(selected);
       resetSearchOptions();
       selectSearchValue(selected.value);
-      searchParams.set('query-overview', selected.value);
-      searchParams.delete('page-overview');
+      searchParams.set('query', selected.value);
+      searchParams.delete('page');
       setSearchParams(searchParams);
     },
     [resetSearchOptions, selectSearchValue, searchParams, setSearchParams],
@@ -49,8 +49,8 @@ const RecipeSearch: FC<RecipeSearchProps> = ({ className }) => {
     setSelected(null);
     resetSearchOptions();
     selectSearchValue('');
-    searchParams.delete('query-overview');
-    searchParams.delete('page-overview');
+    searchParams.delete('query');
+    searchParams.delete('page');
     setSearchParams(searchParams);
     setToggle(false);
   }, [resetSearchOptions, selectSearchValue, searchParams, setSearchParams]);
