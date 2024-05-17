@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { FC, useCallback, useEffect, useState } from 'react';
+import { ShoppingItemSkeleton } from 'components';
 import { useRecipeShoppingListContext } from 'context';
 import { rootStore } from 'store/index';
 import { RecipeIngredientListClient } from 'store/models/recipe';
@@ -37,7 +38,15 @@ const ShoppingList: FC<ShoppingListProps> = () => {
   }, [isInitial, getList]);
 
   if (isLoading) {
-    return <div>isLoading</div>;
+    return (
+      <div className={''}>
+        {Array.from({ length: 10 })
+          .fill(10)
+          .map((_, index) => {
+            return <ShoppingItemSkeleton key={index} className={style.item} />;
+          })}
+      </div>
+    );
   }
 
   if (isSuccess && !isEmpty) {
