@@ -1,3 +1,4 @@
+import { FirebaseError } from 'firebase/app';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, collection, setDoc, getDoc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
@@ -64,7 +65,7 @@ export default class UserStore {
       if (user) {
         const { uid } = user;
         const profile = await this._initProfile(uid);
-
+        if (!profile) return;
         runInAction(() => {
           this._user = normalizeUser(profile);
           this._userState = UserState.identified;
@@ -108,27 +109,37 @@ export default class UserStore {
     await deleteDoc(docRef);
   };
 
-  addRecipeToSavedList = async (recipe: RecipeClient) => {
+  addRecipeToSavedList = async (
+    recipe: RecipeClient,
+  ): Promise<{ state: 'error' | 'success'; code?: string; message?: string }> => {
     try {
       if (this._user === null) {
-        return;
+        return { state: 'error', message: 'You need to log in or register.' };
       }
       await this._addRecipeIdToSavedList(this._user.uid, recipe.id);
       await this._addRecipeToSavedList(this._user.uid, normalizeRecipeApi(recipe));
+      return { state: 'success', message: 'Recipe has been added to the save list' };
     } catch (error) {
-      console.log(error);
+      if (error instanceof FirebaseError) {
+        return { state: 'error', code: error.code, message: error.message };
+      }
+      return { state: 'error', message: 'Unexpected error' };
     }
   };
 
   removeRecipeToSavedList = async (recipe: RecipeClient) => {
     try {
       if (this._user === null) {
-        return;
+        return { state: 'error', message: 'You need to log in or register.' };
       }
       await this._removeRecipeIdToSavedList(this._user.uid, recipe.id);
       await this._removeRecipeToSavedList(this._user.uid, recipe.id);
+      return { state: 'success', message: 'The recipe has been removed from the saved list' };
     } catch (error) {
-      console.log(error);
+      if (error instanceof FirebaseError) {
+        return { state: 'error', code: error.code, message: error.message };
+      }
+      return { state: 'error', message: 'Unexpected error' };
     }
   };
 }

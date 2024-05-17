@@ -1,7 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Loader } from 'components';
+import { ToastContainer } from 'react-toastify';
+import { Loader, PrivateRoute } from 'components';
 import { ROUTS } from 'config/routs';
 import { RecipesOverviewListProvider, RecipeStoreProvider, RecipeSavedListProvider } from 'context';
 import { rootStore } from 'store';
@@ -12,7 +13,7 @@ import RecipePage from './pages/RecipePage';
 import RecipesOverviewPage from './pages/RecipesOverviewPage';
 import RecipesSavedPage from './pages/RecipesSavedPage';
 import style from './App.module.scss';
-import PrivateRoute from 'components/PrivateRoute';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   useEffect(() => {
@@ -60,6 +61,7 @@ const App = () => {
             </Routes>
           </>
         )}
+        <ToastContainer />
       </div>
     </BrowserRouter>
   );

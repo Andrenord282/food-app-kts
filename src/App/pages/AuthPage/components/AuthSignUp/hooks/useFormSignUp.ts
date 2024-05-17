@@ -1,6 +1,7 @@
 import { FormEventHandler } from 'react';
 import { useForm, SubmitHandler, FieldValues, UseFormRegister, FieldErrors } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { Bounce, toast } from 'react-toastify';
 import { rootStore } from 'store';
 
 type AuthFormSignUp = {
@@ -17,16 +18,16 @@ export enum SignUpResponse {
 }
 
 type AuthFormSignUpValidation = {
-  // required: string;
-  // pattern?: {
-  //   value: RegExp;
-  //   message: string;
-  // };
-  // minLength?: {
-  //   value: number;
-  //   message: string;
-  // };
-  // validate?: Record<string, (value: string) => string | boolean>;
+  required: string;
+  pattern?: {
+    value: RegExp;
+    message: string;
+  };
+  minLength?: {
+    value: number;
+    message: string;
+  };
+  validate?: Record<string, (value: string) => string | boolean>;
 };
 
 type UseFormSignUp<TFieldValues extends FieldValues> = {
@@ -90,6 +91,16 @@ const useFormSignUp = (): UseFormSignUp<AuthFormSignUp> => {
     });
 
     if (response.code === SignUpResponse.success) {
+      toast.info(response.message, {
+        position: 'bottom-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        transition: Bounce,
+      });
       navigate('/');
       return;
     }

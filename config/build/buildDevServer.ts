@@ -10,6 +10,7 @@ export const buildDevServer = (options: WebpackOptions): DevServerConfiguration 
     host: 'localhost',
     port: port || 3000,
     hot: true,
+    compress: true,
     historyApiFallback: true,
     open: true,
   };

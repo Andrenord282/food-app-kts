@@ -13,4 +13,5 @@ export { default as Loader } from './Loader';
 export { default as Pagination } from './Pagination';
 export { default as RecipeSkeletonCard } from './RecipeSkeletonCard';
 export { default as InfiniteScroll } from './InfiniteScroll';
+export { default as PrivateRoute } from './PrivateRoute';
 export * from './icons';

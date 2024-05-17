@@ -76,7 +76,11 @@ export default class AuthorizationStore implements TLocalStore {
     await setDoc(doc(usersRef, uid), user);
   };
 
-  signUp = async ({ displayName, email, password }: SignUpData): Promise<AuthError | { code: string }> => {
+  signUp = async ({
+    displayName,
+    email,
+    password,
+  }: SignUpData): Promise<AuthError | { code: string; message?: string }> => {
     try {
       this._meta = Meta.loading;
       const usernameExists = await this._usernameExists(displayName);
@@ -88,19 +92,19 @@ export default class AuthorizationStore implements TLocalStore {
       await updateProfile(user, { displayName });
       await this._createUser(user.uid, displayName);
       this._meta = Meta.success;
-      return { code: 'success' };
+      return { code: 'success', message: `Welcome ${displayName}!` };
     } catch (error) {
       this._meta = Meta.error;
       return error as AuthError;
     }
   };
 
-  signIn = async ({ email, password }: SignInData): Promise<AuthError | { code: string }> => {
+  signIn = async ({ email, password }: SignInData): Promise<AuthError | { code: string; message?: string }> => {
     try {
       this._meta = Meta.loading;
       await signInWithEmailAndPassword(this._auth, email, password);
       this._meta = Meta.success;
-      return { code: 'success' };
+      return { code: 'success', message: `Hello ${this._auth.currentUser?.displayName}!` };
     } catch (error) {
       this._meta = Meta.error;
       return error as AuthError;

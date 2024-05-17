@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import { FC, memo, useCallback, useState } from 'react';
 import { useNavigate, generatePath } from 'react-router-dom';
+import { Bounce, toast } from 'react-toastify';
 import { BaseButton, IconButton, Text, WatchIcon, Icon, HeartIcon } from 'components';
 import { ROUTS } from 'config/routs';
 import { rootStore } from 'store/index';
@@ -26,13 +27,61 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe, saved }) => {
 
   const handleAddRecipeToSavedList = useCallback(async () => {
     setStartAction(true);
-    await rootStore.user.addRecipeToSavedList(recipe);
+    const response = await rootStore.user.addRecipeToSavedList(recipe);
+    if (response.state === 'success') {
+      toast.info(response.message, {
+        position: 'bottom-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        transition: Bounce,
+      });
+    }
+    if (response.state === 'error') {
+      toast.error(response.message, {
+        position: 'bottom-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        transition: Bounce,
+      });
+    }
     setStartAction(false);
   }, [recipe]);
 
   const handleRemoveRecipeToSavedList = useCallback(async () => {
     setStartAction(true);
-    await rootStore.user.removeRecipeToSavedList(recipe);
+    const response = await rootStore.user.removeRecipeToSavedList(recipe);
+    if (response.state === 'success') {
+      toast.info(response.message, {
+        position: 'bottom-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        transition: Bounce,
+      });
+    }
+    if (response.state === 'error') {
+      toast.error(response.message, {
+        position: 'bottom-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        transition: Bounce,
+      });
+    }
     setStartAction(false);
   }, [recipe]);
 
