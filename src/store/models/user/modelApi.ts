@@ -4,3 +4,15 @@ export type UserApi = {
   recipeIdSavedList: number[];
   recipeIdShoppingList: number[];
 };
+
+export type SignUpData = {
+  displayName: string;
+  email: string;
+  password: string;
+};
+
+
+export type SignInData = {
+  email: string;
+  password: string;
+};
