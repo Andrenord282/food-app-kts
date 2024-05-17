@@ -1,7 +1,5 @@
-import { collection, getDocs } from 'firebase/firestore';
 import { action, computed, makeAutoObservable, observable, runInAction } from 'mobx';
-import { firebaseShoppingList } from 'services/firebase';
-import { db } from 'services/firebase/config';
+import { firebaseShoppingListApi } from 'services/firebase';
 import { rootStore } from 'store';
 import { RecipeIngredientListClient, normalizeRecipeIngredientListClient } from 'store/models/recipe';
 import {
@@ -15,7 +13,7 @@ import { Meta, TLocalStore } from 'utils';
 type PrivateFields = '_userUid' | '_meta' | '_list';
 
 export default class RecipeShoppingListStore implements TLocalStore {
-  private readonly _firebaseShoppingList = firebaseShoppingList;
+  private readonly _firebaseShoppingListApi = firebaseShoppingListApi;
 
   private _userUid = rootStore.user.userUid;
 
@@ -60,7 +58,7 @@ export default class RecipeShoppingListStore implements TLocalStore {
   private async _request(): Promise<{
     list: RecipeIngredientListClient[];
   }> {
-    return await this._firebaseShoppingList.getList(this._userUid);
+    return await this._firebaseShoppingListApi.getList(this._userUid);
   }
 
   getList = async () => {

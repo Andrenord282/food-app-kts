@@ -2,7 +2,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from 'services/firebase/config';
 import { RecipeIngredientListClient } from 'store/models/recipe';
 
-class FirebaseShoppingList {
+class FirebaseShoppingListApi {
   async getList(userUid: string) {
     const list: RecipeIngredientListClient[] = [];
 
@@ -17,6 +17,6 @@ class FirebaseShoppingList {
   }
 }
 
-const firebaseShoppingList = new FirebaseShoppingList();
+const firebaseShoppingListApi = new FirebaseShoppingListApi();
 
-export default firebaseShoppingList;
+export default firebaseShoppingListApi;

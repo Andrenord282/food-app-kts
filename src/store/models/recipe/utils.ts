@@ -34,3 +34,11 @@ export const normalizeRecipeIngredientListClient = (from: RecipeIngredientListAp
     ingredients: from.ingredients,
   };
 };
+
+export const normalizeRecipeIngredientListApi = (from: RecipeIngredientListClient): RecipeIngredientListApi => {
+  return {
+    id: from.id,
+    title: from.title,
+    ingredients: from.ingredients,
+  };
+};

@@ -6,5 +6,10 @@ export type {
   FilterItem,
   FilterRecipeSaveSchema,
 } from './modelClient';
-export type { RecipeApi, RecipeListParamRequest } from './modelApi';
-export { normalizeRecipeClient, normalizeRecipeApi, normalizeRecipeIngredientListClient } from './utils';
+export type { RecipeApi, RecipeListParamRequest, RecipeIngredientListApi } from './modelApi';
+export {
+  normalizeRecipeClient,
+  normalizeRecipeApi,
+  normalizeRecipeIngredientListClient,
+  normalizeRecipeIngredientListApi,
+} from './utils';

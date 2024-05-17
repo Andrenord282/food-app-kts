@@ -16,7 +16,7 @@ import {
 import { db } from 'services/firebase/config';
 import { FilterRecipeSaveList, RecipeApi } from 'store/models/recipe';
 
-class FirebaseSavedList {
+class FirebaseSavedListApi {
   private _initRequestParam(filterList: FilterRecipeSaveList): (QueryFieldFilterConstraint | QueryOrderByConstraint)[] {
     const param: (QueryFieldFilterConstraint | QueryOrderByConstraint)[] = [];
     const title = filterList.title ? filterList.title.charAt(0).toUpperCase() + filterList.title.slice(1) : '';
@@ -80,6 +80,6 @@ class FirebaseSavedList {
   }
 }
 
-const firebaseSavedList = new FirebaseSavedList();
+const firebaseSavedListApi = new FirebaseSavedListApi();
 
-export default firebaseSavedList;
+export default firebaseSavedListApi;

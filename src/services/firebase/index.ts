@@ -1,3 +1,4 @@
 export { default as firebaseAuthApi } from './firebaseAuthApi';
-export { default as firebaseSavedList } from './firebaseSavedList';
-export { default as firebaseShoppingList } from './firebaseShoppingList';
+export { default as firebaseSavedListApi } from './firebaseSavedListApi';
+export { default as firebaseShoppingListApi } from './firebaseShoppingListApi';
+export { default as firebaseProfileApi } from './firebaseProfileApi';

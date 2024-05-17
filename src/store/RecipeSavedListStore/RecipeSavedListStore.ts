@@ -1,6 +1,6 @@
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { IReactionDisposer, action, computed, makeAutoObservable, observable, reaction, runInAction } from 'mobx';
-import { firebaseSavedList } from 'services/firebase';
+import { firebaseSavedListApi } from 'services/firebase';
 import { IntervalStore, rootStore } from 'store';
 import {
   FilterRecipeSaveList,
@@ -32,7 +32,7 @@ const RECIPES_LIMIT = 9;
 export default class RecipeSavedListStore implements TLocalStore {
   private readonly _intervalStore = new IntervalStore();
 
-  private readonly _firebaseSavedList = firebaseSavedList;
+  private readonly _firebaseSavedListApi = firebaseSavedListApi;
 
   private _userUid = rootStore.user.userUid;
 
@@ -139,7 +139,7 @@ export default class RecipeSavedListStore implements TLocalStore {
     list: RecipeApi[];
     cursor: QueryDocumentSnapshot<DocumentData, DocumentData>;
   }> {
-    return await this._firebaseSavedList.getList(
+    return await this._firebaseSavedListApi.getList(
       this._cursor,
       this._userUid,
       this._filterList,
