@@ -1,5 +1,6 @@
 @import "styles/variables.scss";
 @import "styles/mixins.scss";
+@import "styles/animations.scss";
 
 .information {
   align-items: center;
@@ -16,7 +17,7 @@
   @include for-large-desktop-down {
     justify-content: space-between;
   }
-  
+
   @include for-mobile-down {
     justify-content: center;
     gap: $space-xl $space-xl;
@@ -31,5 +32,11 @@
 
   @include for-mobile-down {
     max-width: 450px;
+  }
+}
+
+.exit {
+  &--active {
+    animation: scaleOut 0.3s forwards;
   }
 }

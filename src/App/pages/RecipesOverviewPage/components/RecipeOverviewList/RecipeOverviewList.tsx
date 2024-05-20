@@ -5,13 +5,13 @@ import { Text, RecipeSkeletonCard } from 'components';
 import { useRecipesOverviewList } from 'context';
 import { rootStore } from 'store';
 import RecipeCard from '../RecipeCard';
-import style from './RecipeList.module.scss';
+import style from './RecipeOverviewList.module.scss';
 
-type RecipeListPorps = {
+type RecipeOverviewListPorps = {
   className?: string;
 };
 
-const RecipeList: FC<RecipeListPorps> = ({ className }) => {
+const RecipeOverviewList: FC<RecipeOverviewListPorps> = ({ className }) => {
   const { isInitial, isLoading, isSuccess, isError, isEmpty, limit, list, error, getList } = useRecipesOverviewList();
   const recipeIdSavedList = rootStore.user.recipeIdSavedList;
   const userInitial = rootStore.user.userInitial;
@@ -67,4 +67,4 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
   }
 };
 
-export default observer(RecipeList);
+export default observer(RecipeOverviewList);

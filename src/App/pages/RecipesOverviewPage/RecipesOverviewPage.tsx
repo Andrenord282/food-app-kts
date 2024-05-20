@@ -2,8 +2,8 @@ import { observer } from 'mobx-react-lite';
 import { FC, useEffect, useRef, useState } from 'react';
 import { useRecipesOverviewList } from 'context';
 import Hero from './components/Hero';
-import RecipeList from './components/RecipeList';
 import RecipeNavigate from './components/RecipeNavigate';
+import RecipeOverviewList from './components/RecipeOverviewList';
 import RecipePagination from './components/RecipePagination';
 import style from './RecipesOverviewPage.module.scss';
 
@@ -23,7 +23,7 @@ const RecipesOverviewPage: FC = () => {
     <div className={style.wrapper}>
       <Hero className={style.hero} />
       <RecipeNavigate ref={recipeNavigateRef} className={style.navigate} />
-      <RecipeList className={style.list} />
+      <RecipeOverviewList className={style.list} />
       {!isError && !isEmpty && <RecipePagination scrollHeight={heightNavigate} className={style.pagination} />}
     </div>
   );

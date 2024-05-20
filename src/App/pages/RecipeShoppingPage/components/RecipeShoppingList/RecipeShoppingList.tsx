@@ -6,13 +6,13 @@ import { useRecipeShoppingListContext } from 'context';
 import { rootStore } from 'store/index';
 import { RecipeIngredientListClient } from 'store/models/recipe';
 import ShoppingItem from '../ShoppingItem';
-import style from './ShoppingList.module.scss';
+import style from './RecipeShoppingList.module.scss';
 
-type ShoppingListProps = {
+type RecipeShoppingListProps = {
   className?: string;
 };
 
-const ShoppingList: FC<ShoppingListProps> = () => {
+const RecipeShoppingList: FC<RecipeShoppingListProps> = () => {
   const { isInitial, isLoading, isSuccess, list: listFromStore, getList } = useRecipeShoppingListContext();
   const recipeIdShoppingList = rootStore.user.recipeIdShoppingList;
   const [list, setList] = useState<RecipeIngredientListClient[]>([]);
@@ -88,4 +88,4 @@ const ShoppingList: FC<ShoppingListProps> = () => {
   }
 };
 
-export default observer(ShoppingList);
+export default observer(RecipeShoppingList);

@@ -2,17 +2,18 @@ import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { FC, useCallback, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { Text, RecipeSkeletonCard, InfiniteScroll } from 'components';
 import { useRecipeSavedListContext } from 'context/RecipeSavedListContext';
 import { rootStore } from 'store';
 import RecipeCard from '../RecipeCard';
-import style from './RecipeList.module.scss';
+import style from './RecipeSavedList.module.scss';
 
-type RecipeListPorps = {
+type RecipeSavedListPorps = {
   className?: string;
 };
 
-const RecipeList: FC<RecipeListPorps> = ({ className }) => {
+const RecipeSavedList: FC<RecipeSavedListPorps> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isInitial, isLoading, isSuccess, list, limit, total, page, getList } = useRecipeSavedListContext();
   const recipeIdSavedList = rootStore.user.recipeIdSavedList;
@@ -56,22 +57,25 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
   if (isSuccess && !isEmpty) {
     return (
       <>
-        <div className={cn(className, style.list)}>
+        <TransitionGroup className={cn(className, style.list)}>
           {list.length > 0 &&
             list.map((item) => {
               if (recipeIdSavedList.has(item.id)) {
                 return (
-                  <RecipeCard
+                  <CSSTransition
+                    timeout={300}
                     key={item.id}
-                    saved={recipeIdSavedList.has(item.id)}
-                    recipe={item}
-                    className={style.item}
-                  />
+                    classNames={{
+                      exitActive: style['exit--active'],
+                    }}
+                  >
+                    <RecipeCard saved={recipeIdSavedList.has(item.id)} recipe={item} className={style.item} />
+                  </CSSTransition>
                 );
               }
               return null;
             })}
-        </div>
+        </TransitionGroup>
         <InfiniteScroll
           onVisible={handleUpdateList}
           isActive={list.length < recipeIdSavedList.size && list.length !== total}
@@ -91,4 +95,4 @@ const RecipeList: FC<RecipeListPorps> = ({ className }) => {
   }
 };
 
-export default observer(RecipeList);
+export default observer(RecipeSavedList);

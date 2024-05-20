@@ -7,7 +7,7 @@ import { Meta, TLocalStore, ResponseStatus } from 'utils';
 
 type PrivateFields = '_meta' | '_reсipe' | '_error';
 
-export default class RecipeStore implements TLocalStore {
+export default class RecipeDetailsStore implements TLocalStore {
   private readonly _apiStore = new SpoonacularApiStore();
 
   private _meta: Meta = Meta.initial;
@@ -17,7 +17,7 @@ export default class RecipeStore implements TLocalStore {
   private _error: ErrorResponse | null = null;
 
   constructor() {
-    makeAutoObservable<RecipeStore, PrivateFields>(this, {
+    makeAutoObservable<RecipeDetailsStore, PrivateFields>(this, {
       _meta: observable,
       _reсipe: observable.ref,
       _error: observable.ref,
