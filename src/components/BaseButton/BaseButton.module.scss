@@ -12,6 +12,7 @@
   padding: $space-s $space-l;
   color: $button-primary-text;
   background-color: $button-primary-bg;
+  transition: all 0.2s linear;
 
   &--s {
     height: 36px;

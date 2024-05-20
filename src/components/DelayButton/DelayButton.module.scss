@@ -1,10 +1,6 @@
 @import "styles/variables.scss";
 
 .button {
-  :root {
-    --delay-time: 800;
-  }
-
   position: relative;
   cursor: pointer;
   overflow: hidden;
@@ -18,6 +14,7 @@
   padding: $space-s $space-l;
   color: $button-primary-text;
   background-color: $button-primary-bg;
+  transition: all 0.2s linear;
 
   &--s {
     height: 36px;

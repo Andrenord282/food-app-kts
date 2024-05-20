@@ -11,6 +11,7 @@
   padding: $space-xxs;
   color: $button-primary-text;
   overflow: hidden;
+  transition: all 0.2s linear;
 
   &--padding-none {
     padding: 0;

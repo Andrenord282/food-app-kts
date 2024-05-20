@@ -1,8 +1,8 @@
 import cn from 'classnames';
 import { ButtonHTMLAttributes, FC, PropsWithChildren, memo } from 'react';
 import LoaderIcon from 'components/icons/LoaderIcon';
-import style from './IconsButton.module.scss';
-import { Icon } from '..';
+import style from './IconButton.module.scss';
+import { Icon } from 'components';
 
 type IconButtonVariant = 'primary' | 'accent';
 type IconButtonPadding = 'none' | 'l';

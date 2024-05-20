@@ -11,6 +11,7 @@
   background-color: $component-primary-bg;
   padding-bottom: $space-xl;
   overflow: hidden;
+  transition: all 0.2s linear;
 
   @media (hover: hover) {
     &:hover {
