@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { FC, memo, useCallback, useState } from 'react';
+import { FC, memo, useCallback, useMemo, useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useNavigate, generatePath } from 'react-router-dom';
 import { Bounce, toast } from 'react-toastify';
@@ -7,20 +7,25 @@ import { DelayButton, Text, WatchIcon } from 'components';
 import { ROUTS } from 'config/routs';
 import { rootStore } from 'store/index';
 import { RecipeClient } from 'store/models/recipe';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import style from './RecipeCard.module.scss';
 
 export type RecipeCardProps = {
   className?: string;
   recipe: RecipeClient;
   saved: boolean;
+  recipeViewedList: number[];
+  handlerAddViewedRecipe: (id: number) => void;
 };
 
-const RecipeCard: FC<RecipeCardProps> = ({ className, recipe }) => {
+const RecipeCard: FC<RecipeCardProps> = ({ className, recipe, recipeViewedList, handlerAddViewedRecipe }) => {
   const { id, image, title, readyInMinutes, nutrition } = recipe;
   const [startLoading, setStartLoading] = useState<boolean>(false);
   const [startAction, setStartAction] = useState<boolean>(false);
   const composition = nutrition.ingredients.map(({ name }) => name).join(' + ');
   const nutritional = `${nutrition.nutrients[0].amount.toFixed()} ${nutrition.nutrients[0].unit}`;
+  const recipeViewedListSet = useMemo(() => new Set(recipeViewedList), [recipeViewedList]);
+
   const navigate = useNavigate();
 
   const handleOpenDetails = useCallback(() => {
@@ -65,7 +70,15 @@ const RecipeCard: FC<RecipeCardProps> = ({ className, recipe }) => {
   return (
     <div className={cn(className, style.card)} onClick={handleOpenDetails}>
       <div className={style.head}>
-        <LazyLoadImage width={'100%'} height={360} src={image} className={style['img-item']} />
+        <LazyLoadImage
+          effect="blur"
+          threshold={300}
+          visibleByDefault={recipeViewedListSet.has(id)}
+          onLoad={() => handlerAddViewedRecipe(id)}
+          width={'100%'}
+          src={image}
+          className={style['img-item']}
+        />
       </div>
       <div className={style.body}>
         <Text className={style['cooking-time']} tag="span" view="p-xxs" color="secondary" weight="500">

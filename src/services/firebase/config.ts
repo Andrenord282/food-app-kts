@@ -3,12 +3,12 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: process.env.ENV_FIREBASE_API_KEY,
+  apiKey: 'AIzaSyAM16OQv3tuDu27vSqjSkE8ikQGko1hB8M',
   authDomain: 'food-app-kts.firebaseapp.com',
   projectId: 'food-app-kts',
   storageBucket: 'food-app-kts.appspot.com',
-  messagingSenderId: process.env.ENV_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.ENV_FIREBASE_APP_ID,
+  messagingSenderId: '522554713260',
+  appId: '1:522554713260:web:6b8b221e2a898b37736b09',
 };
 
 const initApp = initializeApp(firebaseConfig);

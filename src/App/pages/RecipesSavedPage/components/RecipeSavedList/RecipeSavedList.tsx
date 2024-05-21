@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
-import { FC, useCallback, useEffect, useMemo } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { Text, RecipeSkeletonCard, InfiniteScroll } from 'components';
@@ -17,6 +17,7 @@ const RecipeSavedList: FC<RecipeSavedListPorps> = ({ className }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isInitial, isLoading, isSuccess, list, limit, total, page, getList } = useRecipeSavedListContext();
   const recipeIdSavedList = rootStore.user.recipeIdSavedList;
+  const [recipeViewedList, setRecipeViewedList] = useState<number[]>([]);
 
   const isEmpty = useMemo(() => {
     return recipeIdSavedList.size === 0 || list.length === 0;
@@ -33,6 +34,10 @@ const RecipeSavedList: FC<RecipeSavedListPorps> = ({ className }) => {
     setSearchParams(searchParams);
   }, [page, searchParams, setSearchParams]);
 
+  const handlerAddViewedRecipe = (id: number) => {
+    setRecipeViewedList((oldList) => [...oldList, id]);
+  };
+
   if (isLoading) {
     return (
       <div className={cn(className, style.list)}>
@@ -40,7 +45,14 @@ const RecipeSavedList: FC<RecipeSavedListPorps> = ({ className }) => {
           list.map((item) => {
             if (recipeIdSavedList.has(item.id)) {
               return (
-                <RecipeCard key={item.id} saved={recipeIdSavedList.has(item.id)} recipe={item} className={style.item} />
+                <RecipeCard
+                  key={item.id}
+                  recipeViewedList={recipeViewedList}
+                  handlerAddViewedRecipe={handlerAddViewedRecipe}
+                  saved={recipeIdSavedList.has(item.id)}
+                  recipe={item}
+                  className={style.item}
+                />
               );
             }
             return null;
@@ -57,24 +69,31 @@ const RecipeSavedList: FC<RecipeSavedListPorps> = ({ className }) => {
   if (isSuccess && !isEmpty) {
     return (
       <>
-        {/* <TransitionGroup className={cn(className, style.list)}> */}
+        <TransitionGroup className={cn(className, style.list)}>
           {list.length > 0 &&
             list.map((item) => {
               if (recipeIdSavedList.has(item.id)) {
-                return <RecipeCard key={item.id} saved={recipeIdSavedList.has(item.id)} recipe={item} className={style.item} />
-                  // <CSSTransition
-                  //   timeout={300}
-                  //   key={item.id}
-                  //   classNames={{
-                  //     exitActive: style['exit--active'],
-                  //   }}
-                  // >
-                    
-                  {/* </CSSTransition> */}
+                return (
+                  <CSSTransition
+                    timeout={300}
+                    key={item.id}
+                    classNames={{
+                      exitActive: style['exit--active'],
+                    }}
+                  >
+                    <RecipeCard
+                      recipeViewedList={recipeViewedList}
+                      handlerAddViewedRecipe={handlerAddViewedRecipe}
+                      saved={recipeIdSavedList.has(item.id)}
+                      recipe={item}
+                      className={style.item}
+                    />
+                  </CSSTransition>
+                );
               }
               return null;
             })}
-        {/* </TransitionGroup> */}
+        </TransitionGroup>
         <InfiniteScroll
           onVisible={handleUpdateList}
           isActive={list.length < recipeIdSavedList.size && list.length !== total}
