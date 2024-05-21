@@ -1,4 +1,4 @@
-export const SPOONACULAR_API_KEY = '2f551d6895d74cefbc397eced0f12011';
+export const SPOONACULAR_API_KEY = process.env.ENV_SPOONACULAR_API_KEY;
 export const BASE_URL_SPOONACULAR_API = `https://api.spoonacular.com/`;
 
 
