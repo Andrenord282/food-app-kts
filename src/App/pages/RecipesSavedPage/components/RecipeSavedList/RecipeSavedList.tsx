@@ -57,25 +57,24 @@ const RecipeSavedList: FC<RecipeSavedListPorps> = ({ className }) => {
   if (isSuccess && !isEmpty) {
     return (
       <>
-        <TransitionGroup className={cn(className, style.list)}>
+        {/* <TransitionGroup className={cn(className, style.list)}> */}
           {list.length > 0 &&
             list.map((item) => {
               if (recipeIdSavedList.has(item.id)) {
-                return (
-                  <CSSTransition
-                    timeout={300}
-                    key={item.id}
-                    classNames={{
-                      exitActive: style['exit--active'],
-                    }}
-                  >
-                    <RecipeCard saved={recipeIdSavedList.has(item.id)} recipe={item} className={style.item} />
-                  </CSSTransition>
-                );
+                return <RecipeCard key={item.id} saved={recipeIdSavedList.has(item.id)} recipe={item} className={style.item} />
+                  // <CSSTransition
+                  //   timeout={300}
+                  //   key={item.id}
+                  //   classNames={{
+                  //     exitActive: style['exit--active'],
+                  //   }}
+                  // >
+                    
+                  {/* </CSSTransition> */}
               }
               return null;
             })}
-        </TransitionGroup>
+        {/* </TransitionGroup> */}
         <InfiniteScroll
           onVisible={handleUpdateList}
           isActive={list.length < recipeIdSavedList.size && list.length !== total}
