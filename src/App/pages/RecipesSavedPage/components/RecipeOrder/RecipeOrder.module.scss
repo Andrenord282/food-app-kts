@@ -1,0 +1,12 @@
+@import "styles/variables.scss";
+@import "styles/mixins.scss";
+
+.block {
+  display: flex;
+  align-items: center;
+  gap: 0 $space-xxs;
+}
+
+.item {
+  flex-grow: 2;
+}

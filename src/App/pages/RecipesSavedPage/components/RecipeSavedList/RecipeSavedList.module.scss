@@ -1,0 +1,42 @@
+@import "styles/variables.scss";
+@import "styles/mixins.scss";
+@import "styles/animations.scss";
+
+.information {
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-special-xxl $space-extra-xxl;
+  margin-bottom: $space-m;
+
+  @include for-large-desktop-down {
+    justify-content: space-between;
+  }
+
+  @include for-mobile-down {
+    justify-content: center;
+    gap: $space-xl $space-xl;
+  }
+}
+
+.item {
+  @include for-large-desktop-down {
+    max-width: calc(50% - ($space-extra-xxl / 2));
+    flex-grow: 1;
+  }
+
+  @include for-mobile-down {
+    max-width: 450px;
+  }
+}
+
+.exit {
+  &--active {
+    animation: scaleOut 0.3s forwards;
+  }
+}

@@ -1,0 +1,74 @@
+@import "styles/variables.scss";
+
+.button {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  gap: 0 $space-xxs;
+  border-radius: $border-radius-m;
+  padding: $space-s $space-l;
+  color: $button-primary-text;
+  background-color: $button-primary-bg;
+  transition: all 0.2s linear;
+
+  &--s {
+    height: 36px;
+    padding: $space-xxs $space-xs;
+  }
+
+  &--m {
+    height: 46px;
+    padding: $space-xs $space-m;
+  }
+
+  &--l {
+    height: 52px;
+    padding: $space-s $space-l;
+  }
+
+  &:active {
+    background-color: $button-primary-bg-active;
+  }
+
+  & > * {
+    position: relative;
+    z-index: 5;
+  }
+
+  & svg {
+    flex-shrink: 0;
+  }
+
+  &--disabled {
+    cursor: default;
+    pointer-events: none;
+    background-color: $button-primary-bg-disabled;
+  }
+
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      background-color: $button-primary-bg-hover;
+    }
+  }
+}
+
+.delay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  transform: translateX(-100%);
+  transition: all 0s linear;
+  background-color: $button-primary-bg-active;
+
+  &--active {
+    transform: translateX(0%);
+    transition: all 5s linear;
+  }
+}

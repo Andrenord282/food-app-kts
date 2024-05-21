@@ -1,0 +1,64 @@
+@import "styles/global.scss";
+@import "styles/variables.scss";
+
+.item {
+  width: 100%;
+  background-color: $component-primary-bg;
+  border-radius: $border-radius-m;
+}
+
+.wrapper {
+  position: relative;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  z-index: 3;
+  color: $rust;
+  background-color: $component-primary-bg;
+}
+
+.label {
+  display: block;
+  margin-bottom: $space-xxs;
+}
+
+.field {
+  position: relative;
+  width: 100%;
+  font-size: 16px;
+  padding: $space-m $space-xs;
+  border: 1px solid $input-primary-border;
+  background-color: $component-primary-bg;
+  border-radius: $border-radius-m;
+  z-index: 2;
+
+  &::placeholder {
+    font-size: 16px;
+    color: $input-primary-placeholder;
+  }
+
+  &:disabled {
+    background-color: $component-primary-bg;
+    color: $text-primary-disabled-color;
+
+    &::placeholder {
+      color: $input-primary-placeholder;
+    }
+  }
+
+  &:focus {
+    border: 1px solid $input-primary-border-active;
+  }
+}
+
+.error {
+  color: $text-error-color;
+  text-transform: lowercase;
+}

@@ -23,6 +23,8 @@
   margin-right: auto;
 }
 
-.favorite {
-  margin-right: $space-l;
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

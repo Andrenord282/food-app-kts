@@ -1,10 +1,10 @@
 import cn from 'classnames';
 import { FC, ButtonHTMLAttributes, PropsWithChildren, memo } from 'react';
-import { Text } from 'components';
+import { Icon, Text } from 'components';
 import LoaderIcon from 'components/icons/LoaderIcon';
 import style from './BaseButton.module.scss';
 
-type BaseButtonSize = 'm' | 'l';
+type BaseButtonSize = 's' | 'm' | 'l';
 
 type BaseButtonProps = PropsWithChildren<
   ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -12,6 +12,7 @@ type BaseButtonProps = PropsWithChildren<
     size?: BaseButtonSize;
     loading?: boolean;
     loadingText?: string;
+    loadingHiddenText?: boolean;
   }
 >;
 
@@ -30,13 +31,17 @@ const BaseButton: FC<BaseButtonProps> = ({
       disabled={disabled}
       onClick={!disabled ? onClick : undefined}
       className={cn(className, style.button, style[`button--${size}`], {
-        [style['button--d']]: disabled,
+        [style['button--disabled']]: disabled,
       })}
       {...props}
     >
-      {loading && <LoaderIcon width={24} height={24} />}
+      {loading && (
+        <Icon viewBox="0 0 16 16" className="loader-icon">
+          <LoaderIcon />
+        </Icon>
+      )}
       <Text tag="span" view={`button-${size}`}>
-        {loading ? loadingText : children}
+        {loading && loadingText ? loadingText : children}
       </Text>
     </button>
   );

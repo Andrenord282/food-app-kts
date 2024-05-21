@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import { FC, ReactNode, createContext, useContext, useMemo } from 'react';
 import { ErrorResponse } from 'services/axios';
-import { RecipeStore } from 'store';
-import { RecipeDetailModel } from 'store/models/recipes/modelsClient';
+import { RecipeDetailsStore } from 'store';
+import { RecipeDetailsClient } from 'store/models/recipe';
 import { useLocalStore } from 'utils';
 
 type RecipeStoreContextTypes = {
@@ -10,7 +10,7 @@ type RecipeStoreContextTypes = {
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
-  recipe: RecipeDetailModel | null;
+  recipe: RecipeDetailsClient | null;
   error: ErrorResponse | null;
   getRecipe: (id: string) => Promise<void>;
 };
@@ -18,7 +18,7 @@ type RecipeStoreContextTypes = {
 const RecipeStoreContext = createContext<RecipeStoreContextTypes | null>(null);
 
 export const RecipeStoreProvider: FC<{ children: ReactNode }> = observer(({ children }) => {
-  const recipeStore = useLocalStore(() => new RecipeStore());
+  const recipeStore = useLocalStore(() => new RecipeDetailsStore());
   const { isInitial, isLoading, isError, isSuccess, recipe, error, getRecipe } = recipeStore;
 
   const value = useMemo(

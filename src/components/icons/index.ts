@@ -1,3 +1,15 @@
+export { default as Icon } from './Icon';
+export { default as BaseLogoIcon } from './BaseLogoIcon';
+export { default as FavoriteIcon } from './FavoriteIcon';
+export { default as ProfileIcon } from './ProfileIcon';
+export { default as ShopBasketIcon } from './ShopBasketIcon';
+export { default as SignInIcon } from './SignInIcon';
+export { default as SignOutIcon } from './SignOutIcon';
+export { default as HeartIcon } from './HeartIcon';
+export { default as DescIcon } from './DescIcon';
+export { default as AscIcon } from './AscIcon';
+export { default as CheckIcon } from './CheckIcon';
+
 export { default as SearchIcon } from './SearchIcon';
 export { default as LoaderIcon } from './LoaderIcon';
 export { default as ArrowLeftIcon } from './ArrowLeftIcon';

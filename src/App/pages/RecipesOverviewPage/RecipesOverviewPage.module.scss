@@ -1,0 +1,37 @@
+@import "styles/global.scss";
+@import "styles/variables.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-bottom: $space-xl;
+}
+
+.hero {
+  margin-bottom: $space-special-xl;
+}
+
+.navigate {
+  @extend .container--m;
+  margin-bottom: $space-special-xl;
+}
+
+.search {
+  @extend .container--m;
+  margin-bottom: $space-l;
+}
+
+.filters {
+  @extend .container--m;
+  margin-bottom: $space-xxl;
+}
+
+.list {
+  @extend .container--m;
+  margin-bottom: $space-xxl;
+}
+
+.pagination {
+  margin-top: auto;
+}

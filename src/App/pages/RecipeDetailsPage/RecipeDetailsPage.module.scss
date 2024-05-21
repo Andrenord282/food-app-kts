@@ -1,0 +1,84 @@
+@import "styles/mixins.scss";
+@import "styles/variables.scss";
+
+.loader {
+  margin: auto;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 0 $space-m;
+  margin-bottom: $space-xxl;
+
+  @include for-mobile-down {
+    margin-bottom: $space-m;
+  }
+}
+
+.button {
+  padding: 0;
+  flex-shrink: 0;
+  background-color: transparent;
+
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      background-color: transparent;
+    }
+  }
+}
+
+.title {
+  @include for-mobile-down {
+    font-size: 24px;
+  }
+}
+
+.summary {
+  margin-bottom: $space-xxl;
+
+  @include for-mobile-down {
+    margin-bottom: $space-m;
+  }
+}
+
+.description {
+  margin-bottom: $space-xxl;
+
+  @include for-mobile-down {
+    margin-bottom: $space-m;
+  }
+}
+
+.lists {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: $space-xxl;
+  gap: 0 $space-xl;
+
+  @include for-mobile-down {
+    margin-bottom: $space-m;
+  }
+
+  @include for-desktop-down {
+    flex-direction: column;
+    align-items: center;
+    gap: $space-xl 0;
+  }
+}
+
+.list-item {
+  width: 45%;
+
+  @include for-desktop-down {
+    width: 100%;
+  }
+}
+
+.information {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}

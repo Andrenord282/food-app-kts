@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import { FC, ReactNode, memo, useCallback, useEffect, useMemo, useRef } from 'react';
-import { Text, LoaderIcon, BaseButton, BaseInput } from 'components';
+import { CSSTransition } from 'react-transition-group';
+import { Text, LoaderIcon, BaseButton, BaseInput, Icon } from 'components';
 import style from './SingleSelect.module.scss';
 
 export type SingleSelectValue<U, T> = {
@@ -11,19 +12,20 @@ export type SingleSelectValue<U, T> = {
 type SingleSelectProps = {
   className?: string;
   matchStartString?: boolean;
-  options: SingleSelectValue<number, string>[] | [];
+  options: SingleSelectValue<number | string, string>[] | [];
   optionStyle?: 'row' | 'grid';
   toggle: boolean;
   value: string;
-  selected: SingleSelectValue<number, string> | null;
+  selected: SingleSelectValue<number | string, string> | null;
   disabled?: boolean;
   loading?: boolean;
   endSlot?: ReactNode;
   helperText?: string;
+  filterActive?: boolean;
   onChangeToggle: (toggle?: boolean) => void;
   onChangeValue: (value: string) => void;
-  onChangeSelect: (selected: SingleSelectValue<number, string>) => void;
-  setTitle: (selected: SingleSelectValue<number, string> | null) => string;
+  onChangeSelect: (selected: SingleSelectValue<number | string, string>) => void;
+  setTitle: (selected: SingleSelectValue<number | string, string> | null) => string;
 };
 
 const SingleSelect: FC<SingleSelectProps> = ({
@@ -38,6 +40,7 @@ const SingleSelect: FC<SingleSelectProps> = ({
   loading,
   endSlot,
   helperText,
+  filterActive = true,
   onChangeValue,
   onChangeToggle,
   onChangeSelect,
@@ -50,12 +53,16 @@ const SingleSelect: FC<SingleSelectProps> = ({
   }, [selected, setTitle]);
 
   const filteredOptions = useMemo(() => {
-    const str = value.toLowerCase();
-    if (matchStartString) {
-      return options.filter((option) => option.value.toLowerCase().indexOf(str) === 0);
+    if (filterActive && value) {
+      const str = value.toLowerCase();
+      if (matchStartString) {
+        return options.filter((option) => option.value.toLowerCase().indexOf(str) === 0);
+      }
+      return options.filter((option) => option.value.toLowerCase().includes(str));
+    } else {
+      return options;
     }
-    return options.filter((option) => option.value.toLowerCase().includes(str));
-  }, [value, matchStartString, options]);
+  }, [filterActive, value, matchStartString, options]);
 
   const handleFocus = () => {
     onChangeToggle(true);
@@ -69,7 +76,7 @@ const SingleSelect: FC<SingleSelectProps> = ({
   );
 
   const handleSelectValue = useCallback(
-    (select: SingleSelectValue<number, string>) => {
+    (select: SingleSelectValue<number | string, string>) => {
       onChangeSelect(select);
       onChangeToggle(false);
     },
@@ -101,32 +108,51 @@ const SingleSelect: FC<SingleSelectProps> = ({
         placeholder={title}
         onFocus={handleFocus}
         onChange={handleChangeValue}
-        endSlot={loading ? <LoaderIcon width={40} height={40} /> : endSlot}
+        endSlot={
+          loading ? (
+            <Icon width={40} height={40} viewBox="0 0 16 16" className="loader-icon">
+              <LoaderIcon />
+            </Icon>
+          ) : (
+            endSlot
+          )
+        }
       />
       {helperText && (
         <Text tag="span" view="p-xxs">
           {helperText}
         </Text>
       )}
-      {toggle && filteredOptions.length > 0 && !disabled && (
-        <div className={cn(style.list, style[`list--${optionStyle}`])}>
-          {filteredOptions.map(({ key, value }) => {
-            const isSelected = cn(style.item, {
-              [style['item--selected']]: key === selected?.key,
-            });
+      <div className={style['wrapper-list']}>
+        <CSSTransition
+          in={filteredOptions.length > 0 && toggle && !disabled}
+          timeout={300}
+          mountOnEnter
+          unmountOnExit
+          classNames={{
+            enterActive: style['enter--active'],
+            exitActive: style['exit--active'],
+          }}
+        >
+          <div className={cn(style.list, style[`list--${optionStyle}`])}>
+            {filteredOptions.map(({ key, value }) => {
+              const isSelected = cn(style.item, {
+                [style['item--selected']]: key === selected?.key,
+              });
 
-            return (
-              <BaseButton
-                key={key}
-                onClick={() => handleSelectValue({ key, value })}
-                className={cn(isSelected, style.item)}
-              >
-                {value}
-              </BaseButton>
-            );
-          })}
-        </div>
-      )}
+              return (
+                <BaseButton
+                  key={key}
+                  onClick={() => handleSelectValue({ key, value })}
+                  className={cn(isSelected, style.item)}
+                >
+                  {value}
+                </BaseButton>
+              );
+            })}
+          </div>
+        </CSSTransition>
+      </div>
     </div>
   );
 };

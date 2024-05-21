@@ -1,10 +1,10 @@
+import { Configuration as WebpackConfiguration } from 'webpack';
 import { buildDevServer } from './buildDevServer';
-import { buildPlugins } from './buildPlugins';
 import { buildDevtools } from './buildDevtools';
 import { buildLoaders } from './buildLoaders';
-import { Configuration as WebpackConfiguration } from 'webpack';
-import { WebpackOptions } from './types';
+import { buildPlugins } from './buildPlugins';
 import { buildResolvers } from './buildResolvers';
+import { WebpackOptions } from './types';
 
 export const buildConfig = (options: WebpackOptions): WebpackConfiguration => {
   const config: WebpackConfiguration = {

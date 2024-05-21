@@ -1,6 +1,6 @@
 import { action, computed, makeAutoObservable, observable } from 'mobx';
 import { rootStore } from 'store';
-import { FilterItem } from 'store/models/recipes/recipeFilterClient';
+import { FilterItem } from 'store/models/recipe';
 import { TLocalStore } from 'utils';
 
 type PrivateFields =
@@ -23,9 +23,7 @@ export default class RecipeFilterStore implements TLocalStore {
 
   constructor(name: string, options: FilterItem<string, string>[]) {
     this._filterName = name;
-    this._filterValue = rootStore.query.getParam(this._filterName);
     this._filterOptions = options;
-    this._filterSelected = this._initFilterSelected(this._filterValue);
 
     makeAutoObservable<RecipeFilterStore, PrivateFields>(this, {
       _filterName: observable,
@@ -43,8 +41,8 @@ export default class RecipeFilterStore implements TLocalStore {
   }
 
   get filterValue(): string {
-    if (!this._filterValue) return '';
-    return this._filterValue.split(',').join(', ');
+    if (!this._filterValue) return rootStore.query.getParam(this._filterName) || '';
+    return this._filterValue;
   }
 
   get filterOptions(): FilterItem<string, string>[] {
@@ -52,7 +50,17 @@ export default class RecipeFilterStore implements TLocalStore {
   }
 
   get filterSelected(): FilterItem<string, string>[] {
-    return this._filterSelected;
+    if (!rootStore.query.getParam(this._filterName)) return [];
+
+    return rootStore.query
+      .getParam(this._filterName)
+      .split(',')
+      .map((value) => {
+        return {
+          key: value,
+          value,
+        };
+      });
   }
 
   updateFilter = (selected: FilterItem<string, string>[]) => {
@@ -60,25 +68,12 @@ export default class RecipeFilterStore implements TLocalStore {
     this._setFilterValue(selected);
   };
 
-  private _initFilterSelected = (value: string): FilterItem<string, string>[] => {
-    if (!value) return [];
-    const selected = value.split(',').map((value) => {
-      return {
-        key: value,
-        value,
-      };
-    });
-
-    return selected;
-  };
-
   private _setFilterSelected = (selected: FilterItem<string, string>[]) => {
     this._filterSelected = selected;
   };
 
   private _setFilterValue = (selected: FilterItem<string, string>[]) => {
-    this._filterValue = selected.map(({ value }) => value).join(', ');
-    rootStore.query.updateParam({ key: this._filterName, value: this._filterValue });
+    this._filterValue = selected.map(({ value }) => value).join(',');
   };
 
   destroy(): void {}

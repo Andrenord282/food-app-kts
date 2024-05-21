@@ -1,0 +1,50 @@
+@import "styles/variables.scss";
+@import "styles/mixins.scss";
+
+.block {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: $space-s $space-s;
+}
+
+.item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  @include for-mobile-small-down {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &:last-child {
+    gap: $space-s $space-s;
+    justify-content: flex-end;
+  }
+}
+
+.title {
+  width: 100%;
+}
+
+.search {
+  width: 100%;
+}
+
+.filter {
+  width: 100%;
+  max-width: 300px;
+
+  @include for-mobile-small-down {
+    max-width: none;
+  }
+}
+
+.buttom {
+  flex-shrink: 0;
+
+  @include for-mobile-small-down {
+    margin-left: auto;
+  }
+}

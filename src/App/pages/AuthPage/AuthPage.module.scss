@@ -1,0 +1,37 @@
+@import "styles/global.scss";
+@import "styles/variables.scss";
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.container {
+  @extend .container--m;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content {
+  margin-top: 120px;
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: $border-radius-m;
+  padding: $space-l;
+  background-color: $component-primary-bg;
+}
+
+.switcher {
+  margin-bottom: $space-l;
+}
+
+.form {
+}

@@ -1,7 +1,9 @@
 export const ROUTS = {
   INDEX: '/',
   RECIPE: '/recipe/:id',
-  FAVORITE: '/favorite',
+  RECIPES_SAVED: '/recipes-saved',
+  RECIPES_SHOPPING: '/recipes-shopping',
   PROFILE: '/profile',
+  AUTH: '/auth',
   NOT_FOUND: '*',
 };

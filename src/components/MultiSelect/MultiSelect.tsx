@@ -1,7 +1,7 @@
 import cn from 'classnames';
-import { observer } from 'mobx-react-lite';
-import { FC, ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
-import { Text, LoaderIcon, BaseButton, BaseInput } from 'components';
+import { FC, ReactNode, memo, useCallback, useEffect, useMemo, useRef } from 'react';
+import { CSSTransition } from 'react-transition-group';
+import { Text, LoaderIcon, BaseButton, BaseInput, Icon } from 'components';
 import style from './MultiSelect.module.scss';
 
 export type MultiSelectValue<U, T> = {
@@ -116,32 +116,51 @@ const MultiSelect: FC<MultiSelectProps> = ({
         placeholder={title}
         onFocus={handleFocus}
         onChange={handleChangeValue}
-        endSlot={loading ? <LoaderIcon width={40} height={40} /> : endSlot}
+        endSlot={
+          loading ? (
+            <Icon width={40} height={40} viewBox="0 0 16 16" className="loader-icon">
+              <LoaderIcon />
+            </Icon>
+          ) : (
+            endSlot
+          )
+        }
       />
       {helperText && (
         <Text tag="span" view="p-xxs" className={style['helper-text']}>
           {helperText}
         </Text>
       )}
-      {toggle && filteredOptions.length > 0 && !disabled && (
-        <div className={cn(style.list, style[`list--${optionStyle}`])}>
-          {filteredOptions.map(({ key, value }) => {
-            return (
-              <BaseButton
-                key={key}
-                onClick={() => handleSelectValue({ key, value })}
-                className={cn(style.item, {
-                  [style['item--selected']]: selectedKeys.has(key),
-                })}
-              >
-                {value}
-              </BaseButton>
-            );
-          })}
-        </div>
-      )}
+      <div className={style['wrapper-list']}>
+        <CSSTransition
+          in={toggle && !disabled}
+          timeout={300}
+          mountOnEnter
+          unmountOnExit
+          classNames={{
+            enterActive: style['enter--active'],
+            exitActive: style['exit--active'],
+          }}
+        >
+          <div className={cn(style.list, style[`list--${optionStyle}`])}>
+            {filteredOptions.map(({ key, value }) => {
+              return (
+                <BaseButton
+                  key={key}
+                  onClick={() => handleSelectValue({ key, value })}
+                  className={cn(style.item, {
+                    [style['item--selected']]: selectedKeys.has(key),
+                  })}
+                >
+                  {value}
+                </BaseButton>
+              );
+            })}
+          </div>
+        </CSSTransition>
+      </div>
     </div>
   );
 };
 
-export default observer(MultiSelect);
+export default memo(MultiSelect);
