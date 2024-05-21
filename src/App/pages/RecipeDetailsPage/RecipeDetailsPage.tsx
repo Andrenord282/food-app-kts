@@ -19,6 +19,10 @@ const RecipeDetailsPage: FC = () => {
   const recipeIdShoppingList = rootStore.user.recipeIdShoppingList;
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     if (isInitial && id) {
       getRecipe(id);
     }

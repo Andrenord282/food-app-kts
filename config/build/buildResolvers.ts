@@ -1,7 +1,7 @@
 import path from 'path';
 import { Configuration as WebpackConfiguration } from 'webpack';
-import { WebpackOptions } from './types';
 import tsconfig from '../../tsconfig.json';
+import { WebpackOptions } from './types';
 
 export const buildResolvers = (options: WebpackOptions): WebpackConfiguration['resolve'] => {
   const { paths } = options;

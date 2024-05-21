@@ -1,6 +1,6 @@
 import path from "path";
-import { buildConfig } from "./config/build/buildConfig";
 import { Configuration as WebpackConfiguration } from "webpack";
+import { buildConfig } from "./config/build/buildConfig";
 import { WebpackEnv, WebpackOptions } from "./config/build/types";
 
 export default (env: WebpackEnv): WebpackConfiguration => {
