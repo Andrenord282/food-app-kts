@@ -19,6 +19,14 @@ export const buildPlugins = (options: WebpackOptions): WebpackPluginInstance[] =
 
   if (mode === 'production') {
     plugins.push(
+      new webpack.DefinePlugin({
+        'process.env.ENV_SPOONACULAR_API_KEY': JSON.stringify(process.env.ENV_SPOONACULAR_API_KEY),
+        'process.env.ENV_FIREBASE_APP_ID': JSON.stringify(process.env.ENV_FIREBASE_APP_ID),
+        'process.env.ENV_FIREBASE_API_KEY': JSON.stringify(process.env.ENV_FIREBASE_API_KEY),
+        'process.env.ENV_FIREBASE_MESSAGING_SENDER_ID': JSON.stringify(process.env.ENV_FIREBASE_MESSAGING_SENDER_ID),
+      }),
+    );
+    plugins.push(
       new MiniCssExtractPlugin({
         filename: '[name]-[hash].css',
       }),
